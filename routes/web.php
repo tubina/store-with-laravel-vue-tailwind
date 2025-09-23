@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Middleware\AdminMiddleware;
@@ -44,6 +46,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/photo', [ProfileController::class, 'editPhoto'])->name('profile.editPhoto');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    /***********/
+    Route::get('/cart', [CartController::class, 'index'])->name('index.cart');
+    Route::get('/api/cart', [CartController::class, 'getQtdCart'])->name('get.cart');
+    Route::post('/api/cart', [CartController::class, 'addToCart'])->name('add.cart');
+    /***********/
+    Route::get('/api/favorite', [FavoriteController::class, 'getQtdFavorite'])->name('get.favorite');
+    Route::post('/api/favorite', [FavoriteController::class, 'addToFavorite'])->name('add.favorite');
+    /***********/
+    /***********/
+
 });
 
 Route::get('/phpinfo', function () {

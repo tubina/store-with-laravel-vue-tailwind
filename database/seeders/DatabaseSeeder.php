@@ -15,35 +15,50 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(2)->create();
+        $user = User::factory(2)->create();
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => '12345678'
         ]);
-        User::factory()->create([
+        $felipe = User::factory()->create([
             'name' => 'felipe',
             'email' => 'felipe@mail.com',
             'password' => '12345678'
         ]);
 
-         DB::table('category')->insert([
+        DB::table('category')->insert([
             'name' => 'Eletrônicos',
         ]);
-         DB::table('category')->insert([
+        DB::table('category')->insert([
             'name' => 'Roupas',
         ]);
-         DB::table('category')->insert([
+        DB::table('category')->insert([
             'name' => 'Acesórios',
         ]);
-         DB::table('category')->insert([
+        DB::table('category')->insert([
             'name' => 'Portateis',
         ]);
 
-        Product::factory(10)->create();
+        $product = Product::factory(10)->create();
 
+        foreach($product as $product)
+        {
+            DB::table('cart')->insert([
+                'user_id' => 4,
+                'product_id' => $product->id
+            ]);
+        }
 
+        $pro = Product::all();
+        for($x=0;$x<=10;$x++){
+            $pro2 = $pro->random()->id;
+            DB::table('favorites')->insert([
+                'user_id' => $felipe->id,
+                'product_id' => $pro2
+            ]);
+        }
 
     }
 }

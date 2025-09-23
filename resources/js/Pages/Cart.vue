@@ -2,6 +2,16 @@
 import Header from './Header.vue';
 import Product from '../MyComponents/Product.vue';
 import Footer from './Footer.vue';
+import { defineProps, ref, computed } from 'vue';
+ 
+const props = defineProps({
+    cart: Array
+});
+
+var totalPrice = computed(() => {
+    return props.cart.reduce((acc, item) => acc + Number(item.product.price), 0);
+})
+
 
 </script>
 <template>
@@ -17,9 +27,10 @@ import Footer from './Footer.vue';
 
             <div class="flex flex-col col-span-2 bg-white border border-gray-200 rounded-md ">
 
-                <Product />
-                <Product />
-                <Product />
+                <div v-for="item in cart" :key="item.id">
+                    {{ item.product.price }}
+                    <Product />
+                </div>
 
             </div>
 
@@ -29,15 +40,15 @@ import Footer from './Footer.vue';
                 </div>
                 <div class="flex justify-between text-sm mt-4 text-16px">
                     <div>Subtotal:</div>
-                    <div>R$ 500,00</div>
+                    <div>R$ {{ totalPrice.toFixed(2) }}</div>
                 </div>
                 <div class="flex justify-between text-sm mt-4">
                     <div>Discount:</div>
-                    <div>R$ 500,00</div>
+                    <div>R$ 0</div>
                 </div>
                 <div class="flex justify-between font-semibold text-sm mt-4 pt-3 border-t bg-whiteborder-gray-200">
                     <div>Total:</div>
-                    <div>R$ 500,00</div>
+                    <div>R$ {{ totalPrice.toFixed(2) }}</div>
                 </div>
                 <div>
                     <button class="w-full rounded p-2 mt-3 bg-black text-white transition-all hover:bg-neutral-800">

@@ -6,8 +6,6 @@ const props = defineProps({
     product: Object
 })
 
-console.log(props.product.product_images)
-
 
 </script>
 

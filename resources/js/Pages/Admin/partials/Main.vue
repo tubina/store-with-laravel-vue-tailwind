@@ -1,7 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { useSlots } from 'vue';
-import Card from '../../Card.vue';
+import Card from '../../Card.vue'; 
 
 const slots = useSlots();
 
@@ -10,7 +10,7 @@ const props = defineProps({
     products: Array
 });
 
-async function deletePhoto(id){
+async function deleteProduct(id){
 
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
@@ -22,8 +22,9 @@ async function deletePhoto(id){
        }
     });
     const resp = await response.json();
+    console.log(resp)
     if(resp.ok){
-        console.log('foiiiiiiiiiiiii')
+        window.location.reload();
     }
 }
 
@@ -34,7 +35,7 @@ async function deletePhoto(id){
             <div class="flex flex-col">
                 <Link :href="route('admin.product')">Produtos</Link>
                 <Link :href="route('admin.add.product')">Adicionar produto</Link>
-                <Link :href="route('admin.category')">Categorys</Link> 
+                <Link :href="route('admin.category')">Categorys</Link>
                 <Link :href="route('admin.add.product')">Usuários</Link>
             </div>
             <div class="flex-1  ">
@@ -51,7 +52,7 @@ async function deletePhoto(id){
                         <div v-for="product in props.products" :key="product.id">
                             <Card :product="product" />
                             <div class="flex justify-between mt-2">
-                                <button @click="deletePhoto(product.id)"
+                                <button @click="deleteProduct(product.id)"
                                     class="rounded-sm px-2 text-sm bg-red-500 text-white">
                                     Excluir
                                 </button>

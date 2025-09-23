@@ -90,6 +90,7 @@ class ProfileController extends Controller
         return back();
     }
 /*************************************************************************************/
+
     /**
      * Delete the user's account.
      */
@@ -110,4 +111,6 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+/*************************************************************************************/
+
 }

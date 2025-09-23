@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImages;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductAdminController extends Controller
 {
@@ -24,7 +25,7 @@ class ProductAdminController extends Controller
         $category = DB::table('category')->get();
         return Inertia::render('Admin/ProductAdd', ['categories' => $category]);
     }
-
+/******************************************************/
     public function store(Request $request)
     {
         $product = Product::create([
@@ -57,6 +58,7 @@ class ProductAdminController extends Controller
         $product = Product::with(['category', 'productImages'])->findOrFail($id);
         return Inertia::render('Admin/ProductEdit', ['product' => $product, 'category'=> $category]);
     }
+/******************************************************/
     public function update(Request $request, Product $product)
     {
         $product->update($request->only(['name', 'category_id', 'from_price', 'price', 'description']));
@@ -93,21 +95,21 @@ class ProductAdminController extends Controller
     public function editOnePhoto(Request $request)
     {
         try {
-        if (!$request->hasFile('photo')) {
-            return response()->json(['message' => 'Nenhuma imagem recebida'], 400);
-        }
+            if (!$request->hasFile('photo')) {
+                return response()->json(['message' => 'Nenhuma imagem recebida'], 400);
+            }
 
-        $request->validate([
-            'photo' => 'required|image|max:2048'
-        ]);
+            $request->validate([
+                'photo' => 'required|image|max:2048'
+            ]);
 
-        $file = $request->file('photo');
-        $path = $file->store('products', 'public');
+            $file = $request->file('photo');
+            $path = $file->store('products', 'public');
 
-        return response()->json([
-            'message' => 'Foto salva com sucesso',
-            'path' => $path
-        ]);
+            return response()->json([
+                'message' => 'Foto salva com sucesso',
+                'path' => $path
+            ]);
         } catch (\Throwable $e) {
             \Log::error('Erro ao salvar imagem: ' . $e->getMessage(), [
                 'file' => $e->getFile(),
@@ -121,10 +123,24 @@ class ProductAdminController extends Controller
 /******************************************************/
     public function deletePhoto($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('productImages')->findOrFail($id);
+        $arrr = [];
+        foreach ($product->productImages as $image){
+           //logger($image->path); // vai aparecer no laravel.log
+            if(Storage::disk('public')->exists($image->path)){
+                Storage::disk('public')->delete($image->path);
+                logger("Arquivo apagado: " . $image->path);
+            } else {
+                logger("Arquivo não encontrado: " . $image->path);
+            }
+            $arrr[] = $image->path;
+        }
         $product->delete();
 
         return response()->json(['ok'=> true]);
+        return response()->json([
+            'pro' => $arrr
+        ], 200);
     }
 /******************************************************/
 }

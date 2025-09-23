@@ -10,7 +10,7 @@ class StoreController extends Controller
 {
     public function index()
     {
-        $products = Product::with('productImagesJustOne')->get();
+        $products = Product::with(['category', 'productImagesJustOne'])->get();
         return Inertia::render('Store', ['products' => $products]);
     }
 }

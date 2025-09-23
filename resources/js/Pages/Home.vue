@@ -2,11 +2,108 @@
 import Footer from './Footer.vue';
 import Card from './Card.vue';
 import Header from './Header.vue';
-import { defineProps } from 'vue';
+import { defineProps, onMounted, watch } from 'vue';
+import { useStore } from '../stores/store.js';
+import { usePage } from '@inertiajs/vue3';
+
+const user = usePage().props.auth.user;
 
 const props = defineProps({
     products: Array,
+    category: Array,
 });
+
+const store = useStore();
+
+const page = usePage()
+
+function initDefault(){
+    store.fetchCart();
+    store.fetchFavorites();
+    store.login = true;
+}
+
+onMounted(()=>{
+    // const params = new URLSearchParams(window.location.search);
+    // const login = params.get('login');
+    //const login = page.props.value.login; // pega o login da URL
+    const urlParams = new URLSearchParams(page.url.split('?')[1]);
+    const login = urlParams.get('login');
+    console.log(login)
+
+    console.log('usuario na home');
+    var storeStorage = localStorage.getItem("store");
+    var saida = JSON.parse(storeStorage);
+
+    if (login === 'true') {
+        window.location.href = '/home';
+        //window.location.reload(); // força refresh da página
+    }
+ 
+    if(user && saida.login != 'false'){
+        //primeiro login e cadastra produtos em standyBy
+        if(saida.item_id.length > 0){
+            ////store.teste(saida.item_id);
+            store.addToCart(saida.item_id);
+            initDefault();
+        }else{
+            initDefault();
+        }
+        if(saida.login === false && saida.favorites_id.length > 0){
+            store.addToFavorite(saida.favorites_id)
+        }
+    }//usuario deslogado
+    else if(saida.login === true){
+        store.login = false;
+        store.qtd_cart = 0;
+        store.item_id = [];
+        store.qtd_favorites = 0;
+        store.favorites_id = [];
+    }
+})
+
+
+// onMounted(() => {
+// const { url } = usePage();
+// const params = new URLSearchParams(url.split('?')[1] || '');
+// var logado  = params.get('login');
+
+//     if(user){
+
+//         logado ? localStorage.setItem('login', logado) : '';
+
+//         if(localStorage.getItem("login") !== null){
+//             if(localStorage.getItem("login") == "true" ){
+//                 store.fetchCart();
+//                 localStorage.setItem("login", "false");
+//             }
+//         } else {
+//             localStorage.setItem("login", "true");
+//             store.fetchCart();
+//         }
+//     }
+// })
+
+// onMounted(() => {
+// const { url } = usePage();
+// const params = new URLSearchParams(url.split('?')[1] || '');
+// var logado  = params.get('login');
+
+//     if(user){
+
+//         logado ? localStorage.setItem('login', logado) : '';
+
+//         if(localStorage.getItem("login") !== null){
+//             if(localStorage.getItem("login") == "true" ){
+//                 store.fetchCart();
+//                 localStorage.setItem("login", "false");
+//             }
+//         } else {
+//             localStorage.setItem("login", "true");
+//             store.fetchCart();
+//         }
+//     }
+// })
 
 </script>
 
@@ -92,43 +189,17 @@ const props = defineProps({
 
             </div>
 
+            {{ props.message }}
 
             <div className="container__own flex pt-5 pb-5 text-sm flex-wrap mt-10">
                 <p class="text-2xl font-semibold">Nossos Produtos</p>
-                <ul className="container mt-5 mb:gap-3 gap-1  mx-auto flex font-medium flex-wrap">
-                    <li className="md:mt-0 mt-1">
-                        <a href="#" className="
-                        transition-all
-                        duration-300
-                        hover:underline
-                        ">Gadgets</a>
-                    </li>
-                    <li className="md:mt-0 mt-1">
-                        <a href="#" className="
-                        hover:bg-black
-                        hover:text-white
-                        transition-all
-                        duration-300
-                        rounded-full
-                        px-5 py-2">Acessórios</a>
-                    </li>
-                    <li className="md:mt-0 mt-1">
-                        <a href="#" className="
-                        hover:bg-black
-                        hover:text-white
-                        transition-all
-                        duration-300
-                         rounded-full px-5 py-2">Gadgets</a>
-                    </li>
-                    <li className="md:mt-0 mt-1">
-                        <a href="#" className="
-                        hover:bg-black
-                        hover:text-white
-                        transition-all
-                        duration-300
-                         rounded-full px-5 py-2">Outros</a>
+                <div class="w-full">
+                    <ul className="flex mt-5 mb:gap-3 gap-7 font-medium flex-wrap">
+                    <li className="md:mt-0 mt-1" v-for="cat in category">
+                        <a href="#" className="hover:underline">{{ cat.name }}</a>
                     </li>
                 </ul>
+                </div>
             </div>
 
             <div className="container__own relative mx-auto

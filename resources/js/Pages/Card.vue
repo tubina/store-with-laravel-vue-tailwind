@@ -1,6 +1,11 @@
 <script setup>
 import {Link} from '@inertiajs/vue3';
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
+import { useStore } from '../stores/store.js';
+import { verifyLogin } from '@/utils/verifyLogin.js';
+
+const cartCount = ref(0);
+const isGlowing = ref(false);
 
 const { product } = defineProps({
     product: Object
@@ -11,30 +16,46 @@ const name = product?.name ?? '';
 const from_price = product?.from_price ?? 0;
 const price = product?.price ?? 0;
 const description = product?.description ?? '';
-const imagem = product?.product_images_just_one.path ?? '';
+if(product.product_images_just_one){
+    if(product.product_images_just_one.path){
+        const imagem = product?.product_images_just_one.path ?? '';
+    }
+}
 
 function firstFiveWords(text) {
   if (!text) return '';
   return text.split(' ').slice(0, 7).join(' ');
 }
+/***************************************************/
+const store = useStore();
+
+function addToCart(product){
+    store.addToCart(product); 
+}
+
+function addToFavorites(product){
+    store.addToFavorite(product);
+}
+
 
 </script>
 
 <template>
      <div class="flex flex-1 mt-4 relative pb-3 flex-col justify-between border border-gray-200 rounded-md bg-white">
         <div class="absolute m-2 right-0 flex items-center p-1 bg-white text-blue-800 hover:border-blue-800
-        text-xl border border-gray-300 rounded-full ">
+        text-xl border border-gray-300 rounded-full "
+        @click.prevent="addToFavorites(product.id)">
             <ion-icon name="flame"></ion-icon>
         </div>
         <div className="p-7">
             <Link :href="`/product/${id}`">
-                <img :src="imagem ? `/storage/${imagem}` : '/proucts/0gZRgIN8zOfghOHZph6UK926PY3kDbMFveBxkat2.jpg'" />
+                <img :src="imagem ? `/storage/${imagem}` : '/storage/products/1A0nwrwBsZT2BFjzm7fM1ildCBKnragau3u6S9fD.webp'" />
             </Link>
         </div>
         <div class="text-gray-400 text-xs mt-1 ml-3 uppercase">
             {{ product.category.name }}
         </div>
-        <p className="mt-1 ml-3 mr-3 h-[35px]  font-bold text-sm text-wrap text-gray-900">
+        <p className="mt-1 ml-3 mr-3   font-bold text-sm text-wrap text-gray-900">
            {{firstFiveWords(name)}}
         </p>
         <div className=" ml-3 flex items-center mt-2">
@@ -54,7 +75,13 @@ function firstFiveWords(text) {
                 <span className="line-through text-sm font-normal text-gray-500 ">R$ {{ from_price }}</span>
             </div>
         </div>
-        <Link className="mx-auto w-auto
+        <!-- <div :class="['relative', isGlowing ? 'animate-glow' : '']">
+            🛒
+            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                {{ cartCount }}
+            </span>
+        </div> -->
+        <button @click.prevent="addToCart(product.id)" className="mx-auto w-auto
             flex
             justify-center
             items-center
@@ -73,6 +100,6 @@ function firstFiveWords(text) {
             ring-blue-500">
             <ion-icon name="cart-outline" className="text-xl"></ion-icon>
             <span className="text-sm">Add To Cart</span>
-        </Link>
+        </button>
     </div>
 </template>

@@ -83,13 +83,13 @@ function updateCategoryId(newName) {
         selectedCategory.id = cat.id
         selectedCategory.name = cat.name
 
-        // 🔥 Atualiza o form
+        // Atualiza o form
         form.category_id = cat.id
     }
 }
 
-function deletePhoto(){
-    alert("dasda")
+function deletePhoto(id){
+    alert(id)
 }
 
 </script>

@@ -2,10 +2,15 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import {profilePhoto} from '../profilePhoto.js';
+import { profilePhoto } from '../profilePhoto.js';
+import { useStore } from '../stores/store.js';
 
+
+const store = useStore();
 const user = usePage().props.auth.user;
 
+/***********************************************/
+ 
 var photoUrl = '';
 
 if(user && user.profile_photo){
@@ -63,13 +68,16 @@ if(user && user.profile_photo){
                 <li class="relative">
                     <Link href="/cart" className=" transition hover:-translate-y-3  hover:text-black ">
                         <ion-icon name="cart-outline" className=" text-2xl"></ion-icon>
-                        <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">3</div>
+                        <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0
+                        bg-black rounded-full text-xs font-normal text-white">{{ store.qtd_cart }}</div>
                     </Link>
                 </li>
                 <li class="relative">
-                    <Link href="/favorite" className="transition hover:-translate-y-3  hover:text-black ">
+                    <Link href="/favorite" className="transition hover:-translate-y-3  hover:text-black "
+                    :class="['relative', isGlowing ? 'animate-glow' : '']">
                         <ion-icon name="heart-outline" className="text-2xl"></ion-icon>
-                        <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">3</div>
+                        <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0
+                        bg-black rounded-full text-xs font-normal text-white">{{ store.qtd_favorites }}</div>
                     </Link>
                 </li>
 
