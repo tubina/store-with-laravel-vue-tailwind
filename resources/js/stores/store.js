@@ -15,33 +15,11 @@ export const useStore = defineStore("store", {
             this.qtd_cart =  data;
         },
         /*****************************************************/
-        // async teste(productId){
-        //     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        //     console.log(token)
-        //     console.log(typeof(productId));
-        //     const saida = JSON.stringify(productId);
-        //     console.log(saida);
-        //     for(var result of saida){
-        //         console.log(result);
-        //     }
-        //     console.log(typeof(saida));
-        //     const response = await fetch('/api/cart', {
-        //         method: 'POST',
-        //         credentials: 'include',
-        //         headers: {
-        //             'X-CSRF-TOKEN': token, // token CSRF aqui
-        //         },
-        //         body: JSON.stringify({ product_id: productId }) // body como string JSON
-        //     });
-        //     const data = await response.json();
-        // },
         async addToCart(productId) {
-
             var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            console.log(token)
-            if(verifyLogin() === true){ 
+            if(verifyLogin() === true){
                 console.log(productId);
-                await fetch('/api/cart', {
+                const response = await fetch('/api/cart', {
                     method: 'POST',
                     credentials: 'include', // necessário para cookies de sessão
                     headers: {
@@ -50,6 +28,7 @@ export const useStore = defineStore("store", {
                     },
                     body: JSON.stringify({ product_id: productId })
                 });
+                console.log(response.ok, "+++++")
                 await this.fetchCart(); // retorna carrinho atualizado
             }else if(verifyLogin() === false) {
                 if (!Array.isArray(productId)) {

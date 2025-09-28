@@ -9,7 +9,7 @@ use App\Models\Category;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $category = Category::get();
         $products = Product::with(['category', 'productImagesJustOne'])->get();
@@ -20,9 +20,11 @@ class HomeController extends Controller
         //         'products' => '/proucts/0gZRgIN8zOfghOHZph6UK926PY3kDbMFveBxkat2.jpg'
         //     ]);
         // }
+        $loginStatus = $request->query('login');
         return Inertia::render('Home', [
             'category' => $category,
-            'products' => $products
+            'products' => $products, 
+            'loginStatus' => $loginStatus
         ]);
 
     }

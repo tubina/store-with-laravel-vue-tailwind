@@ -11,6 +11,7 @@ const user = usePage().props.auth.user;
 const props = defineProps({
     products: Array,
     category: Array,
+    loginStatus: String
 });
 
 const store = useStore();
@@ -23,27 +24,39 @@ function initDefault(){
     store.login = true;
 }
 
+watch(()=> user, (newUser, oldUser) =>{
+    console.log(newUser)
+})
+
+watch(()=> props.loginStatus, (newValue, oldVal) => { 
+    if(newValue === 'logout'){ 
+        store.$reset();
+        console.log('usuario deslogado')
+    } 
+    if(newValue === 'true'){
+        console.log('Usuário acabou de logar')
+    }
+});
+
 onMounted(()=>{
-    // const params = new URLSearchParams(window.location.search);
-    // const login = params.get('login');
-    //const login = page.props.value.login; // pega o login da URL
+
     const urlParams = new URLSearchParams(page.url.split('?')[1]);
     const login = urlParams.get('login');
-    console.log(login)
 
     console.log('usuario na home');
     var storeStorage = localStorage.getItem("store");
     var saida = JSON.parse(storeStorage);
-
-    if (login === 'true') {
-        window.location.href = '/home';
-        //window.location.reload(); // força refresh da página
-    }
  
+    if (login === 'true') {
+       window.location.href = '/home'; 
+    } 
+
     if(user && saida.login != 'false'){
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        console.log(token)
         //primeiro login e cadastra produtos em standyBy
         if(saida.item_id.length > 0){
-            ////store.teste(saida.item_id);
+            alert("dasdasdad");
             store.addToCart(saida.item_id);
             initDefault();
         }else{
@@ -60,50 +73,11 @@ onMounted(()=>{
         store.qtd_favorites = 0;
         store.favorites_id = [];
     }
+    if(user === 'null'){
+        alert("Glória a Deus");
+    }
 })
 
-
-// onMounted(() => {
-// const { url } = usePage();
-// const params = new URLSearchParams(url.split('?')[1] || '');
-// var logado  = params.get('login');
-
-//     if(user){
-
-//         logado ? localStorage.setItem('login', logado) : '';
-
-//         if(localStorage.getItem("login") !== null){
-//             if(localStorage.getItem("login") == "true" ){
-//                 store.fetchCart();
-//                 localStorage.setItem("login", "false");
-//             }
-//         } else {
-//             localStorage.setItem("login", "true");
-//             store.fetchCart();
-//         }
-//     }
-// })
-
-// onMounted(() => {
-// const { url } = usePage();
-// const params = new URLSearchParams(url.split('?')[1] || '');
-// var logado  = params.get('login');
-
-//     if(user){
-
-//         logado ? localStorage.setItem('login', logado) : '';
-
-//         if(localStorage.getItem("login") !== null){
-//             if(localStorage.getItem("login") == "true" ){
-//                 store.fetchCart();
-//                 localStorage.setItem("login", "false");
-//             }
-//         } else {
-//             localStorage.setItem("login", "true");
-//             store.fetchCart();
-//         }
-//     }
-// })
 
 </script>
 
@@ -119,7 +93,7 @@ onMounted(()=>{
                     <span className="text-4xl font-semibold text-black flex-shrink-0">Selected headphone</span>
                     <button className="bg-white text-shadow-xl text-black font-bold text-sm py-3 px-9 w-max mt-4 rounded-md
                     hover:bg-green-700 ">
-                        Buy Now
+                        Buy Now {{ user }}
                     </button>
                 </div>
                 <div>
@@ -139,7 +113,7 @@ onMounted(()=>{
                         gap-2
                         border-r
                         border-gray-200">
-                        <ion-icon name="cube-outline" class="faixa__two__icon text-blue-900"></ion-icon>
+                        <ion-icon name="cube-outline" class="faixa__two__icon text-gray-700"></ion-icon>
                         <div class="flex flex-col">
                             <p class="uppercase font-medium  text-sm">fast delivery</p>
                             <p class="text-xs text-slate-500 mt-1">Delivered in 7 days</p>
@@ -152,7 +126,7 @@ onMounted(()=>{
                         gap-2
                         border-r
                         border-gray-200">
-                        <ion-icon name="trophy-outline" class="faixa__two__icon text-blue-900"></ion-icon>
+                        <ion-icon name="trophy-outline" class="faixa__two__icon text-gray-700"></ion-icon>
                         <div class="flex flex-col">
                             <p class="uppercase font-medium  text-sm">24 Hour Return</p>
                             <p class="text-xs text-slate-500 mt-1">100% money-back guarantee</p>
@@ -165,7 +139,7 @@ onMounted(()=>{
                         gap-2
                         border-r
                         border-gray-200">
-                        <ion-icon name="card-outline" class="faixa__two__icon text-blue-900"></ion-icon>
+                        <ion-icon name="card-outline" class="faixa__two__icon text-gray-700"></ion-icon>
                         <div class="flex flex-col">
                             <p class="uppercase font-medium  text-sm">secure payment</p>
                             <p class="text-xs text-slate-500 mt-1">Your money is safe</p>
@@ -176,7 +150,7 @@ onMounted(()=>{
                         justify-center
                         items-center
                         gap-2">
-                        <ion-icon name="call-outline" class="faixa__two__icon text-blue-900"></ion-icon>
+                        <ion-icon name="call-outline" class="faixa__two__icon text-gray-700"></ion-icon>
                         <div class="flex flex-col">
                             <p class="uppercase font-medium  text-sm">support 24/7</p>
                             <p class="text-xs text-slate-500 mt-1">Live contact/message</p>

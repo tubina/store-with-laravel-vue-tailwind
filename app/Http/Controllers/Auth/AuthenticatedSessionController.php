@@ -34,20 +34,24 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         //return Inertia::location(route('home', ['login'=> 'true']));
-        return redirect()->intended(route('home', ['login'=> 'true'], absolute: false));
+        //return redirect()->intended(route('home', ['login'=> 'true'], absolute: false));
+        return redirect()->route('home', ['login'=> 'true']);
     }
 
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request): RedirectResponse 
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        // return Inertia::location(route('home'));
+        return redirect()->route('home', ['login' => 'logout']);
+        //return redirect('/home');
+        // return Inertia::render('/home', [
+        //     'user' => 'null'
+        // ]);
     }
 }
