@@ -4,9 +4,6 @@ import { defineProps, ref } from 'vue';
 import { useStore } from '../stores/store.js';
 import { verifyLogin } from '@/utils/verifyLogin.js';
 
-const cartCount = ref(0);
-const isGlowing = ref(false);
-
 const { product } = defineProps({
     product: Object
 });
@@ -30,7 +27,7 @@ function firstFiveWords(text) {
 const store = useStore();
 
 function addToCart(product){
-    store.addToCart(product); 
+    store.addToCart(product);
 }
 
 function addToFavorites(product){

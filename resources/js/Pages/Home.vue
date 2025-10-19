@@ -13,7 +13,7 @@ const props = defineProps({
     category: Array,
     loginStatus: String
 });
-
+ 
 const store = useStore();
 
 const page = usePage()
@@ -24,18 +24,8 @@ function initDefault(){
     store.login = true;
 }
 
-watch(()=> user, (newUser, oldUser) =>{
-    console.log(newUser)
-})
-
-watch(()=> props.loginStatus, (newValue, oldVal) => { 
-    if(newValue === 'logout'){ 
-        store.$reset();
-        console.log('usuario deslogado')
-    } 
-    if(newValue === 'true'){
-        console.log('Usuário acabou de logar')
-    }
+watch(user, (oldValue, newValue)=>{
+    console.log('login mudado')
 });
 
 onMounted(()=>{
@@ -46,25 +36,25 @@ onMounted(()=>{
     console.log('usuario na home');
     var storeStorage = localStorage.getItem("store");
     var saida = JSON.parse(storeStorage);
- 
+
     if (login === 'true') {
-       window.location.href = '/home'; 
-    } 
+       window.location.href = '/home';
+    }
+    if(login === 'logout'){
+        window.location.href = '/home';
+    }
 
     if(user && saida.login != 'false'){
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         console.log(token)
         //primeiro login e cadastra produtos em standyBy
         if(saida.item_id.length > 0){
-            alert("dasdasdad");
             store.addToCart(saida.item_id);
-            initDefault();
-        }else{
-            initDefault();
         }
-        if(saida.login === false && saida.favorites_id.length > 0){
+        if(saida.favorites_id.length > 0){
             store.addToFavorite(saida.favorites_id)
         }
+        initDefault();
     }//usuario deslogado
     else if(saida.login === true){
         store.login = false;
@@ -77,7 +67,6 @@ onMounted(()=>{
         alert("Glória a Deus");
     }
 })
-
 
 </script>
 
@@ -93,7 +82,7 @@ onMounted(()=>{
                     <span className="text-4xl font-semibold text-black flex-shrink-0">Selected headphone</span>
                     <button className="bg-white text-shadow-xl text-black font-bold text-sm py-3 px-9 w-max mt-4 rounded-md
                     hover:bg-green-700 ">
-                        Buy Now {{ user }}
+                        Buy Now
                     </button>
                 </div>
                 <div>

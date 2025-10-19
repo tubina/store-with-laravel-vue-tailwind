@@ -48,11 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     /***********/
     Route::get('/cart', [CartController::class, 'index'])->name('index.cart');
-    Route::get('/api/cart', [CartController::class, 'getQtdCart'])->name('get.cart');
-    Route::post('/api/cart', [CartController::class, 'addToCart'])->name('add.cart');
+    Route::get('/cart-get', [CartController::class, 'getQtdCart'])->name('get.cart');
+    Route::post('/cart-insert', [CartController::class, 'addToCart'])->name('add.cart');
     /***********/
-    Route::get('/api/favorite', [FavoriteController::class, 'getQtdFavorite'])->name('get.favorite');
-    Route::post('/api/favorite', [FavoriteController::class, 'addToFavorite'])->name('add.favorite');
+    Route::get('/favorite-get', [FavoriteController::class, 'getQtdFavorite'])->name('get.favorite');
+    Route::post('/favorite-insert', [FavoriteController::class, 'addToFavorite'])->name('add.favorite');
     /***********/
     /***********/
 

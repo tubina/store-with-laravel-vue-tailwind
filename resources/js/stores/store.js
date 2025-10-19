@@ -11,15 +11,14 @@ export const useStore = defineStore("store", {
     }),
     actions:{
         async fetchCart() {
-            const { data } = await axios.get("/api/cart");
+            const { data } = await axios.get("/cart-get");
             this.qtd_cart =  data;
         },
         /*****************************************************/
         async addToCart(productId) {
             var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             if(verifyLogin() === true){
-                console.log(productId);
-                const response = await fetch('/api/cart', {
+                const response = await fetch('/cart-insert', {
                     method: 'POST',
                     credentials: 'include', // necessário para cookies de sessão
                     headers: {
@@ -28,24 +27,24 @@ export const useStore = defineStore("store", {
                     },
                     body: JSON.stringify({ product_id: productId })
                 });
-                console.log(response.ok, "+++++")
                 await this.fetchCart(); // retorna carrinho atualizado
             }else if(verifyLogin() === false) {
                 if (!Array.isArray(productId)) {
                     this.item_id.push(productId);
+                    this.qtd_cart += 1 ;
                 }
             }
         },
         /*****************************************************/
         async fetchFavorites() {
-            const { data } = await axios.get("/api/favorite");
+            const { data } = await axios.get("/favorite-get");
             this.qtd_favorites = data;
         },
         /*****************************************************/
         async addToFavorite(productId) {
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             if(verifyLogin() === true){
-                await fetch('/api/favorite', {
+                await fetch('/favorite-insert', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -55,8 +54,11 @@ export const useStore = defineStore("store", {
                     body: JSON.stringify({product_id: productId})
                 });
                 await this.fetchFavorites();
-            }else {
-                this.favorites_id.push(productId); // retorna favoritos atualizados
+            }else if(verifyLogin() === false) {
+                if (!Array.isArray(productId)) {
+                    this.favorites_id.push(productId);
+                    this.qtd_favorites += 1 ;
+                }
             }
         }
     }
