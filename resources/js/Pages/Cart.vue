@@ -3,7 +3,7 @@ import Header from './Header.vue';
 import Product from '../MyComponents/Product.vue';
 import Footer from './Footer.vue';
 import { defineProps, ref, computed } from 'vue';
- 
+
 const props = defineProps({
     cart: Array
 });
@@ -27,9 +27,8 @@ var totalPrice = computed(() => {
 
             <div class="flex flex-col col-span-2 bg-white border border-gray-200 rounded-md ">
 
-                <div v-for="item in cart" :key="item.id">
-                    {{ item.product.price }}
-                    <Product />
+                <div v-for="product in cart" :key="product.id">
+                    <Product :cart="product" />
                 </div>
 
             </div>

@@ -1,4 +1,8 @@
-<script>
+<script setup>
+
+defineProps({
+    cart: Object
+})
 
 </script>
 <template>
@@ -19,9 +23,9 @@
                 <!-- Informações do produto -->
                 <div class="flex flex-col justify-between">
                     <div class="text-sm font-medium">
-                        <div>Apple Mac Mini M4 Chip 16/512GB Silver (10C CPU 10C GPU)</div>
+                        <div>{{ cart.product.name }}</div>
                         <div class="text-xs mt-2">
-                            Gadget
+                            {{cart.product.category.name}}
                         </div>
                     </div>
                 </div>
@@ -29,7 +33,7 @@
                 <!-- Preço -->
                 <div class="text-sm font-medium text-right self-start ml-4">
                     <div>
-                        R$ 500,00
+                        R$ {{ cart.product.price }}
                     </div>
                 </div>
             </div>
@@ -41,10 +45,9 @@
                     <ion-icon name="trash-outline" class="text-black text-lg"></ion-icon>
                 </div>
                 <div class="flex">
-                    <select class="border w-10 h-5 text-xs border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                    <select class="border w-12 h-10 text-xs border-gray-300 rounded px-3
+                    py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                        <option v-for="n in 5" :value="n" :selected="cart.quantity == n">{{n}}</option>
                     </select>
                 </div>
             </div>

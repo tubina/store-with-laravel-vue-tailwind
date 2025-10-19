@@ -1,10 +1,22 @@
 <script setup>
 import Header from './Header.vue';
 import Footer from './Footer.vue';
+import { useStore } from '../stores/store.js';
 
 const props = defineProps({
     product: Object
 })
+
+const store = useStore();
+
+function addToCart(product){
+    store.addToCart(product);
+}
+
+function addToFavorites(product){
+    store.addToFavorite(product);
+}
+
 
 
 </script>
@@ -15,7 +27,7 @@ const props = defineProps({
     <div class="flex container mx-auto gap-7 mt-28">
         <div class="flex flex-col w-1/2 rounded-md">
             <div class="h-min bg-white border border-gray-200 p-20 ">
-                <img class="" :src="`/storage/${props.product.product_images[0].path}`" />
+                <img class="" :src="`/storage/${props.product.product_images[0]}`" />
             </div>
             <div class="flex mt-2 gap-1">
                 <div v-for="pro in product.product_images"
@@ -33,7 +45,7 @@ const props = defineProps({
         <!------------------->
         <div class="w-1/2 bg-white p-4">
             <p class="text-4xl font-medium">
-                {{product.name}}
+              {{product.name}}
             </p>
             <p class="text-lg gap-2 font-semibold space-x-2 mt-3">
                 <span class="text-rose-500">R$ {{ product.from_price }}</span>
@@ -46,7 +58,7 @@ const props = defineProps({
                 {{ product.description }}
             </div>
             <div class="flex justify-center gap-4 mt-6 ">
-                <div class="flex justify-center items-center
+                <button @click="addToCart(product.id)" class="flex justify-center items-center
                 bg-rose-500 gap-2 w-full border-rose-700
                 rounded-md
                 text-white
@@ -54,10 +66,10 @@ const props = defineProps({
                 hover:bg-red-600">
                     <ion-icon name="cart-outline" className=" text-2xl"></ion-icon>
                     <span class="">Add to Cart</span>
-                </div>
-                <div class="flex flex-shrink-0 p-1 border border-rose-500 rounded-md">
+                </button>
+                <button @click="addToFavorites(product.id)" class="flex flex-shrink-0 p-1 border border-rose-500 rounded-md">
                     <ion-icon name="heart-outline" className="text-rose-500 text-2xl"></ion-icon>
-                </div>
+                </button>
             </div>
             <div class="mt-7 text-sm font-medium border-b pb-5 border-gray-300">
                 <div>
@@ -109,12 +121,12 @@ const props = defineProps({
             </div>
         </div>
     </div>
-    <div class="container mx-auto mt-10">
+    <div class="container mx-auto mt-10 mb-20">
         <div class="flex flex-row flex-wrap
         gap-4
         text-sm
         w-max
-        rounded rounded-lg">
+        rounded-lg">
             <div class="py-4 px-5
             hover:text-rose-600
             ">Descrição</div>
@@ -129,9 +141,7 @@ const props = defineProps({
             ">Participantes</div>
         </div>
         <div class="text-sm mt-5 text-gray-500 w-1/2">
-            In ducimus quod sed eum repellendus ea fugiat. Pariatur et illo at iure harum. Molestiae a itaque voluptas explicabo praesentium. Possimus omnis aut architecto et. Repellendus ab ipsa in non doloremque tenetur est doloremque.
-            Quam in facere soluta consequatur voluptatem beatae asperiores. Qui quia itaque illo eos quibusdam voluptatem et. Est aut deserunt iste. Et ipsum eius ut odit deleniti.
-            Officia praesentium ipsam perferendis possimus ex culpa voluptatem dolore. Aut id sit et vitae. Quis unde doloremque quisquam facere. In qui eos est voluptatem repudiandae blanditiis consequatur.
+           {{ product.description }}
         </div>
     </div>
 

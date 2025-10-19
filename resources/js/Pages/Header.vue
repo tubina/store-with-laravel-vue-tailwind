@@ -10,7 +10,7 @@ const store = useStore();
 const user = usePage().props.auth.user;
 
 /***********************************************/
- 
+
 var photoUrl = '';
 
 if(user && user.profile_photo){
@@ -19,194 +19,131 @@ if(user && user.profile_photo){
     photoUrl = 'data:image/png;base64,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';
 }
 
-
 </script>
 
 <template>
-    <div className="fixed z-50 top-0 clear-both
-         w-full shadow
-        shadow-slate-300 bg-white">
+  <div class="fixed z-50 top-0 w-full shadow shadow-slate-300 bg-white">
+    <div class="container__own bg-white mx-auto flex justify-between items-center h-16">
 
-        <div className="container__own bg-white mx-auto flex justify-between items-center h-16 " >
-            <div className="font-light">
-                <Link href="/home">
-                    Logo
-                </Link>
+      <!-- Logo -->
+      <div class="font-light">
+        <Link href="/home">Logo</Link>
+      </div>
+
+      <!-- Menu -->
+      <ul class="flex gap-6 text-sm font-medium text-slate-700">
+        <li>
+          <Link href="/home"
+                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link href="/store"
+                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
+            Loja
+          </Link>
+        </li>
+        <li>
+          <Link href="#"
+                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
+            Ranking
+          </Link>
+        </li>
+      </ul>
+
+      <!-- Right side: Search + Cart + Favorite + User -->
+      <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700">
+
+        <!-- Search input -->
+        <li class="relative">
+            <div class="relative w-48 h-9">
+                <input
+                type="text"
+                placeholder="Search..."
+                class="absolute right-0 w-full h-9 focus:w-80 transition-[width] duration-300 ease-in-out
+                        bg-transparent border border-gray-300 focus:border-none focus:ring-2 focus:ring-gray/30
+                        text-gray-700 placeholder-gray-400 rounded-xl px-2"
+                />
+                <ion-icon
+                name="search-outline"
+                class="absolute right-2 top-4 -translate-y-1/2 text-2xl text-gray-700"
+                ></ion-icon>
             </div>
-            <ul className="flex gap-6 text-sm font-medium text-slate-700">
-                <li>
-                    <Link href="/home"
-                    class="hover:border-b-2
-                    hover:text-blue-500
-                    border-blue-500">
-                        Home
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/store"
-                    class="hover:border-b-2
-                    hover:text-blue-500
-                    border-blue-500">
-                        Loja
-                    </Link>
-                </li>
-                <li>
-                    <Link href="#"
-                    class="hover:border-b-2
-                    hover:text-blue-500
-                    border-blue-500">
-                        Ranking
-                    </Link>
-                </li>
-            </ul>
-            <ul className="flex items-center gap-4 text-sm font-semibold text-slate-700">
-                <li>
-                    <a href="#" className="transition hover:-translate-y-3 hover:text-black ">
-                        <ion-icon name="search-outline" className="text-2xl"></ion-icon>
-                    </a>
-                </li>
-                <li class="relative">
-                    <Link href="/cart" className=" transition hover:-translate-y-3  hover:text-black ">
-                        <ion-icon name="cart-outline" className=" text-2xl"></ion-icon>
-                        <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0
-                        bg-black rounded-full text-xs font-normal text-white">{{ store.qtd_cart }}</div>
-                    </Link>
-                </li>
-                <li class="relative">
-                    <Link href="/favorite" className="transition hover:-translate-y-3  hover:text-black "
-                    :class="['relative', isGlowing ? 'animate-glow' : '']">
-                        <ion-icon name="heart-outline" className="text-2xl"></ion-icon>
-                        <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0
-                        bg-black rounded-full text-xs font-normal text-white">{{ store.qtd_favorites }}</div>
-                    </Link>
-                </li>
+        </li>
 
-                <li>
-                    <div v-if="$page.props.auth.user">
-                        <div class="flex h-16 justify-between">
-                            <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                                <!-- Settings Dropdown -->
-                                <div class="relative ">
-                                    <Dropdown align="right" width="48">
-                                        <template #trigger>
-                                            <span class="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    class="inline-flex items-center rounded-md
-                                                    border
-                                                    border-transparent bg-white text-sm
-                                                    font-medium leading-4 text-black
-                                                    transition
-                                                    duration-150
-                                                    ease-in-out
-                                                    hover:text-gray-700
-                                                    focus:outline-none"
-                                                >
-                                                    <img
-                                                    class="w-7 h-7 mr-2 rounded-full"
-                                                    :src="profilePhoto.profile_photo ?
-                                                    `/storage/${profilePhoto.profile_photo}` :
-                                                    photoUrl"/>
+        <!-- Cart -->
+        <li class="relative">
+          <Link href="/cart" class="transition hover:-translate-y-1 hover:text-black">
+            <ion-icon name="cart-outline" class="text-2xl"></ion-icon>
+            <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">
+              {{ store.qtd_cart }}
+            </div>
+          </Link>
+        </li>
 
-                                                    {{ $page.props.auth.user.name }}
+        <!-- Favorite -->
+        <li class="relative">
+          <Link href="/favorite" class="transition hover:-translate-y-1 hover:text-black">
+            <ion-icon name="heart-outline" class="text-2xl"></ion-icon>
+            <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">
+              {{ store.qtd_favorites }}
+            </div>
+          </Link>
+        </li>
 
-                                                    <svg
-                                                        class="-me-0.5 ms-1 h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fill-rule="evenodd"
-                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                            clip-rule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </template>
+        <!-- User dropdown / Login -->
+        <li>
+          <div v-if="$page.props.auth.user">
+            <div class="flex h-16 justify-between">
+              <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                <div class="relative">
+                  <Dropdown align="right" width="48">
+                    <template #trigger>
+                      <span class="inline-flex rounded-md">
+                        <button
+                          type="button"
+                          class="inline-flex items-center rounded-md border border-transparent bg-white text-sm font-medium text-black transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                        >
+                          <img
+                            class="w-7 h-7 mr-2 rounded-full"
+                            :src="photoUrl"
+                          />
+                          {{ $page.props.auth.user.name }}
+                          <svg
+                            class="-me-0.5 ms-1 h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </template>
 
-                                        <template #content>
-                                            <DropdownLink
-                                                :href="route('profile.edit')"
-                                            >
-                                                Profile
-                                            </DropdownLink>
-                                            <DropdownLink
-                                                :href="route('profile.edit')"
-                                            >
-                                                Points
-                                            </DropdownLink>
-                                            <DropdownLink
-                                                :href="route('profile.edit')"
-                                            >
-                                                Orders
-                                            </DropdownLink>
-                                            <DropdownLink
-                                                :href="route('logout')"
-                                                method="post"
-                                                as="button"
-                                                class="border-t border-gray-100"
-                                            >
-                                                Log out
-                                            </DropdownLink>
-                                        </template>
-                                    </Dropdown>
-                                </div>
-                            </div>
-
-                            <!-- Hamburger -->
-                            <div class="-me-2 flex items-center sm:hidden">
-                                <button
-                                    @click="
-                                        showingNavigationDropdown =
-                                            !showingNavigationDropdown
-                                    "
-                                    class="inline-flex items-center justify-center rounded-md
-                                    text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100
-                                    hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
-                                >
-                                    <svg
-                                        class="h-6 w-6"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            :class="{
-                                                hidden: showingNavigationDropdown,
-                                                'inline-flex':
-                                                    !showingNavigationDropdown,
-                                            }"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M4 6h16M4 12h16M4 18h16"
-                                        />
-                                        <path
-                                            :class="{
-                                                hidden: !showingNavigationDropdown,
-                                                'inline-flex':
-                                                    showingNavigationDropdown,
-                                            }"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <Link href="/login" className="font-medium transition-all hover:-translate-y-3 hover:text-black ">
-                            Login
-                        </Link>
-                    </div>
-
-                </li>
-            </ul>
-        </div>
+                    <template #content>
+                      <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
+                      <DropdownLink :href="route('profile.edit')">Points</DropdownLink>
+                      <DropdownLink :href="route('profile.edit')">Orders</DropdownLink>
+                      <DropdownLink :href="route('logout')" method="post" as="button" class="border-t border-gray-100">Log out</DropdownLink>
+                    </template>
+                  </Dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <Link href="/login" class="font-medium transition-all hover:-translate-y-1 hover:text-black">
+              Login
+            </Link>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
