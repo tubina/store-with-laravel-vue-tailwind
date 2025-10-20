@@ -11,10 +11,9 @@ use Inertia\Inertia;
 class FavoriteController extends Controller
 {
     public function index()
-    {
-        $favorites = Favorite::with('products')
-        ->where('user_id', auth()->id())
-        ->get();
+    { 
+        $user = auth()->user();
+        $favorites = $user->favoriteProducts()->with('productImagesJustOne')->get();
         return Inertia::render('Favorite', ['favorites' => $favorites]);
     }
 /********************************************************************************/

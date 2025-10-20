@@ -13,7 +13,7 @@ const props = defineProps({
     category: Array,
     loginStatus: String
 });
- 
+
 const store = useStore();
 
 const page = usePage()
@@ -33,7 +33,6 @@ onMounted(()=>{
     const urlParams = new URLSearchParams(page.url.split('?')[1]);
     const login = urlParams.get('login');
 
-    console.log('usuario na home');
     var storeStorage = localStorage.getItem("store");
     var saida = JSON.parse(storeStorage);
 
@@ -46,7 +45,6 @@ onMounted(()=>{
 
     if(user && saida.login != 'false'){
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        console.log(token)
         //primeiro login e cadastra produtos em standyBy
         if(saida.item_id.length > 0){
             store.addToCart(saida.item_id);

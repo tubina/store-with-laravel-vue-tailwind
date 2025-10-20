@@ -7,7 +7,7 @@ import { verifyLogin } from '@/utils/verifyLogin.js';
 const { product } = defineProps({
     product: Object
 });
-
+let imagem = ''
 const id = product?.id ?? '';
 const name = product?.name ?? '';
 const from_price = product?.from_price ?? 0;
@@ -15,7 +15,7 @@ const price = product?.price ?? 0;
 const description = product?.description ?? '';
 if(product.product_images_just_one){
     if(product.product_images_just_one.path){
-        const imagem = product?.product_images_just_one.path ?? '';
+        imagem = product?.product_images_just_one.path ?? '';
     }
 }
 
@@ -44,9 +44,10 @@ function addToFavorites(product){
         @click.prevent="addToFavorites(product.id)">
             <ion-icon name="flame"></ion-icon>
         </div>
+
         <div className="p-7">
             <Link :href="`/product/${id}`">
-                <img :src="imagem ? `/storage/${imagem}` : '/storage/products/1A0nwrwBsZT2BFjzm7fM1ildCBKnragau3u6S9fD.webp'" />
+                <img :src="imagem ? `/storage/${imagem}` : '/storage/products/60X8Z4Itv523BUMguFVYxWyw24rLs6j6ZGkVkdUb.jpg'" />
             </Link>
         </div>
         <div class="text-gray-400 text-xs mt-1 ml-3 uppercase">

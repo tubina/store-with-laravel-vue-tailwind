@@ -67,7 +67,7 @@ if(user && user.profile_photo){
                 />
                 <ion-icon
                 name="search-outline"
-                class="absolute right-2 top-4 -translate-y-1/2 text-2xl text-gray-700"
+                class="absolute right-2 top-4 -translate-y-1/2 text-2xl text-gray-700 cursor-pointer"
                 ></ion-icon>
             </div>
         </li>

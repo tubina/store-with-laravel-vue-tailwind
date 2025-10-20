@@ -27,7 +27,7 @@ function addToFavorites(product){
     <div class="flex container mx-auto gap-7 mt-28">
         <div class="flex flex-col w-1/2 rounded-md">
             <div class="h-min bg-white border border-gray-200 p-20 ">
-                <img class="" :src="`/storage/${props.product.product_images[0]}`" />
+                <img class="" :src="`/storage/${props.product.product_images[0].path}`" /> 
             </div>
             <div class="flex mt-2 gap-1">
                 <div v-for="pro in product.product_images"
