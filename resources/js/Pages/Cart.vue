@@ -2,7 +2,10 @@
 import Header from './Header.vue';
 import Product from '../MyComponents/Product.vue';
 import Footer from './Footer.vue';
-import { defineProps, ref, computed } from 'vue';
+import { defineProps, computed, ref } from 'vue';
+import { useStore } from '../stores/store.js';
+
+const store = useStore();
 
 const props = defineProps({
     cart: Array
@@ -12,6 +15,15 @@ var totalPrice = computed(() => {
     return props.cart.reduce((acc, item) => acc + Number(item.product.price), 0);
 })
 
+const cartT = ref([...props.cart]);
+
+function deleteFromCart(product_id) {
+    const saida = store.deleteCart(product_id);
+    saida.then(result => {
+        console.log(cartT.value)
+        cartT.value = cartT.value.filter(p => p.product.id !== result)
+    })
+}
 
 </script>
 <template>
@@ -23,17 +35,17 @@ var totalPrice = computed(() => {
            <span class="text-2xl font-medium mt-1"> Shooping Cart</span>
         </div>
 
-        <div class="grid grid-cols-3 gap-8 mt-5">
+        <div class=" grid grid-cols-3 gap-8 mt-5 items-start">
 
-            <div class="flex flex-col col-span-2 bg-white border border-gray-200 rounded-md ">
+            <div class="bloco-a flex-col col-span-2 bg-white" :class="cartT.length ? 'border border-gray-200 rounded-md' : '' ">
 
-                <div v-for="product in cart" :key="product.id">
-                    <Product :cart="product" />
+                <div v-for="product in cartT" :key="product.id">
+                    <Product :cart="product" @removeFromCart="deleteFromCart" />
                 </div>
 
             </div>
 
-            <div class="h-min p-3 col-span-1 bg-white border bg-whiteborder-gray-200 rounded-md">
+            <div class="bloco-b  p-3 col-span-1 bg-white border bg-whiteborder-gray-200 rounded-md">
                 <div class="text-sm font-medium">
                     Order Sumary
                 </div>

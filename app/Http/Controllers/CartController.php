@@ -6,12 +6,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $cart = Cart::where('user_id', auth()->id())->with('product.category')->get();
+        $cart = Cart::where('user_id', auth()->id())->with('product.category')->with('product.productImagesJustOne')->get();
 
         return Inertia::render('Cart', ['cart' => $cart]);
     }
@@ -63,11 +64,20 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Produto adicionado ao carrinho com sucesso!']);
     }
-
 /**************************************************/
     public function getQtdCart()
     {
         $cart = Cart::where('user_id', auth()->id())->count();
         return response()->json($cart);
+    }
+/**************************************************/
+    function deleteFromCart(Request $request)
+    {
+        $cart = Cart::where('product_id', $request->product_id)
+                    ->where('user_id', auth()->id())
+                    ->delete();
+        Log::debug('Items deletados', ['count', $cart]);
+
+        return response()->json(['success' => true]);
     }
 }

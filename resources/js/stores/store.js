@@ -60,6 +60,26 @@ export const useStore = defineStore("store", {
                     this.qtd_favorites += 1 ;
                 }
             }
-        }
+        },
+        /*****************************************************/
+        async deleteCart(productId) {
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const result = await fetch('/cart-delete', {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ product_id: productId })
+            });
+
+            if(result.ok){
+                this.fetchCart();
+                return productId;
+            }
+
+        },
     }
 })

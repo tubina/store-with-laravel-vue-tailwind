@@ -1,8 +1,15 @@
 <script setup>
+import { defineEmits } from 'vue';
 
-defineProps({
-    cart: Object
+const props = defineProps({
+    cart: Array
 })
+
+const emit = defineEmits(['removeFromCart']);
+
+function deleteCart(product_id) {
+    emit('removeFromCart', product_id)
+}
 
 </script>
 <template>
@@ -13,10 +20,9 @@ defineProps({
 
         <!-- Imagem -->
         <img
-            src="https://www.nextdaycamera.co.uk/acatalog/CanonEOSR5+RF24-105f4L+adapter-2.jpg"
-            class="w-24 rounded-md border border-gray-200 p-2"
+            :src="`/storage/${cart.product.product_images_just_one.path}`"
+            class="w-24 rounded-md  p-2"
         />
-
         <!-- Conteúdo -->
         <div class="flex flex-col flex-1 h-full ">
             <div class="flex justify-between md:w-auto flex-1">
@@ -41,8 +47,12 @@ defineProps({
 
             <div class="flex justify-between mt-2">
                 <div class="flex gap-2">
-                    <ion-icon name="heart-outline" class="text-black text-lg"></ion-icon>
-                    <ion-icon name="trash-outline" class="text-black text-lg"></ion-icon>
+                    <button>
+                        <ion-icon name="heart-outline" class="text-black text-lg"></ion-icon>
+                    </button>
+                    <button @click="deleteCart(cart.product.id)">
+                        <ion-icon name="trash-outline" class="text-black text-lg"></ion-icon>
+                    </button>
                 </div>
                 <div class="flex">
                     <select class="border w-12 h-10 text-xs border-gray-300 rounded px-3

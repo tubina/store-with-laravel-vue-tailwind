@@ -34,7 +34,6 @@ function addToFavorites(product){
     store.addToFavorite(product);
 }
 
-
 </script>
 
 <template>

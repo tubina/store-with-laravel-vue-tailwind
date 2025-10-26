@@ -7,6 +7,13 @@ const props = defineProps({
     select: Array
 });
 
+const emit = defineEmits(['update:selectIds']);
+
+function toggleCheckbox(event){
+    const checked = event.target.checked;
+    emit('update:selectIds', {id:props.favorite.id, checked})
+}
+
 const store = useStore();
 
 function addToCart(product){
@@ -24,7 +31,7 @@ function findProductById(){
         <td class="px-4 py-2">
             <button class="bg-white text-black px-2 py-1 rounded
                 hover:bg-gray-100 text-xs font-bold">
-                    <input type="checkbox" :checked="findProductById()"/>
+                    <input type="checkbox" :checked="findProductById()" @change="toggleCheckbox"/>
             </button>
         </td>
 
@@ -40,7 +47,7 @@ function findProductById(){
         </td>
         <td class="px-4 py-2 font-medium">
             <Link :href="`/product/${favorite.id}`">
-            {{ favorite.name }} 
+            {{ favorite.name }}
             </Link>
         </td>
             <td class="px-4 py-2">{{ favorite.category.name }}</td>
@@ -49,7 +56,7 @@ function findProductById(){
             <td class="px-4 py-2">${{ favorite.price }}</td>
             <td class="px-4 py-2">
             <button @click.prevent="addToCart(favorite.id) "class="text-xs bg-black text-white px-3 py-2 rounded hover:bg-neutral-800">
-            Add to Cart
+                Add to Cart
             </button>
     </td>
 

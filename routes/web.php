@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('index.cart');
     Route::get('/cart-get', [CartController::class, 'getQtdCart'])->name('get.cart');
     Route::post('/cart-insert', [CartController::class, 'addToCart'])->name('add.cart');
+    Route::delete('/cart-delete', [CartController::class, 'deleteFromCart'])->name('delete.cart');
     /***********/
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('index.favorite');
     Route::get('/favorite-get', [FavoriteController::class, 'getQtdFavorite'])->name('get.favorite');

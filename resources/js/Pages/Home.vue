@@ -88,7 +88,7 @@ onMounted(()=>{
                 </div>
             </div>
 
-            <div className="container__own border-2 border-gray-200 rounded-md mb-10">
+            <div className="container__own border border-gray-200 rounded-md mb-10">
                 <div class="
                 grid
                 grid-cols-4

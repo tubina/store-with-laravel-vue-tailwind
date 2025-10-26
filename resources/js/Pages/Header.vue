@@ -140,7 +140,7 @@ if(user && user.profile_photo){
           <div v-else>
             <Link href="/login" class="font-medium transition-all hover:-translate-y-1 hover:text-black">
               Login
-            </Link>
+            </Link> 
           </div>
         </li>
       </ul>
