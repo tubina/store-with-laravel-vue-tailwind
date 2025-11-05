@@ -4,10 +4,11 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { profilePhoto } from '../profilePhoto.js';
 import { useStore } from '../stores/store.js';
-
+import Toast from '@/Components/Toast.vue';
 
 const store = useStore();
 const user = usePage().props.auth.user;
+
 
 /***********************************************/
 
@@ -51,6 +52,8 @@ if(user && user.profile_photo){
           </Link>
         </li>
       </ul>
+
+      <Toast :message="[store.toastImage, store.toastName]" />
 
       <!-- Right side: Search + Cart + Favorite + User -->
       <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700">
@@ -130,6 +133,7 @@ if(user && user.profile_photo){
                       <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
                       <DropdownLink :href="route('profile.edit')">Points</DropdownLink>
                       <DropdownLink :href="route('profile.edit')">Orders</DropdownLink>
+                      <DropdownLink :href="route('profile.edit')">Chat</DropdownLink>
                       <DropdownLink :href="route('logout')" method="post" as="button" class="border-t border-gray-100">Log out</DropdownLink>
                     </template>
                   </Dropdown>
@@ -140,7 +144,7 @@ if(user && user.profile_photo){
           <div v-else>
             <Link href="/login" class="font-medium transition-all hover:-translate-y-1 hover:text-black">
               Login
-            </Link> 
+            </Link>
           </div>
         </li>
       </ul>

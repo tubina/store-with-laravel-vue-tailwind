@@ -27,11 +27,16 @@ function firstFiveWords(text) {
 const store = useStore();
 
 function addToCart(product){
+    showToast();
     store.addToCart(product);
 }
 
 function addToFavorites(product){
     store.addToFavorite(product);
+}
+
+function showToast() {
+    store.showToast(imagem, firstFiveWords(name))
 }
 
 </script>

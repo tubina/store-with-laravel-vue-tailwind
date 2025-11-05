@@ -7,9 +7,15 @@ export const useStore = defineStore("store", {
         qtd_cart: 0,
         item_id: [],
         qtd_favorites: 0,
-        favorites_id: []
+        favorites_id: [],
+        toastImage: '',
+        toastName: '',
     }),
     actions:{
+        async showToast(imagem, name) {
+            this.toastImage = imagem
+            this.toastName = name
+        },
         async fetchCart() {
             const { data } = await axios.get("/cart-get");
             this.qtd_cart =  data;
