@@ -27,16 +27,12 @@ function firstFiveWords(text) {
 const store = useStore();
 
 function addToCart(product){
-    showToast();
     store.addToCart(product);
+    store.showToast(imagem,name)
 }
 
 function addToFavorites(product){
     store.addToFavorite(product);
-}
-
-function showToast() {
-    store.showToast(imagem, firstFiveWords(name))
 }
 
 </script>
@@ -49,15 +45,15 @@ function showToast() {
             <ion-icon name="flame"></ion-icon>
         </div>
 
-        <div className="p-7">
-            <Link :href="`/product/${id}`">
-                <img :src="imagem ? `/storage/${imagem}` : '/storage/products/60X8Z4Itv523BUMguFVYxWyw24rLs6j6ZGkVkdUb.jpg'" />
+        <div className="flex justify-center w-full p-7">
+            <Link :href="`/product/${id}`" >
+                <img  class="w-28 h-28 object-cover" :src="imagem ? `/storage/${imagem}` : '/storage/products/60X8Z4Itv523BUMguFVYxWyw24rLs6j6ZGkVkdUb.jpg'" />
             </Link>
         </div>
         <div class="text-gray-400 text-xs mt-1 ml-3 uppercase">
             {{ product.category.name }}
         </div>
-        <p className="mt-1 ml-3 mr-3   font-bold text-sm text-wrap text-gray-900">
+        <p className="mt-1 ml-3 mr-3 font-bold text-sm text-wrap text-gray-900">
            {{firstFiveWords(name)}}
         </p>
         <div className=" ml-3 flex items-center mt-2">
@@ -77,12 +73,6 @@ function showToast() {
                 <span className="line-through text-sm font-normal text-gray-500 ">R$ {{ from_price }}</span>
             </div>
         </div>
-        <!-- <div :class="['relative', isGlowing ? 'animate-glow' : '']">
-            🛒
-            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
-                {{ cartCount }}
-            </span>
-        </div> -->
         <button @click.prevent="addToCart(product.id)" className="mx-auto w-auto
             flex
             justify-center

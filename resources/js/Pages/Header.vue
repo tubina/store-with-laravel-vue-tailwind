@@ -4,7 +4,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { profilePhoto } from '../profilePhoto.js';
 import { useStore } from '../stores/store.js';
-import Toast from '@/Components/Toast.vue';
+import ToastList from '@/Components/ToastList.vue';
 
 const store = useStore();
 const user = usePage().props.auth.user;
@@ -53,7 +53,9 @@ if(user && user.profile_photo){
         </li>
       </ul>
 
-      <Toast :message="[store.toastImage, store.toastName]" />
+      <ToastList
+        :message="{image: store.toastImage, name: store.toastName, price: store.toastPrice }"
+        :keyValue="store.toastKey" />
 
       <!-- Right side: Search + Cart + Favorite + User -->
       <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700">

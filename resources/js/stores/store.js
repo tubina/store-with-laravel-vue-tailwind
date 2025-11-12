@@ -10,11 +10,20 @@ export const useStore = defineStore("store", {
         favorites_id: [],
         toastImage: '',
         toastName: '',
+        toastPrice: '',
+        toastKey: 0,
+        toasts: [],
     }),
     actions:{
-        async showToast(imagem, name) {
-            this.toastImage = imagem
-            this.toastName = name
+        showToast(image, name) {
+            const id = Date.now() // id único
+            this.toasts.push({ id, image, name })
+
+            // 🔹 remove o toast após 5 segundos
+            setTimeout(() => {
+                this.toasts = this.toasts.filter(t => t.id !== id)
+            }, 5000)
+
         },
         async fetchCart() {
             const { data } = await axios.get("/cart-get");

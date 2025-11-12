@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductAdminController extends Controller
 {
+
     public function index()
     {
         $products = Product::with(['category', 'productImagesJustOne'])->get();
@@ -22,6 +23,8 @@ class ProductAdminController extends Controller
 /******************************************************/
     public function create()
     {
+
+
         $category = DB::table('category')->get();
         return Inertia::render('Admin/ProductAdd', ['categories' => $category]);
     }
@@ -61,6 +64,8 @@ class ProductAdminController extends Controller
 /******************************************************/
     public function update(Request $request, Product $product)
     {
+        $this->authorize('update', $product);
+
         $product->update($request->only(['name', 'category_id', 'from_price', 'price', 'description']));
     }
 /******************************************************/

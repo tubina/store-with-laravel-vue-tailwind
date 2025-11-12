@@ -23,11 +23,7 @@ function initDefault(){
     store.fetchFavorites();
     store.login = true;
 }
-
-watch(user, (oldValue, newValue)=>{
-    console.log('login mudado')
-});
-
+  
 onMounted(()=>{
 
     const urlParams = new URLSearchParams(page.url.split('?')[1]);

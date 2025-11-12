@@ -96,7 +96,7 @@ function deletePhoto(id){
 <template>
     <div>
          <Main>
-             <h1>Edit Product</h1>
+             <div class="bg-blue-950 p-4 text-white">Edit Product</div>
              <form @submit.prevent="submit"
              class="max-w-md  p-6 bg-white rounded shadow-md space-y-6">
 
