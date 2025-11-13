@@ -1,14 +1,22 @@
 <script setup>
 import { defineEmits } from 'vue';
+import { useStore } from '../stores/store.js';
 
 const props = defineProps({
     cart: Array
 })
 
-const emit = defineEmits(['removeFromCart']);
+const store = useStore();
+
+const emit = defineEmits(['removeFromCart', 'addToFavorite']);
+
+function addFavorite(product_id) {
+    emit('addToFavorite', product_id);
+    store.showToast(props.cart.product.product_images_just_one.path,props.cart.product.name)
+}
 
 function deleteCart(product_id) {
-    emit('removeFromCart', product_id)
+    emit('removeFromCart', product_id);
 }
 
 </script>
@@ -42,12 +50,11 @@ function deleteCart(product_id) {
                         R$ {{ cart.product.price }}
                     </div>
                 </div>
-            </div>
-
+            </div> 
 
             <div class="flex justify-between mt-2">
                 <div class="flex gap-2">
-                    <button>
+                    <button @click="addFavorite(cart.product.id)">
                         <ion-icon name="heart-outline" class="text-black text-lg"></ion-icon>
                     </button>
                     <button @click="deleteCart(cart.product.id)">
@@ -61,7 +68,6 @@ function deleteCart(product_id) {
                     </select>
                 </div>
             </div>
-
         </div>
     </div>
 </template>

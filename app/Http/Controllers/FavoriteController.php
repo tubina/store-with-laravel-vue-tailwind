@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Favorite;
 use App\Models\Product;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class FavoriteController extends Controller
 {
     public function index()
-    { 
+    {
         $user = auth()->user();
         $favorites = $user->favoriteProducts()->with('productImagesJustOne')->get();
         return Inertia::render('Favorite', ['favorites' => $favorites]);
@@ -71,5 +72,17 @@ class FavoriteController extends Controller
         }
 
         return response()->json(['message' => 'Produto adicionado ao favorito com sucesso!']);
+    }
+/********************************************************************************/
+    public function deleteFromFavorite(Request $request)
+    {
+        $user = auth()->user();
+        $product_id = $request->product_id;
+        //Log::info('usuariooo', $user->id);
+        Favorite::where('user_id', $user->id)
+        ->where('product_id', $product_id)
+        ->delete();
+
+        return response()->json(['saida' => 'ok']);
     }
 }

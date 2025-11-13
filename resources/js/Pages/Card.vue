@@ -1,6 +1,6 @@
 <script setup>
 import {Link} from '@inertiajs/vue3';
-import { defineProps, ref } from 'vue';
+import { defineProps } from 'vue';
 import { useStore } from '../stores/store.js';
 import { verifyLogin } from '@/utils/verifyLogin.js';
 
@@ -33,6 +33,7 @@ function addToCart(product){
 
 function addToFavorites(product){
     store.addToFavorite(product);
+    store.showToast(imagem,name)
 }
 
 </script>

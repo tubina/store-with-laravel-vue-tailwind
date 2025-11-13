@@ -17,6 +17,10 @@ var totalPrice = computed(() => {
 
 const cartT = ref([...props.cart]);
 
+function addFavorite(product_id) {
+    store.addToFavorite(product_id);
+}
+
 function deleteFromCart(product_id) {
     const saida = store.deleteCart(product_id);
     saida.then(result => {
@@ -40,7 +44,7 @@ function deleteFromCart(product_id) {
             <div class="bloco-a flex-col col-span-2 bg-white" :class="cartT.length ? 'border border-gray-200 rounded-md' : '' ">
 
                 <div v-for="product in cartT" :key="product.id">
-                    <Product :cart="product" @removeFromCart="deleteFromCart" />
+                    <Product :cart="product" @addToFavorite="addFavorite" @removeFromCart="deleteFromCart" />
                 </div>
 
             </div>

@@ -96,5 +96,24 @@ export const useStore = defineStore("store", {
             }
 
         },
+        /*****************************************************/
+        async deleteFromFavorite(productId) {
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const result = await fetch('/favorite-delete', {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ product_id: productId })
+            })
+
+            if(result.ok){
+                this.fetchFavorites();
+                return productId;
+            }
+        }
     }
 })

@@ -61,33 +61,34 @@ import { useStore } from '../stores/store.js';
                 </div>
                 <div class=" border rounded-lg mt-5">
                     <table class="min-w-full border-gray-200 text-sm ">
-                    <thead class="border-b">
-                        <tr>
-                            <th class="pl-6 py-2 text-left"> <input type="checkbox" v-model="allSelected" /> &nbsp;All</th>
-                            <th class="px-4 py-2 text-left"> Image</th>
-                            <th class="px-4 py-2 text-left">Name</th>
-                            <th class="px-4 py-2 text-left">Category</th>
-                            <th class="px-4 py-2 text-left">Action</th>
-                            <th class="px-4 py-2 text-left">Users</th>
-                            <th class="px-4 py-2 text-left">Price</th>
-                            <th>
-                                <span v-if="someSelected.length" class="flex items-center">
-                                    <button @click="addToCart"
-                                    class=" bg-green-600 hover:bg-green-500
-                                    text-white text-xs px-3 py-2 border rounded">
-                                        All to Cart
-                                    </button>
-                                </span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- item 1 -->
-                        <tr v-for="favorite in favorites" :key="favorite.id">
-                            <Favorite :favorite="favorite" :select="favoritesRef" @update:selectIds="handleUpdate" />
-                        </tr>
+                        <thead class="border-b">
+                            <tr>
+                                <th class="pl-6 py-2 text-left"> <input type="checkbox" v-model="allSelected" /> &nbsp;All</th>
+                                <th class="px-4 py-2 text-left"> Image</th>
+                                <tr></tr>
+                                <th class="px-4 py-2 text-left">Name</th>
+                                <th class="px-4 py-2 text-left">Category</th>
+                                <th class="px-4 py-2 text-left">Action</th>
+                                <th class="px-4 py-2 text-left">Users</th>
+                                <th class="px-4 py-2 text-left">Price</th>
+                                <th>
+                                    <span v-if="someSelected.length" class="flex items-center">
+                                        <button @click="addToCart"
+                                        class=" bg-green-600 hover:bg-green-500
+                                        text-white text-xs px-3 py-2 border rounded">
+                                            All to Cart
+                                        </button>
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- item 1 -->
+                            <tr v-for="favorite in favorites" :key="favorite.id">
+                                <Favorite :favorite="favorite" :select="favoritesRef" @update:selectIds="handleUpdate" />
+                            </tr>
 
-                    </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
