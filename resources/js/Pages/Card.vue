@@ -28,12 +28,12 @@ const store = useStore();
 
 function addToCart(product){
     store.addToCart(product);
-    store.showToast(imagem,name)
+    store.showToast(id,imagem,name,price)
 }
 
 function addToFavorites(product){
     store.addToFavorite(product);
-    store.showToast(imagem,name)
+    store.showToast(id,imagem,name,price)
 }
 
 </script>

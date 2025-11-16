@@ -24,7 +24,6 @@ function addFavorite(product_id) {
 function deleteFromCart(product_id) {
     const saida = store.deleteCart(product_id);
     saida.then(result => {
-        console.log(cartT.value)
         cartT.value = cartT.value.filter(p => p.product.id !== result)
     })
 }

@@ -5,42 +5,47 @@ import Footer from './Footer.vue';
 import { ref, computed } from 'vue';
 import { useStore } from '../stores/store.js';
 
+const props = defineProps({
+    favorites: Array
+})
 
-    const props = defineProps({
-        favorites: Array
-    })
+let favoritesList = ref([...props.favorites]);
 
-    let favoritesRef = ref([]);
+let favoritesRef = ref([]);
 
-    const allSelected = computed({
-        get() {
-            return favoritesRef.value.length === props.favorites.length;
-        },
-        set(value) {
-           if(value){
-            favoritesRef.value = props.favorites.map(p=> p.id)
-           }else {
-            favoritesRef.value = []
-           }
-        }
-    });
-
-    function handleUpdate({ id, checked }) {
-        if(checked){
-            favoritesRef.value.push(id)
+const allSelected = computed({
+    get() {
+        return favoritesRef.value.length === props.favorites.length;
+    },
+    set(value) {
+        if(value){
+        favoritesRef.value = props.favorites.map(p=> p.id)
         }else {
-           favoritesRef.value = favoritesRef.value.filter(f => f !== id)
+        favoritesRef.value = []
         }
     }
+});
 
-    const store = useStore();
-
-    const someSelected = computed(() =>{
-        return favoritesRef.value
-    });
-    function addToCart(){
-        store.addToCart(favoritesRef.value);
+function handleUpdate({ id, checked }) {
+    if(checked){
+        favoritesRef.value.push(id)
+    }else {
+        favoritesRef.value = favoritesRef.value.filter(f => f !== id)
     }
+}
+
+const store = useStore();
+
+const someSelected = computed(() => {
+    return favoritesRef.value
+});
+function addToCart(){
+    store.addToCart(favoritesRef.value);
+}
+
+function removeFavorite(favoriteId) {
+    favoritesList.value = favoritesList.value.filter(e => e.id !== favoriteId.favoriteId)
+}
 
 </script>
 
@@ -53,28 +58,31 @@ import { useStore } from '../stores/store.js';
             <div class="container__own overflow-x-auto">
 
                 <div class="flex items-center justify-between mt-28 ">
-                    <div class="flex items-cente r gap-2">
+                    <div class="flex items-center gap-2">
                         <ion-icon name="heart-outline" class="text-3xl"></ion-icon>
                         <span class="text-2xl font-medium mt-1"> Favorites</span>
                     </div>
 
                 </div>
-                <div class=" border rounded-lg mt-5">
-                    <table class="min-w-full border-gray-200 text-sm ">
+                <div class="mt-5">
+                    <table class="min-w-full ">
                         <thead class="border-b">
-                            <tr>
-                                <th class="pl-6 py-2 text-left"> <input type="checkbox" v-model="allSelected" /> &nbsp;All</th>
-                                <th class="px-4 py-2 text-left"> Image</th>
-                                <tr></tr>
+                            <tr class="text-shadow text-lg font-semibold">
+                                <th class="flex items-center pl-6 py-2 text-left">
+                                    <input type="checkbox" v-model="allSelected" /> &nbsp;All
+                                </th>
+                                <th class="px-4 py-2 text-left">Image</th>
+
                                 <th class="px-4 py-2 text-left">Name</th>
                                 <th class="px-4 py-2 text-left">Category</th>
-                                <th class="px-4 py-2 text-left">Action</th>
+                                <th class="px-4 py-2 text-left">Status</th>
                                 <th class="px-4 py-2 text-left">Users</th>
                                 <th class="px-4 py-2 text-left">Price</th>
-                                <th>
+                                <th class="flex text-left">
+                                    <span class="px-4 py-2 text-left">Action</span>
                                     <span v-if="someSelected.length" class="flex items-center">
                                         <button @click="addToCart"
-                                        class=" bg-green-600 hover:bg-green-500
+                                        class=" text-left bg-green-600 hover:bg-green-500
                                         text-white text-xs px-3 py-2 border rounded">
                                             All to Cart
                                         </button>
@@ -84,8 +92,12 @@ import { useStore } from '../stores/store.js';
                         </thead>
                         <tbody>
                             <!-- item 1 -->
-                            <tr v-for="favorite in favorites" :key="favorite.id">
-                                <Favorite :favorite="favorite" :select="favoritesRef" @update:selectIds="handleUpdate" />
+                            <tr v-for="favorite in favoritesList" :key="favorite.id" class=" border-t">
+                                <Favorite
+                                :favorite="favorite"
+                                :select="favoritesRef"
+                                @update:selectIds="handleUpdate"
+                                @removeFavorite="removeFavorite"/>
                             </tr>
 
                         </tbody>

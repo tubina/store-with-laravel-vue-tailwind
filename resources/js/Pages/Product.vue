@@ -11,12 +11,18 @@ const store = useStore();
 
 function addToCart(product){
     store.addToCart(product);
+    store.showToast(props.product.id,
+    props.product.product_images[0].path,
+    props.product.name,props.product.price)
 }
 
 function addToFavorites(product){
     store.addToFavorite(product);
+    store.showToast(props.product.id,
+    props.product.product_images[0].path,
+    props.product.name,props.product.price)
 }
- 
+
 </script>
 
 <template>

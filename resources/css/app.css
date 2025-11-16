@@ -13,6 +13,11 @@
     --color-background: #F8F9FA;
     --text-18px: 13px;
 }
+ @layer utilities {
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+ }
 
 body {
     /* background-color: var(--color-background); */

@@ -15,16 +15,16 @@ export const useStore = defineStore("store", {
         toasts: [],
     }),
     actions:{
-        showToast(image, name) {
-            const id = Date.now() // id único
-            this.toasts.push({ id, image, name })
+        showToast(id, image, name, price) {
+            const dateNow = Date.now() // id único
+            this.toasts.push({ id, dateNow, image, name, price })
 
             // 🔹 remove o toast após 5 segundos
             setTimeout(() => {
-                this.toasts = this.toasts.filter(t => t.id !== id)
+                this.toasts = this.toasts.filter(t => t.dateNow !== dateNow)
             }, 5000)
-
         },
+        /*****************************************************/
         async fetchCart() {
             const { data } = await axios.get("/cart-get");
             this.qtd_cart =  data;
