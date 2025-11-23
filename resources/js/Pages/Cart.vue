@@ -11,11 +11,11 @@ const props = defineProps({
     cart: Array
 });
 
-var totalPrice = computed(() => {
-    return props.cart.reduce((acc, item) => acc + Number(item.product.price), 0);
-})
-
 const cartT = ref([...props.cart]);
+
+var totalPrice = computed(() => {
+    return cartT.value.reduce((acc, item) => acc + Number(item.product.price), 0);
+})
 
 function addFavorite(product_id) {
     store.addToFavorite(product_id);
@@ -49,7 +49,7 @@ function deleteFromCart(product_id) {
             </div>
 
             <div class="bloco-b  p-3 col-span-1 bg-white border bg-whiteborder-gray-200 rounded-md">
-                <div class="text-sm font-medium">
+                <div class="text-md font-semibold">
                     Order Sumary
                 </div>
                 <div class="flex justify-between text-sm mt-4 text-16px">

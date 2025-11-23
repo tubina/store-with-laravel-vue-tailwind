@@ -60,7 +60,7 @@ function removeFavorite(favoriteId) {
                 <div class="flex items-center justify-between mt-28 ">
                     <div class="flex items-center gap-2">
                         <ion-icon name="heart-outline" class="text-3xl"></ion-icon>
-                        <span class="text-2xl font-medium mt-1"> Favorites</span>
+                        <span class="text-2xl font-medium mt-1">Favorites</span>
                     </div>
 
                 </div>
@@ -68,7 +68,7 @@ function removeFavorite(favoriteId) {
                     <table class="min-w-full ">
                         <thead class="border-b">
                             <tr class="text-shadow text-lg font-semibold">
-                                <th class="flex items-center pl-6 py-2 text-left">
+                                <th class="flex items-center  pl-6 py-3 text-left">
                                     <input type="checkbox" v-model="allSelected" /> &nbsp;All
                                 </th>
                                 <th class="px-4 py-2 text-left">Image</th>

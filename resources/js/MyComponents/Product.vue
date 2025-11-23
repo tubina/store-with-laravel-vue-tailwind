@@ -20,6 +20,10 @@ function addFavorite(product_id) {
 
 function deleteCart(product_id) {
     emit('removeFromCart', product_id);
+    store.showToast(props.cart.product.id,
+    props.cart.product.product_images_just_one.path,
+    props.cart.product.name,
+    props.cart.product.price)
 }
 
 function capitalizeWords(text) {
@@ -30,6 +34,7 @@ function capitalizeWords(text) {
 <template>
 <div class="flex gap-4 items-start mt-3 pl-3 pr-3 pb-3 border-b bg-white border-gray-200">
 
+    
     <!-- Imagem -->
     <img
         :src="`/storage/${cart.product.product_images_just_one.path}`"

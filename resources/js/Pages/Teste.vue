@@ -1,5 +1,12 @@
 <script setup>
 
+
+    fecth('/api/cart', {
+        method:
+        header:
+        body:
+    })
+
 </script>
 
 <template>
