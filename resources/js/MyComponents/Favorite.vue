@@ -68,7 +68,7 @@ function closeModal() {
 
     <td class="py-2">
         <div class="flex items-center gap-2">
-            <button @click="removeFromFavorite(favorite.id)" class="ml-2  py-1 px-2 bg-gray-100 rounded">x</button>
+            <button @click="removeFromFavorite(favorite.id)" class="ml-2  py-0 px-2 bg-gray-200 rounded">x</button>
             <img
             :src="`/storage/${favorite.product_images_just_one.path}`"
             alt="Product"

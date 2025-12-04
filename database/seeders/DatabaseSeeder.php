@@ -52,11 +52,15 @@ class DatabaseSeeder extends Seeder
         }
 
         $pro = Product::all();
-        for($x=0;$x<=10;$x++){
+        for($x=0;$x<10;$x++){
             $pro2 = $pro->random()->id;
             DB::table('favorites')->insert([
                 'user_id' => $felipe->id,
                 'product_id' => $pro2
+            ]);
+            DB::table('product_images')->insert([
+                'product_id' => $pro[$x]->id,
+                'path' => 'products/product_default.webp'
             ]);
         }
 

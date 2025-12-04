@@ -30,8 +30,8 @@ Route::get('/dashboard', function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/store', [StoreController::class, 'index'])->name('store');
-
-Route::get('/product/{id}', [ProductController::class, 'index'])->name('product');
+Route::get('/product/search', [ProductController::class, 'search'])->name('product.search');
+Route::get('/products/{id}', [ProductController::class, 'index'])->name('products');
 
 Route::get('/cart', function(){
     return Inertia::render('Cart');
