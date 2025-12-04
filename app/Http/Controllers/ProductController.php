@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
+
+    protected $productService;
+
+    public function __construct(ProductService $productService) {
+        $this->productService = $productService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index($id)
     {
-        $product = Product::with('productImages')->findOrFail($id);
+        //$product = Product::with('productImages')->findOrFail($id);
+        $product = $this->productService->index($id);
         return Inertia::render('Product', ['product' => $product]);
     }
 
