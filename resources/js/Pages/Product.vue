@@ -51,28 +51,28 @@ function addToFavorites(product){
             <p class="text-4xl font-medium">
               {{product.name}}
             </p>
-            <p class="text-lg gap-2 font-semibold space-x-2 mt-3">
-                <span class="text-rose-500">R$ {{ product.from_price }}</span>
+            <p class="text-2xl gap-2 font-semibold space-x-2 mt-4">
+                <span class="text-black">R$ {{ product.from_price }}</span>
                 <span class="line-through text-gray-500">R$ {{ product.price }}</span>
             </p>
             <div class="w-max flex nowrap p-3 mt-4 text-sm rounded-lg bg-green-200 text-green-700 font-medium">
                 Em estoque
             </div>
-            <div class="mt-5 text-sm text-gray-600">
+            <div class="mt-5 text-lg text-gray-600">
                 {{ product.description }}
             </div>
             <div class="flex justify-center gap-4 mt-6 ">
-                <button @click="addToCart(product.id)" class="flex justify-center items-center
-                bg-rose-500 gap-2 w-full border-rose-700
+                <button @click="addToCart(product.id)" class="flex justify-center items-center py-3 gap-2 w-full
+                bg-blue-800 hover:bg-blue-600 border-blue-300
                 rounded-md
                 text-white
-                font-medium
-                hover:bg-red-600">
+                font-medium">
                     <ion-icon name="cart-outline" className=" text-2xl"></ion-icon>
                     <span class="">Add to Cart</span>
                 </button>
-                <button @click="addToFavorites(product.id)" class="flex flex-shrink-0 p-1 border border-rose-500 rounded-md">
-                    <ion-icon name="heart-outline" className="text-rose-500 text-2xl"></ion-icon>
+                <button @click="addToFavorites(product.id)" class="flex flex-shrink-0 p-3 border  
+                bg-blue-800 hover:bg-blue-600 rounded-md">
+                    <ion-icon name="heart-outline" className="text-white text-2xl"></ion-icon>
                 </button>
             </div>
             <div class="mt-7 text-sm font-medium border-b pb-5 border-gray-300">

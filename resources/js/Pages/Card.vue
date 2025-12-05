@@ -54,7 +54,7 @@ function addToFavorites(product){
         <div class="text-gray-400 text-xs mt-1 ml-3 uppercase">
             {{ product.category.name }}
         </div>
-        <p className="mt-1 ml-3 mr-3 font-bold text-sm text-wrap text-gray-900">
+        <p className="mt-1 ml-3 mr-3 font-bold text-sm h-10 text-wrap text-gray-900">
            {{firstFiveWords(name)}}
         </p>
         <div className=" ml-3 flex items-center mt-2">

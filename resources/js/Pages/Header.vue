@@ -11,21 +11,28 @@ const searchRef = ref(false)
 const searchInput = ref('')
 let searchResult = reactive([]);
 
-watch(searchInput, async (newValue)=> {
-    if(newValue.length > 0) {
+watch(searchInput, async (newValue) => {
+    if (newValue.length > 0) {
         try {
-            let saida = await fetch(`http://localhost:8000/product/search?name=${encodeURIComponent(newValue)}`, {
+            const response = await fetch(`http://localhost:8000/product/search?name=${encodeURIComponent(newValue)}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'
                 },
-            })
-            searchResult = await saida.json();
-        }catch(error){
-            console.log(error)
+            });
+            const data = await response.json();
+
+            // Atualiza o array reativo corretamente
+            searchResult.splice(0, searchResult.length, ...data ?? []);
+            console.log(searchResult);
+        } catch (error) {
+            console.log(error);
         }
+    } else {
+        // Limpa o resultado quando o input estiver vazio
+        searchResult.splice(0, searchResult.length);
     }
-})
+});
 
 const store = useStore();
 const user = usePage().props.auth.user;
@@ -102,13 +109,18 @@ if(user && user.profile_photo){
             <div
                 class="absolute top-full right-0 w-80 bg-white overflow-hidden
                     transition-opacity duration-1000 ease-out rounded-lg"
-                :class="searchRef ? 'opacity-100 max-h-40 mt-1' : 'opacity-0 max-h-0 mt-0'"
+                :class="searchRef ? 'opacity-100 mt-1' : 'opacity-0 max-h-0 mt-0'"
             >
                 <!-- Conteúdo do dropdown -->
                  <ul class="text-gray-600 text-[13px] font-normal">
-                    <li v-for="(sr, index) in searchResult" :key="index" @mousedown.prevent class="p-2 pl-3 border-b border-b-gray-100">
-                        <Link :href="route('products', sr.id)">{{ sr.name }}</Link>
-                    </li>
+                    <li v-for="sr in searchResult" :key="sr.id" @mousedown.prevent class="p-2 pl-3 border-b border-b-gray-100">
+                        <Link v-if="sr.id" :href="route('product.show', { id: sr.id })">
+                            {{ sr.name }}
+                        </Link>
+                        <span v-else class="text-gray-400">
+                            {{ sr.name }} (sem id)
+                        </span>
+                    </li> 
                 </ul>
             </div>
         </li>

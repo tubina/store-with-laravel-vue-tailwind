@@ -49,7 +49,7 @@ function closeModal() {
 </script>
 <template>
 
- <!-- Modal -->
+<!-- Modal -->
     <div v-if="modal.show" class="modal-overlay">
       <div class="modal">
         <h3 class="text-2xl font-bold">Confirmar Exclusão</h3>
@@ -60,17 +60,18 @@ function closeModal() {
         </div>
       </div>
     </div>
+<!-------->
 
     <div class="flex gap-4 items-start mt-3 pl-3 pr-3 pb-3 border-b bg-white border-gray-200">
 
         <!-- Imagem -->
         <img
             :src="`/storage/${cart.product.product_images_just_one.path}`"
-            class="border rounded-md w-32 p-2"
+            class="border rounded-md w-32 h-32 p-2 object-cover" 
         />
 
         <!-- Conteúdo -->
-        <div class="flex flex-col flex-1 min-h-[160px]">
+        <div class="flex flex-col flex-1 min-h-[130px]">
 
             <!-- Topo -->
             <div class="classe-a flex justify-between">

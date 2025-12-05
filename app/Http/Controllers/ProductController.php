@@ -15,75 +15,24 @@ class ProductController extends Controller
     public function __construct(ProductService $productService) {
         $this->productService = $productService;
     }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index($id)
+ 
+    
+    public function index()
     {
-        //$product = Product::with('productImages')->findOrFail($id);
-        $product = $this->productService->index($id);
+        return $this->productService->index();
+    }
+
+
+    public function show(int $id)
+    {
+        $product = $this->productService->show($id);
         return Inertia::render('Product', ['product' => $product]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
-    {
-        //
-    }
-
-    public function search(Request $request){
-
-        $searchTerm = $request->input('name');
-
-        if (!$searchTerm) {
-            return response()->json(Product::all());
-        }
-
-        $search = Product::where('name', 'LIKE', "%{$searchTerm}%")->get();
-
-        return response()->json($search);
+    } 
+ 
+ 
+    public function search(Request $request)
+    { 
+        $search = $this->productService->search($request); 
+        return response()->json($search->values());
     }
 }

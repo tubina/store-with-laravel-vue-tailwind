@@ -2,12 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
-interface ProductInterface {
-    public function index($id);
-    public function create();
-    public function store();
-    public function show();
-    public function edit();
-    public function update();
-    public function destroy();
+interface ProductInterface {  
+    public function index();
+    public function show(int $id);
+    public function search(string $arr);
+    //create e edit it shouldn't be here because in most cases it only returns a view.
 }

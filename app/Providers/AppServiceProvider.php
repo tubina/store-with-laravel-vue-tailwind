@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Repositories\Interfaces\ProductInterface;
-use App\Repositories\ProductRepository;
+use App\Repositories\Eloquent\ProductRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

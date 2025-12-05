@@ -13,6 +13,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::get('/', [HomeController::class, 'index']);
+
 Route::get('/home', function () {
     return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
@@ -31,7 +33,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/store', [StoreController::class, 'index'])->name('store');
 Route::get('/product/search', [ProductController::class, 'search'])->name('product.search');
-Route::get('/products/{id}', [ProductController::class, 'index'])->name('products');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
 Route::get('/cart', function(){
     return Inertia::render('Cart');
