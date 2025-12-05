@@ -23,8 +23,6 @@ class ProductAdminController extends Controller
 /******************************************************/
     public function create()
     {
-
-
         $category = DB::table('category')->get();
         return Inertia::render('Admin/ProductAdd', ['categories' => $category]);
     }

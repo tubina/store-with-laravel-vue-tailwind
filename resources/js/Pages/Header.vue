@@ -5,10 +5,30 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import { profilePhoto } from '../profilePhoto.js';
 import { useStore } from '../stores/store.js';
 import ToastList from '@/Components/ToastList.vue';
+import { ref, reactive, watch } from 'vue';
+
+const searchRef = ref(false)
+const searchInput = ref('')
+let searchResult = reactive([]);
+
+watch(searchInput, async (newValue)=> {
+    if(newValue.length > 0) {
+        try {
+            let saida = await fetch(`http://localhost:8000/product/search?name=${encodeURIComponent(newValue)}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                },
+            })
+            searchResult = await saida.json();
+        }catch(error){
+            console.log(error)
+        }
+    }
+})
 
 const store = useStore();
 const user = usePage().props.auth.user;
-
 
 /***********************************************/
 
@@ -48,7 +68,7 @@ if(user && user.profile_photo){
         <li>
           <Link href="#"
                 class="hover:border-b-2 hover:text-blue-500 border-blue-500">
-            Ranking
+                Ranking
           </Link>
         </li>
       </ul>
@@ -60,20 +80,36 @@ if(user && user.profile_photo){
       <!-- Right side: Search + Cart + Favorite + User -->
       <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700">
 
-        <!-- Search input -->
         <li class="relative">
             <div class="relative w-48 h-9">
                 <input
+                v-model="searchInput"
+                @focus="searchRef = true"
+                @blur="searchRef = false"
                 type="text"
                 placeholder="Search..."
                 class="absolute right-0 w-full h-9 focus:w-80 transition-[width] duration-300 ease-in-out
-                        bg-transparent border border-gray-300 focus:border-none focus:ring-2 focus:ring-gray/30
-                        text-gray-700 placeholder-gray-400 rounded-xl px-2"
+                        border border-gray-300 focus:ring-2 focus:ring-gray/30
+                        text-gray-700 placeholder-gray-400 rounded-xl px-2 bg-white font-light text-sm"
                 />
                 <ion-icon
                 name="search-outline"
-                class="absolute right-2 top-4 -translate-y-1/2 text-2xl text-gray-700 cursor-pointer"
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-2xl text-gray-700 cursor-pointer"
                 ></ion-icon>
+            </div>
+
+            <!-- Dropdown -->
+            <div
+                class="absolute top-full right-0 w-80 bg-white overflow-hidden
+                    transition-opacity duration-1000 ease-out rounded-lg"
+                :class="searchRef ? 'opacity-100 max-h-40 mt-1' : 'opacity-0 max-h-0 mt-0'"
+            >
+                <!-- Conteúdo do dropdown -->
+                 <ul class="text-gray-600 text-[13px] font-normal">
+                    <li v-for="(sr, index) in searchResult" :key="index" @mousedown.prevent class="p-2 pl-3 border-b border-b-gray-100">
+                        <Link :href="route('products', sr.id)">{{ sr.name }}</Link>
+                    </li>
+                </ul>
             </div>
         </li>
 

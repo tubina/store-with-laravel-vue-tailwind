@@ -73,4 +73,17 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function search(Request $request){
+
+        $searchTerm = $request->input('name');
+
+        if (!$searchTerm) {
+            return response()->json(Product::all());
+        }
+
+        $search = Product::where('name', 'LIKE', "%{$searchTerm}%")->get();
+
+        return response()->json($search);
+    }
 }
