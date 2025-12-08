@@ -28,11 +28,11 @@ function deleteCart(product_id) {
 }
 
 function capitalizeWords(text) {
-  return text.replace(/\b\w/g, char => char.toUpperCase());
+    return text.replace(/\b\w/g, char => char.toUpperCase());
 }
 const modal = reactive({
-  show: false,
-  indexToDelete: null
+    show: false,
+    indexToDelete: null
 });
 function removeFromFavorite(favorite) {
     modal.show = true;

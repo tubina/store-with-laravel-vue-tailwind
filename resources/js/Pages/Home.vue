@@ -2,7 +2,7 @@
 import Footer from './Footer.vue';
 import Card from './Card.vue';
 import Header from './Header.vue';
-import { defineProps, onMounted, watch } from 'vue';
+import { defineProps, onMounted } from 'vue';
 import { useStore } from '../stores/store.js';
 import { usePage } from '@inertiajs/vue3';
 
@@ -15,61 +15,80 @@ const props = defineProps({
 });
 
 const store = useStore();
-
 const page = usePage()
 
 function initDefault(){
     store.fetchCart();
-    store.fetchFavorites();
-    store.login = true;
+    store.fetchFavorites();  
 }
   
-onMounted(()=>{
+onMounted(()=> {
 
+    if(user){
+        console.log('usuario logado')
+    }else {
+        console.log('usuario deslogado')
+        store.qtd_cart = 0
+        store.login = false
+    } 
+    let storage = JSON.parse(localStorage.getItem("store")); 
+ 
+/****** VERSAO 1 *******/
+/***********************/
     const urlParams = new URLSearchParams(page.url.split('?')[1]);
-    const login = urlParams.get('login');
-
-    var storeStorage = localStorage.getItem("store");
-    var saida = JSON.parse(storeStorage);
-
-    if (login === 'true') {
-       window.location.href = '/home';
-    }
-    if(login === 'logout'){
+    const login = urlParams.get('login'); 
+ 
+    // Primeiro login → redirecionamento
+    if(login === 'true') {
+        store.login = true; 
+        localStorage.setItem("store", JSON.stringify(store.$state));
+         
         window.location.href = '/home';
-    }
-
-    if(user && saida.login != 'false'){
-        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        //primeiro login e cadastra produtos em standyBy
-        if(saida.item_id.length > 0){
-            store.addToCart(saida.item_id);
+    } 
+  
+    // Se o usuário está logado
+    if(storage.login === true){
+        console.log("usuario Primeira sincronização após login");
+  
+        if(storage.item_id.length > 0){
+            store.addToCart(storage.item_id);
         }
-        if(saida.favorites_id.length > 0){
-            store.addToFavorite(saida.favorites_id)
-        }
+        if(storage.favorites_id.length > 0){
+            store.addToFavorite(storage.favorites_id);
+        } 
+        // setTimeout(()=>{
+        //     storage.login = false; 
+        //     localStorage.setItem("store", JSON.stringify(storage));
+        // }, 3000)
+        // store.login = true; 
+        // localStorage.setItem("store", JSON.stringify(store.$state));
+        // Carrega carrinho normalmente
         initDefault();
-    }//usuario deslogado
-    else if(saida.login === true){
-        store.login = false;
-        store.qtd_cart = 0;
-        store.item_id = [];
-        store.qtd_favorites = 0;
-        store.favorites_id = [];
     }
-    if(user === 'null'){
-        alert("Glória a Deus");
-    }
-})
+/****** END VERSAO 1 *******/
+/***************************/
 
+/****** VERSAO 2 *******/
+/***********************/
+
+//if you are logged in and this is your first time
+// if(user && storage.login){
+//     console.log('usuario logado e storage true')
+//     storage.login = false
+//     localStorage.setItem("store", JSON.stringify(storage))
+// }
+
+/****** END VERSAO 2 *******/
+/***************************/
+
+
+});
 </script>
 
 <template>
     <div>
-        <div className="relative">
-
-            <Header></Header>
-
+        <div className="relative"> 
+            <Header></Header>  
             <div className="w-full mb-10 -z-50 h-96 bg-slate-200 mx-auto flex flex-row justify-around items-center">
                 <div className="flex flex-col ">
                     <span className="text-4xl font-semibold text-black">Grab Upto 50% Off on</span>
@@ -152,10 +171,10 @@ onMounted(()=>{
                 <p class="text-2xl font-semibold">Nossos Produtos</p>
                 <div class="w-full">
                     <ul className="flex mt-5 mb:gap-3 gap-7 font-medium flex-wrap">
-                    <li className="md:mt-0 mt-1" v-for="cat in category">
-                        <a href="#" className="hover:underline">{{ cat.name }}</a>
-                    </li>
-                </ul>
+                        <li className="md:mt-0 mt-1" v-for="cat in category">
+                            <a href="#" className="hover:underline">{{ cat.name }}</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 

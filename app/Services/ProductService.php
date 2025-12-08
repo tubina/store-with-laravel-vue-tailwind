@@ -14,11 +14,11 @@ class ProductService {
     }
     
 /******************************************/
-public function index() {
-    return $this->productInterface->index();
-}
+    public function index() {
+        return $this->productInterface->index();
+    }
 /******************************************/ 
-    public function show($id) { 
+    public function show($id) {
         return $this->productInterface->show($id);
     }
 /******************************************/

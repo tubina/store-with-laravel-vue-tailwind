@@ -22,6 +22,9 @@ function addFavorite(product_id) {
 }
 
 function deleteFromCart(product_id) {
+    let storage = JSON.parse(localStorage.getItem("store"));
+    storage.item_id = [];
+    localStorage.setItem("store", JSON.stringify(storage))
     const saida = store.deleteCart(product_id);
     saida.then(result => {
         cartT.value = cartT.value.filter(p => p.product.id !== result)

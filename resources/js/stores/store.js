@@ -1,4 +1,4 @@
-import { defineStore, storeToRefs } from 'pinia';
+import { defineStore } from 'pinia';
 import { verifyLogin } from '@/utils/verifyLogin';
 
 export const useStore = defineStore("store", {
@@ -12,7 +12,7 @@ export const useStore = defineStore("store", {
         toastName: '',
         toastPrice: '',
         toastKey: 0,
-        toasts: [],
+        toasts: [], 
     }),
     actions:{
         showToast(id, image, name, price) {
@@ -31,6 +31,7 @@ export const useStore = defineStore("store", {
         },
         /*****************************************************/
         async addToCart(productId) {
+            // Marca como sincronizado 
             var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             if(verifyLogin() === true){
                 const response = await fetch('/cart-insert', {
@@ -42,9 +43,11 @@ export const useStore = defineStore("store", {
                     },
                     body: JSON.stringify({ product_id: productId })
                 });
-                await this.fetchCart(); // retorna carrinho atualizado
+                await this.fetchCart(); // retorna carrinho atualizado 
+                this.item_id = []
+                
             }else if(verifyLogin() === false) {
-                if (!Array.isArray(productId)) {
+                if(!Array.isArray(productId)) {
                     this.item_id.push(productId);
                     this.qtd_cart += 1 ;
                 }
@@ -67,7 +70,7 @@ export const useStore = defineStore("store", {
                         'X-CSRF-TOKEN': token, // token CSRF aqui
                     },
                     body: JSON.stringify({product_id: productId})
-                });
+                });  
                 await this.fetchFavorites();
             }else if(verifyLogin() === false) {
                 if (!Array.isArray(productId)) {
@@ -109,7 +112,7 @@ export const useStore = defineStore("store", {
                 },
                 body: JSON.stringify({ product_id: productId })
             })
-
+            
             if(result.ok){
                 this.fetchFavorites();
                 return productId;
