@@ -22,49 +22,33 @@ function initDefault(){
     store.fetchFavorites();  
 }
   
-onMounted(()=> {
-
-    if(user){
-        console.log('usuario logado')
-    }else {
-        console.log('usuario deslogado')
-        store.qtd_cart = 0
-        store.login = false
-    } 
-    let storage = JSON.parse(localStorage.getItem("store")); 
- 
+onMounted(()=> { 
 /****** VERSAO 1 *******/
 /***********************/
-    const urlParams = new URLSearchParams(page.url.split('?')[1]);
-    const login = urlParams.get('login'); 
+    //let storage = JSON.parse(localStorage.getItem("store"));
+    // const urlParams = new URLSearchParams(page.url.split('?')[1]);
+    // const login = urlParams.get('login'); 
  
-    // Primeiro login → redirecionamento
-    if(login === 'true') {
-        store.login = true; 
-        localStorage.setItem("store", JSON.stringify(store.$state));
+    // // Primeiro login → redirecionamento
+    // if(login === 'true') {
+    //     store.login = true; 
+    //     localStorage.setItem("store", JSON.stringify(store.$state));
          
-        window.location.href = '/home';
-    } 
+    //     window.location.href = '/home';
+    // } 
   
-    // Se o usuário está logado
-    if(storage.login === true){
-        console.log("usuario Primeira sincronização após login");
+    // // Se o usuário está logado
+    // if(storage.login === true){
+    //     console.log("usuario Primeira sincronização após login");
   
-        if(storage.item_id.length > 0){
-            store.addToCart(storage.item_id);
-        }
-        if(storage.favorites_id.length > 0){
-            store.addToFavorite(storage.favorites_id);
-        } 
-        // setTimeout(()=>{
-        //     storage.login = false; 
-        //     localStorage.setItem("store", JSON.stringify(storage));
-        // }, 3000)
-        // store.login = true; 
-        // localStorage.setItem("store", JSON.stringify(store.$state));
-        // Carrega carrinho normalmente
-        initDefault();
-    }
+    //     if(storage.item_id.length > 0){
+    //         store.addToCart(storage.item_id);
+    //     }
+    //     if(storage.favorites_id.length > 0){
+    //         store.addToFavorite(storage.favorites_id);
+    //     }  
+    //     initDefault();
+    // }
 /****** END VERSAO 1 *******/
 /***************************/
 
@@ -77,11 +61,45 @@ onMounted(()=> {
 //     storage.login = false
 //     localStorage.setItem("store", JSON.stringify(storage))
 // }
+let storage = JSON.parse(localStorage.getItem("store")); 
+
+    if(user){
+        const urlParams = new URLSearchParams(page.url.split('?')[1]);
+        const login = urlParams.get('login'); 
+
+        /* com o uso do (onMounted) ele executa 
+        dentro do unmounted mas nao executa o  
+        store.addToCart, por isso eu peguei a 
+        URI e fiz um reload completo na pagina, 
+        assim ele executa */
+        if(login==='true'){
+            store.login = true;
+            store.firstLogin = true;
+            window.location.href = '/home'; 
+        } 
+        if(store.login && store.firstLogin){   
+            let hasCart = storage.item_id.length > 0;
+            let hasFavorites = storage.favorites_id.length > 0;
+
+            // 1. sincroniza carrinho
+            if (hasCart) {
+                store.addToCart(storage.item_id);
+            } 
+            // 2. sincroniza favoritos
+            if (hasFavorites) {
+                store.addToFavorite(storage.favorites_id);
+            } 
+        }else{
+            console.log('user - second login')
+        }
+        initDefault()   
+    }else {
+        console.log('usuario deslogado')
+        store.$reset()
+    }  
 
 /****** END VERSAO 2 *******/
 /***************************/
-
-
 });
 </script>
 

@@ -39,13 +39,15 @@ class CartController extends Controller
         $userId = auth()->id();
         $items = $request->product_id; // array de product_id
   
-        if (!is_array($items)) {
+        if (!is_array($items))
+        {
             $items = [$items];
         }  
         Log::info('usuario', $items);
         $result = $this->cartService->addItemsToCart($userId, $items);
 
-        if (!$result['success']) {
+        if (!$result['success']) 
+        {
             return response()->json(['message' => $result['message']], 500);
         }
 

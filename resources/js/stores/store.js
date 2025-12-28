@@ -13,6 +13,7 @@ export const useStore = defineStore("store", {
         toastPrice: '',
         toastKey: 0,
         toasts: [], 
+        firstLogin: false
     }),
     actions:{
         showToast(id, image, name, price) {
@@ -44,8 +45,14 @@ export const useStore = defineStore("store", {
                     body: JSON.stringify({ product_id: productId })
                 });
                 await this.fetchCart(); // retorna carrinho atualizado 
-                this.item_id = []
                 
+                if(response.ok){
+                    //this.login = false
+                    this.item_id = []
+                    //coloquei aqui porque no Home.vue ele nao espera a resposta 
+                    //entao preferi verificar aqui
+                    this.firstLogin = false;
+                }
             }else if(verifyLogin() === false) {
                 if(!Array.isArray(productId)) {
                     this.item_id.push(productId);
@@ -62,7 +69,7 @@ export const useStore = defineStore("store", {
         async addToFavorite(productId) {
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             if(verifyLogin() === true){
-                await fetch('/favorite-insert', {
+                const responseF = await fetch('/favorite-insert', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -72,7 +79,15 @@ export const useStore = defineStore("store", {
                     body: JSON.stringify({product_id: productId})
                 });  
                 await this.fetchFavorites();
-            }else if(verifyLogin() === false) {
+                console.log(responseF)
+                if(responseF.ok){
+                    //this.login = false
+                    this.favorites_id = []
+                    //coloquei aqui porque no Home.vue ele nao espera a resposta 
+                    //entao preferi verificar aqui
+                    this.firstLogin = false;
+                }
+            } else if(verifyLogin() === false) {
                 if (!Array.isArray(productId)) {
                     this.favorites_id.push(productId);
                     this.qtd_favorites += 1 ;

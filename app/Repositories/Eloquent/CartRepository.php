@@ -6,7 +6,7 @@ use App\Models\Cart;
 use App\Repositories\Interfaces\CartInterface;
 use Illuminate\Support\Facades\Log;
 
-class CartRepository implements CartInterface{
+class CartRepository implements CartInterface {
 
     protected $model;
 

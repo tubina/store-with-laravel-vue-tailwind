@@ -13,7 +13,7 @@ class CartService {
     {
         $this->cartInterface = $cartInterface;
     }
-
+/**************************************/
     public function index() 
     {
         return $this->cartInterface->index();
@@ -24,15 +24,14 @@ class CartService {
         // if (!is_array($productsId)) {
         //     $productsId = [$productsId]; // transforma em array se for 1 produto
         // }
-        try { 
-                foreach($productsId as $productId) {
-                    $product = $this->cartInterface->addToCart($userId, $productId);
-                } 
-                return [
-                    'success' => true,
-                    'message' => 'Produtos adicionados ao carrinho com sucesso!'
-                ];
-             
+        try {
+            foreach($productsId as $productId) {
+                $product = $this->cartInterface->addToCart($userId, $productId);
+            } 
+            return [
+                'success' => true,
+                'message' => 'Produtos adicionados ao carrinho com sucesso!'
+            ];
         } catch (\Exception $e) {
             \Log::error($e);
 
@@ -88,7 +87,4 @@ class CartService {
 
     //     return $this->cartInterface->addToCart($request);
     // }
-    
-     
-
 }

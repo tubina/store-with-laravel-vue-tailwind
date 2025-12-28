@@ -8,81 +8,100 @@ use App\Models\Favorite;
 use App\Models\Product;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\Interfaces\FavoriteInterface;
+use App\Services\FavoriteService;
 
 class FavoriteController extends Controller
 {
+
+    protected $favoriteService;
+
+    public function __construct(FavoriteService $favoriteService)
+    {
+        $this->favoriteService = $favoriteService;
+    }
+/********************************************************************************/
     public function index()
     {
-        $user = auth()->user();
-        $favorites = $user->favoriteProducts()->with('productImagesJustOne')->get();
+        $favorites = $this->favoriteService->index();
         return Inertia::render('Favorite', ['favorites' => $favorites]);
     }
 /********************************************************************************/
     public function getQtdFavorite()
     {
         $favorite = Favorite::where('user_id', auth()->id())->count();
-
         return response()->json($favorite);
     }
 /********************************************************************************/
     public function addToFavorite(Request $request)
     {
-        $user = $request->user()->id;
-        $product_id = $request->product_id;
-        $items = $request->input('product_id');
+        $userId = auth()->id();
+        $items = $request->product_id; // array de product_id
 
-        if(is_array($request->input('product_id')))
+        if(!is_array($items))
         {
-            foreach($items as $item){
-                $favoriteItem = Favorite::where('user_id', $user)
-                    ->where('product_id', $item)
-                    ->first();
-                if($favoriteItem){
-                    $favoriteItem->quantity = $favoriteItem->quantity + 1;
-                    $carItem->save();
-                }else{
-                    $favorite = new Favorite();
-                    $favorite->user_id = $user;
-                    $favorite->product_id = $item;
-                    $favorite->save();
-                }
-            }
-            return response()->json(['data'=> $items]);
-
-        }else{
-            try{
-                // verifica no banco se ja tem o ID
-                $favoriteItem = Favorite::where('user_id', $user)
-                        ->where('product_id', $product_id)
-                        ->first();
-                // se ja tem entao ele nao insere
-                if($favoriteItem)
-                {
-                    return response()->json(['message'=> 'Produdo já existe nos favoritos']);
-                }else {
-                    $favorite = new Favorite();
-                    $favorite->user_id = $user;
-                    $favorite->product_id = $product_id;
-                    $favorite->save();
-                }
-            }catch(\Exception $e){
-                \Log::error($e); // Aqui você verá o erro no log
-                return response()->json(['message' => 'Erro no servidor'], 500);
-            }
+            $items = [$items];
         }
+        $result = $this->favoriteService->addItemsToFavorite($userId, $items);
 
-        return response()->json(['message' => 'Produto adicionado ao favorito com sucesso!']);
+        Log::info('usuario result', $result);
+ 
+        return response()->json(['message' => $result['message']], 200);
+        
+        // $user = $request->user()->id;
+        // $product_id = $request->product_id;
+        // $items = $request->input('product_id');
+
+        // if(is_array($request->input('product_id')))
+        // {
+        //     foreach($items as $item){
+        //         $favoriteItem = Favorite::where('user_id', $user)
+        //             ->where('product_id', $item)
+        //             ->first();
+        //         if($favoriteItem){
+        //             $favoriteItem->quantity = $favoriteItem->quantity + 1;
+        //             $carItem->save();
+        //         }else{
+        //             $favorite = new Favorite();
+        //             $favorite->user_id = $user;
+        //             $favorite->product_id = $item;
+        //             $favorite->save();
+        //         }
+        //     }
+        //     return response()->json(['data'=> $items]);
+
+        // }else{
+        //     try{
+        //         // verifica no banco se ja tem o ID
+        //         $favoriteItem = Favorite::where('user_id', $user)
+        //                 ->where('product_id', $product_id)
+        //                 ->first();
+        //         // se ja tem entao ele nao insere
+        //         if($favoriteItem)
+        //         {
+        //             return response()->json(['message'=> 'Produdo já existe nos favoritos']);
+        //         }else {
+        //             $favorite = new Favorite();
+        //             $favorite->user_id = $user;
+        //             $favorite->product_id = $product_id;
+        //             $favorite->save();
+        //         }
+        //     }catch(\Exception $e){
+        //         \Log::error($e); // Aqui você verá o erro no log
+        //         return response()->json(['message' => 'Erro no servidor'], 500);
+        //     }
+        // }
+
+        // return response()->json(['message' => 'Produto adicionado ao favorito com sucesso!']);
     }
 /********************************************************************************/
+
     public function deleteFromFavorite(Request $request)
     {
         $user = auth()->user();
-        $product_id = $request->product_id;
-        //Log::info('usuariooo', $user->id);
-        Favorite::where('user_id', $user->id)
-        ->where('product_id', $product_id)
-        ->delete();
-
+        $pruductId = $request->product_id;
+        $this->favoriteService->deleteItemsFromFavorite($user->id, $pruductId);
+    
         return response()->json(['saida' => 'ok']);
     }
 }

@@ -12,6 +12,9 @@ use App\Repositories\Eloquent\ProductRepository;
 use App\Repositories\Interfaces\CartInterface;
 use App\Repositories\Eloquent\CartRepository;
 
+use App\Repositories\Interfaces\FavoriteInterface;
+use App\Repositories\Eloquent\FavoriteRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Cart
         $this->app->bind(CartInterface::class, CartRepository::class);
+
+        //Favorite 
+        $this->app->bind(FavoriteInterface::class, FavoriteRepository::class);
     }
 
     /**
