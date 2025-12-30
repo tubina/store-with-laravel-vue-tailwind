@@ -1,7 +1,7 @@
 <script setup>
 import Header from './Header.vue';
 import Card from './Card.vue';
-import { defineProps, onMounted } from 'vue';
+import { defineProps } from 'vue';
 import Footer from './Footer.vue';
 
 const props = defineProps({

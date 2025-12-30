@@ -62,14 +62,14 @@ function save(){
     <Main :category="category">
 
         <div class="flex flex-col w-auto justify-center">
-            <div class="flex flex-col w-auto items-center justify-center gap-2">
-                <div class="flex flex-row w-auto gap-3">
+            <div class="flex flex-col w-auto items-start justify-center gap-2">
+                <div class="flex flex-row w-auto gap-3 mt-2">
                     <div v-for="catt in category" :key="catt.id">
                         <div>{{ catt.name }}</div>
                     </div>
                 </div>
                 <div class="flex flex-col w-min">
-                    <div class="bg-blue-200 p-2">
+                    <div class="p-2">
                         <div class="font-semibold">Edit Category</div>
                         <select @change="changeInput" v-model="selectedOptionEdit" >
                             <option value="selecione">Selecione a categoria</option>
@@ -86,9 +86,9 @@ function save(){
                 </div>
             </div>
 
-            <div class="flex flex-col w-auto justify-center">
-                <div class="flex mt-4 w-auto justify-center">
-                    <div class=" bg-blue-200 p-2">
+            <div class="flex flex-col w-auto ">
+                <div class="flex mt-4 w-auto">
+                    <div class=" p-2">
                         <div class="font-semibold">Add Category</div>
                         <form @submit.prevent="save" class="flex flex-col">
 
@@ -100,7 +100,7 @@ function save(){
                                 <option v-for="cat in category" :key="cat.id" :value="cat.name">{{ cat.name }}</option>
                             </select>
 
-                            <button class="bg-green-400 pt-1 mt-2">Salvar</button>
+                            <button class="bg-blue-200 pt-1 mt-2">Salvar</button>
                         </form>
                     </div>
                 </div>

@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\ProductImages;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProductAdminController extends Controller
 {
@@ -62,8 +63,7 @@ class ProductAdminController extends Controller
 /******************************************************/
     public function update(Request $request, Product $product)
     {
-        $this->authorize('update', $product);
-
+        $this->authorize('update', $product); 
         $product->update($request->only(['name', 'category_id', 'from_price', 'price', 'description']));
     }
 /******************************************************/
@@ -146,4 +146,38 @@ class ProductAdminController extends Controller
         ], 200);
     }
 /******************************************************/
+    public function addUpdateImage(Request $request)
+    {
+        $file = $request->file('photo');
+        $path = $file->store('products', 'public');
+        Log::info('photo', [
+            'id_product' => $request->id_product, 
+            'request_photo' => $path
+        ]);
+        $product = ProductImages::create([
+            'product_id' => $request->id_product,
+            'path' => $path
+        ]); 
+
+        Log::info('novamente', [
+            'product' => $product->id
+        ]);
+
+        return response()->json(['id'=> $product->id, 'path'=> $path]);
+    }
+/******************************************************/
+    public function deletePhotoProduct($id)
+    {
+        $product = ProductImages::findOrFail($id); 
+        Log::info($product->path);
+        if(Storage::disk('public')->exists($product->path)){
+            Storage::disk('public')->delete($product->path);
+        }
+        $product->delete();
+
+        return response()->json(['ok'=> true]);
+        return response()->json([
+            'pro' => $arrr
+        ], 200);
+    }
 }

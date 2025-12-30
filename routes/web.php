@@ -67,18 +67,20 @@ Route::get('/phpinfo', function () {
     phpinfo();
 });
 /**********************************************************************/
- Route::middleware(AdminMiddleware::class)->group(function () {
-    Route::get('/admin/category', [CategoryAdminController::class, 'index'])->name('admin.category');
-    Route::patch('/admin/categoryEdit/{id}', [CategoryAdminController::class, 'update'])->name('admin.edit.category');
-    Route::post('/admin/add-category', [CategoryAdminController::class, 'save'])->name('admin.edit.category');
+ Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
+    Route::get('/category', [CategoryAdminController::class, 'index'])->name('admin.category');
+    Route::patch('/categoryEdit/{id}', [CategoryAdminController::class, 'update'])->name('admin.edit.category');
+    Route::post('/add-category', [CategoryAdminController::class, 'save'])->name('admin.edit.category');
     /****************************/
-    Route::get('/admin/product', [ProductAdminController::class, 'index'])->name('admin.product');
-    Route::post('admin/add-product', [ProductAdminController::class, 'store'])->name('admin.store.product');
-    Route::get('admin/add-product', [ProductAdminController::class, 'create'])->name('admin.add.product');
-    Route::get('admin/edit-product/{product}', [ProductAdminController::class, 'edit'])->name('admin.edit.product');
-    Route::patch('admin/update-product/{product}', [ProductAdminController::class, 'update'])->name('admin.update.product');
+    Route::get('/product', [ProductAdminController::class, 'index'])->name('admin.product');
+    Route::post('/add-product', [ProductAdminController::class, 'store'])->name('admin.store.product');
+    Route::get('/add-product', [ProductAdminController::class, 'create'])->name('admin.add.product');
+    Route::get('/edit-product/{product}', [ProductAdminController::class, 'edit'])->name('admin.edit.product');
+    Route::patch('/update-product/{product}', [ProductAdminController::class, 'update'])->name('admin.update.product');
+    Route::post('/add-edit-product-image', [ProductAdminController::class, 'addUpdateImage'])->name('admin.add-uptade-product');
+    Route::delete('/delete-photo-product/{id}', [ProductAdminController::class, 'deletePhotoProduct'])->name('admin.delete-photo-image');
     //Route::match(['post', 'patch'], '/admin/update-product-photo', [ProductAdminController::class, 'editOnePhoto'])->name('admin.update.photo.product');
-    Route::post('/admin/update-teste', [ProductAdminController::class, 'teste']);
+    Route::post('/update-teste', [ProductAdminController::class, 'teste']);
     Route::delete('/profile/deletePhoto/{id}', [ProductAdminController::class, 'deletePhoto'])->name('profile.deletePhoto');
 
     Route::fallback(function () {

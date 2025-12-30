@@ -12,7 +12,7 @@ const props = defineProps({
     products: Array,
     category: Array,
     loginStatus: String
-});
+}); 
 
 const store = useStore();
 const page = usePage()
@@ -202,9 +202,10 @@ let storage = JSON.parse(localStorage.getItem("store"));
                 gap-2
                 pb-10">
                 <!--sm:justify-between-->
-                 <div v-for="product in props.products" :key="product.id">
+                 <!-- <div v-for="product in props.products.data" :key="product.id">  -->
+                <div v-for="product in props.products" :key="product.id">
                     <Card :product="product"/>
-                 </div>
+                 </div> 
             </div>
 
             <div class="h-96 flex flex-col items-center text-white justify-center font-light text-lg

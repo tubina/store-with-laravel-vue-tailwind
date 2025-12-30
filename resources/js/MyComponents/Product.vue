@@ -2,6 +2,7 @@
 import { defineEmits } from 'vue';
 import { useStore } from '../stores/store.js';
 import { reactive } from 'vue';
+import { formatPrice } from '../utils/formatPrice.js'
 
 const props = defineProps({
     cart: Array
@@ -45,6 +46,7 @@ function deleteProduct(){
 function closeModal() {
     modal.show = false;
 }
+
 
 </script>
 <template>
@@ -90,7 +92,7 @@ function closeModal() {
                 </div>
 
                 <div class="text-shadow text-lg font-semibold text-right">
-                    R$ {{ cart.product.price }}
+                    R$ {{ formatPrice(cart.product.price) }}
                 </div>
             </div>
 

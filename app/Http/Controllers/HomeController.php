@@ -7,13 +7,19 @@ use App\Models\Product;
 use Inertia\Inertia;
 use App\Models\Category;
 
+use Illuminate\Support\Facades\Log;
+
+use App\Http\Resources\PriceResource;
+
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
         $category = Category::get();
         $products = Product::with(['category', 'productImagesJustOne'])->get();
-
+  
+        //$productsResource = PriceResource::collection($products);
+  
         // if($products->isEmpty())
         // {
         //     return Inertia::render('Home', [

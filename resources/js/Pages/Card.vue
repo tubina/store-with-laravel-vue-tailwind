@@ -3,13 +3,16 @@ import {Link} from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 import { useStore } from '../stores/store.js';
 import { verifyLogin } from '@/utils/verifyLogin.js';
+import { formatPrice } from '../utils/formatPrice.js'
 
 const { product } = defineProps({
     product: Object
 });
+
 let imagem = ''
 const id = product?.id ?? '';
 const name = product?.name ?? '';
+const categoryName = product?.category?.name ?? '';
 const from_price = product?.from_price ?? 0;
 const price = product?.price ?? 0;
 const description = product?.description ?? '';
@@ -48,11 +51,11 @@ function addToFavorites(product){
 
         <div className="flex justify-center w-full p-7">
             <Link :href="`/product/${id}`" >
-                <img  class="w-28 h-28 object-cover" :src="imagem ? `/storage/${imagem}` : '/storage/products/60X8Z4Itv523BUMguFVYxWyw24rLs6j6ZGkVkdUb.jpg'" />
+                <img  class="w-28 h-28 object-cover" :src="imagem ? `/storage/${imagem}` : '/storage/products/uHUdvGKB8XIIK242LvklAnKEEGS2VRezFLJRl8SQ.jpg'" />
             </Link>
         </div>
         <div class="text-gray-400 text-xs mt-1 ml-3 uppercase">
-            {{ product.category.name }}
+            {{ categoryName }}
         </div>
         <p className="mt-1 ml-3 mr-3 font-bold text-sm h-10 text-wrap text-gray-900">
            {{firstFiveWords(name)}}
@@ -67,11 +70,11 @@ function addToFavorites(product){
         </div>
         <div className="flex flex-col ml-3 mt-2 ">
             <div class="text-xs text-gray-500">
-                R$ {{ price }} em 4x sem juros
+                R$ {{ formatPrice(price) }} em 4x sem juros
             </div>
             <div class="flex gap-2 items-center mt-1 flex-wrap">
-                <span className="text-md text-black font-semibold">R${{ price }}</span>
-                <span className="line-through text-sm font-normal text-gray-500 ">R$ {{ from_price }}</span>
+                <span className="text-md text-black font-semibold">R${{ formatPrice(price) }}</span>
+                <span className="line-through text-sm font-normal text-gray-500 ">R$ {{ formatPrice(from_price) }}</span>
             </div>
         </div>
         <button @click.prevent="addToCart(product.id)" className="mx-auto w-auto

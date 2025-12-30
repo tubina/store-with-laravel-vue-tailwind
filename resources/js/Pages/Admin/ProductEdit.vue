@@ -4,6 +4,8 @@ import { useForm } from '@inertiajs/vue3'
 import { onMounted, reactive, ref } from 'vue';
 
 const inputRef = ref(null);
+const inputNewImage = ref(null);
+
 const previewUrl = ref([]);
 const id_photo = ref();
 const selectedCategory = reactive({
@@ -15,6 +17,7 @@ const props = defineProps({
     product: Object,
     category: Array
 })
+const photo = ref([...props.product.product_images]);
 
 // Cria o form com dados vindos do props
 const form = useForm({
@@ -43,8 +46,7 @@ async function teste(event) {
     formData.append('photo', event.target.files[0]);
     for (let [key, value] of formData.entries()) {
         //console.log(key, value);
-    }
-
+    } 
     const path = window.location.pathname; // '/admin/edit-product/15'
     const parts = path.split('/'); // ["", "admin", "edit-product", "15"]
     const id_product = parts[3]; // "15"
@@ -88,8 +90,56 @@ function updateCategoryId(newName) {
     }
 }
 
-function deletePhoto(id){
-    alert(id)
+async function deletePhoto(id){
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    await fetch(`/admin/delete-photo-product/${id}`,{
+        method: 'DELETE', 
+        headers: {
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json' // importante para não retornar HTML
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('Deleted Photo', data);
+        // Atualizar photo.value se quiser remover do array sem reload
+        photo.value = photo.value.filter(img => img.id !== id);
+    })
+    .catch(err => console.error(err));
+}
+
+async function addJustOneImage(event){
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const formData = new FormData(); 
+    inputNewImage.value = event.target.files[0];
+    const file = inputNewImage.value 
+    formData.append('id_product', props.product.id)
+    formData.append('photo', file); 
+    try{
+        const responseFetch = await fetch('/admin/add-edit-product-image', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': token,
+        },
+        body: formData
+        });
+
+        const response = await responseFetch.json();
+         
+        if(Number.isInteger(response.id)){  
+            photo.value = [
+                ...photo.value,
+                {
+                    id: response.id,
+                    path: response.path
+                }
+            ];
+        }
+         
+    }catch(err){
+        console.log(err)
+    }
+
 }
 
 </script>
@@ -107,18 +157,21 @@ function deletePhoto(id){
 
                 <input type="file" ref="inputRef" hidden @change="teste" />
 
-                <div class="flex flex-col p-1" v-for="prod in product.product_images" :key="prod.id" >
-                    <button class="bg-red-500"
-                    @click="deletePhoto">Excluir</button>
+                <div class="flex flex-col p-1" v-for="prod in photo" :key="prod.id" >
+                    <button class="bg-red-500 rounded-sm "
+                    @click="deletePhoto(prod.id)">{{prod.id}}Excluir</button>
                     <!----->
                     <img class="mx-auto rounded-sm" :src="`/storage/${prod.path}`" />
                     <!----->
-                    <button  class="bg-green-500" :data-id_photo="prod.id"
+                    <button  class="bg-green-500 rounded-sm" :data-id_photo="prod.id"
                     @click="editImage">Editar</button>
                 </div>
             </div>
             <div>
-                {{ selectedCategory.name }}
+                Adicionar Imagem: {{  inputNewImage ? inputNewImage.name : 'Nenhuma imagem selecioanda' }}
+                <input type="file" class="text-sm" @change="addJustOneImage"/>
+            </div>
+            <div> 
                 <div class="block text-sm font-medium text-gray-700 mb-1 ">Category</div>
                 <select v-model="selectedCategory.name"
                     @change="updateCategoryId($event.target.value)"

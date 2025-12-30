@@ -8,6 +8,8 @@ use App\Models\Cart;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 
+use App\Http\Resources\PriceResource;
+
 use App\Repositories\Interfaces\CartInterface;
 use App\Services\CartService;
  
@@ -23,7 +25,8 @@ class CartController extends Controller
 /**************************************************/
     public function index() 
     {
-        $cart = $this->cartService->index();
+        $cart = $this->cartService->index(); 
+
         return Inertia::render('Cart', ['cart' => $cart]);
     }  
 /**************************************************/
