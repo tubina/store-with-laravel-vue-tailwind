@@ -156,10 +156,12 @@ if(user && user.profile_photo){
                       <span class="inline-flex rounded-md">
                         <button
                           type="button"
-                          class="inline-flex items-center rounded-md border border-transparent bg-white text-sm font-medium text-black transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                          class="inline-flex items-center rounded-md border border-transparent 
+                          bg-white text-sm font-medium text-black transition duration-150 ease-in-out 
+                          hover:text-gray-700 focus:outline-none"
                         >
                           <img
-                            class="w-7 h-7 mr-2 rounded-full"
+                            class="w-7 h-7 mr-2 rounded-full object-cover"
                             :src="photoUrl"
                           />
                           {{ $page.props.auth.user.name }}

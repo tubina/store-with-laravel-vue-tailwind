@@ -43,10 +43,17 @@ function addToFavorites(product){
 
 <template>
      <div class="flex flex-1 mt-4 relative pb-3 flex-col justify-between border border-gray-200 rounded-md bg-white">
-        <div class="absolute m-2 right-0 flex items-center p-1 bg-white text-blue-800 hover:border-blue-800
+
+        <div class="absolute m-2 left-0 flex items-center p-1 bg-white text-black hover:border-black 
         text-xl border border-gray-300 rounded-full "
         @click.prevent="addToFavorites(product.id)">
-            <ion-icon name="flame"></ion-icon>
+            <ion-icon name="flame" class="text-black"></ion-icon> 
+        </div>
+
+        <div class="absolute m-2 right-0 flex items-center p-1 bg-white text-black hover:border-black 
+        text-xl border border-gray-300 rounded-full "
+        @click.prevent="addToFavorites(product.id)"> 
+             <ion-icon name="heart-outline"></ion-icon>
         </div>
 
         <div className="flex justify-center w-full p-7">

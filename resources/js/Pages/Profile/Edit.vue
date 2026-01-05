@@ -44,7 +44,8 @@ function updatePhoto(){
     inputFile.value.click();
 }
 function deletePhoto(){
-    router.delete('profile/deletePhoto', {
+    const user = usePage().props.auth.user; 
+    router.delete(`profile/delete/photo/${user.id}`, {
         onSuccess: () =>{
             const user = usePage().props.auth.user;
             profilePhoto.profile_photo = user.profile_photo; // força imagem nova 
@@ -84,7 +85,7 @@ function reloadPhoto(){
                             {{$page.props.auth.user.name}}
                             </div>
                             <div class="mt-2">
-                                <img class="w-16 h-16 rounded-full"
+                                <img class="w-16 h-16 rounded-full object-cover"
                                 :src="profile_photo"/>
                             </div>
                             <div class="text-xs flex gap-3 mt-2 text-white">
@@ -107,26 +108,20 @@ function reloadPhoto(){
                     </div>
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
-                >
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
-                        :status="status"
-                        class="max-w-xl"
+                        :status="status" 
+                        class="w-full"
                     />
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
-                >
-                    <UpdatePasswordForm class="max-w-xl" />
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                    <UpdatePasswordForm class="w-full" />
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
-                >
-                    <DeleteUserForm class="max-w-xl" />
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                    <DeleteUserForm class="w-full" />
                 </div>
             </div>
         </div>

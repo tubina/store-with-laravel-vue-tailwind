@@ -28,7 +28,7 @@ function addToFavorites(product){
 <template>
     <Header></Header>
 
-    <div class="flex container mx-auto gap-7 mt-28">
+    <div class="flex container__own mx-auto gap-7 mt-28">
         <div class="flex flex-col w-1/2 rounded-md">
             <div class="h-min bg-white border border-gray-200 p-20 ">
                 <img class="" :src="`/storage/${props.product.product_images[0].path}`" />
@@ -125,7 +125,7 @@ function addToFavorites(product){
             </div>
         </div>
     </div>
-    <div class="container mx-auto mt-10 mb-20">
+    <div class="container__own mx-auto mt-10 mb-20">
         <div class="flex flex-row flex-wrap
         gap-4
         text-sm

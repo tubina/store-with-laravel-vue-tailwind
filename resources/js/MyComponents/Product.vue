@@ -2,7 +2,7 @@
 import { defineEmits } from 'vue';
 import { useStore } from '../stores/store.js';
 import { reactive } from 'vue';
-import { formatPrice } from '../utils/formatPrice.js'
+import { formatPrice } from '../utils/formatPrice.js';
 
 const props = defineProps({
     cart: Array

@@ -44,7 +44,7 @@ const form = useForm({
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-1 w-full"
                     v-model="form.name"
                     required
                     autofocus
@@ -60,7 +60,7 @@ const form = useForm({
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1  w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"

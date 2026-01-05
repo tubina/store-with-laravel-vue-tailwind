@@ -46,7 +46,9 @@ Route::get('/favorite', function(){
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/photo', [ProfileController::class, 'editPhoto'])->name('profile.editPhoto');
+    Route::delete('/profile/delete/photo/{id}', [ProfileController::class, 'deletePhoto'])->name('profile.deletePhoto');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     /***********/
     Route::get('/cart', [CartController::class, 'index'])->name('index.cart');

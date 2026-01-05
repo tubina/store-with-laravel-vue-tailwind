@@ -7,10 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="h-auto
-        bg-blue-950
-         border-gray-300 text-white"
-         :class="class">
+<div class="mt-5 h-auto bg-white-950 border-gray-300 text-black" :class="class">
 
             <div class="container__own mx-auto py-7 flex justify-between flex-wrap">
 
@@ -46,8 +43,8 @@ const props = defineProps({
                     </div>
                 </div>
             </div>
-            <div class="text-center text-sm py-4">
-                &copy;2025 Todos os Direitos Reservados.
+            <div class="text-center text-[15px] py-7 mt-5 border-t text-gray-600">
+                &copy;&nbsp;2026  <span class="font-black text-black">SIDOWCASH</span>. All rights reserved.
             </div>
         </div>
 </template>
