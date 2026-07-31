@@ -10,21 +10,22 @@ import { ref, reactive, watch } from 'vue';
 const searchRef = ref(false)
 const searchInput = ref('')
 let searchResult = reactive([]);
+const myHost = window.location.origin;
 
 watch(searchInput, async (newValue) => {
     if (newValue.length > 0) {
         try {
-            const response = await fetch(`http://localhost:8000/product/search?name=${encodeURIComponent(newValue)}`, {
+            const response = await fetch(`${myHost}/product/search?name=${encodeURIComponent(newValue)}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'
                 },
             });
             const data = await response.json();
+            console.log(data)
 
             // Atualiza o array reativo corretamente
             searchResult.splice(0, searchResult.length, ...data ?? []);
-            console.log(searchResult);
         } catch (error) {
             console.log(error);
         }
@@ -51,7 +52,7 @@ if(user && user.profile_photo){
 
 <template>
   <div class="fixed z-50 top-0 w-full shadow shadow-slate-300 bg-white">
-    <div class="container__own bg-white mx-auto flex justify-between items-center h-16">
+    <div class="container__own mx-auto flex justify-between items-center h-16 ">
 
       <!-- Logo -->
       <div class="font-light">
@@ -85,7 +86,7 @@ if(user && user.profile_photo){
         :keyValue="store.toastKey" />
 
       <!-- Right side: Search + Cart + Favorite + User -->
-      <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700">
+      <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700 ">
 
         <li class="relative">
             <div class="relative w-48 h-9">
@@ -113,7 +114,8 @@ if(user && user.profile_photo){
             >
                 <!-- Conteúdo do dropdown -->
                  <ul class="text-gray-600 text-[13px] font-normal">
-                    <li v-for="sr in searchResult" :key="sr.id" @mousedown.prevent class="p-2 pl-3 border-b border-b-gray-100">
+                    <li v-for="sr in searchResult" :key="sr.id" @mousedown.prevent class="flex items-center gap-2 p-3 pl-3 border-b border-b-gray-100">
+                        <img class="h-10" :src="`/storage/${sr.product_images_just_one.path}`" >
                         <Link v-if="sr.id" :href="route('product.show', { id: sr.id })">
                             {{ sr.name }}
                         </Link>
@@ -126,7 +128,7 @@ if(user && user.profile_photo){
         </li>
 
         <!-- Cart -->
-        <li class="relative">
+        <li class="relative mt-2">
           <Link href="/cart" class="transition hover:-translate-y-1 hover:text-black">
             <ion-icon name="cart-outline" class="text-2xl"></ion-icon>
             <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">
@@ -136,7 +138,7 @@ if(user && user.profile_photo){
         </li>
 
         <!-- Favorite -->
-        <li class="relative">
+        <li class="relative mt-2">
           <Link href="/favorite" class="transition hover:-translate-y-1 hover:text-black">
             <ion-icon name="heart-outline" class="text-2xl"></ion-icon>
             <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">
@@ -149,15 +151,15 @@ if(user && user.profile_photo){
         <li>
           <div v-if="$page.props.auth.user">
             <div class="flex h-16 justify-between">
-              <div class="hidden sm:ms-6 sm:flex sm:items-center">
+              <div class="hidden sm:flex sm:items-center">
                 <div class="relative">
                   <Dropdown align="right" width="48">
                     <template #trigger>
                       <span class="inline-flex rounded-md">
                         <button
                           type="button"
-                          class="inline-flex items-center rounded-md border border-transparent 
-                          bg-white text-sm font-medium text-black transition duration-150 ease-in-out 
+                          class="inline-flex sm:ms-0.5 items-center rounded-md border border-transparent 
+                          bg-white h-10 text-sm font-medium text-black transition duration-150 ease-in-out 
                           hover:text-gray-700 focus:outline-none"
                         >
                           <img
@@ -185,7 +187,6 @@ if(user && user.profile_photo){
                       <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
                       <DropdownLink :href="route('profile.edit')">Points</DropdownLink>
                       <DropdownLink :href="route('profile.edit')">Orders</DropdownLink>
-                      <DropdownLink :href="route('profile.edit')">Chat</DropdownLink>
                       <DropdownLink :href="route('logout')" method="post" as="button" class="border-t border-gray-100">Log out</DropdownLink>
                     </template>
                   </Dropdown>

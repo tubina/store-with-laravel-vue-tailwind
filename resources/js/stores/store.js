@@ -23,7 +23,7 @@ export const useStore = defineStore("store", {
             // 🔹 remove o toast após 5 segundos
             setTimeout(() => {
                 this.toasts = this.toasts.filter(t => t.dateNow !== dateNow)
-            }, 5000)
+            }, 3000)
         },
         /*****************************************************/
         async fetchCart() {
@@ -61,7 +61,7 @@ export const useStore = defineStore("store", {
             }
         },
         /*****************************************************/
-        async fetchFavorites() {
+        async fetchFavorites(){
             const { data } = await axios.get("/favorite-get");
             this.qtd_favorites = data;
         },
@@ -79,7 +79,6 @@ export const useStore = defineStore("store", {
                     body: JSON.stringify({product_id: productId})
                 });  
                 await this.fetchFavorites();
-                console.log(responseF)
                 if(responseF.ok){
                     //this.login = false
                     this.favorites_id = []
@@ -93,7 +92,7 @@ export const useStore = defineStore("store", {
                     this.qtd_favorites += 1 ;
                 }
             }
-        },
+        }, 
         /*****************************************************/
         async deleteCart(productId) {
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -111,8 +110,7 @@ export const useStore = defineStore("store", {
             if(result.ok){
                 this.fetchCart();
                 return productId;
-            }
-
+            } 
         },
         /*****************************************************/
         async deleteFromFavorite(productId) {

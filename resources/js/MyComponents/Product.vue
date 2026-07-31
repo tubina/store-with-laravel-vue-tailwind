@@ -5,7 +5,10 @@ import { reactive } from 'vue';
 import { formatPrice } from '../utils/formatPrice.js';
 
 const props = defineProps({
-    cart: Array
+    cart: {
+        type: Object,
+        required: true
+    }
 })
 
 const store = useStore();
@@ -64,7 +67,7 @@ function closeModal() {
     </div>
 <!-------->
 
-    <div class="flex gap-4 items-start mt-3 pl-3 pr-3 pb-3 border-b bg-white border-gray-200">
+    <div class="flex gap-4 items-start mt-3 pl-3 pr-3 pb-3">
 
         <!-- Imagem -->
         <img

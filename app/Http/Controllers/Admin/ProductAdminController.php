@@ -180,4 +180,14 @@ class ProductAdminController extends Controller
             'pro' => $arrr
         ], 200);
     }
+/******************************************************/
+    public function indexCategory($id){ 
+        $products = Product::with(['category', 'productImagesJustOne'])
+        ->when($id ?? null, function ($query, $id){
+            $query->where('category_id', $id);
+        })
+        ->get();
+        $category = DB::table('category')->get();
+        return Inertia::render('Admin/ProductMain', ['category' => $category, 'products' => $products]);
+    }
 }

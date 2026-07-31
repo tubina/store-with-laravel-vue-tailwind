@@ -60,9 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorite-get', [FavoriteController::class, 'getQtdFavorite'])->name('get.favorite');
     Route::post('/favorite-insert', [FavoriteController::class, 'addToFavorite'])->name('add.favorite');
     Route::delete('/favorite-delete', [FavoriteController::class, 'deleteFromFavorite'])->name('delete.favorite');
-    /***********/
-    /***********/
-
+    /***********/  
 });
 
 Route::get('/phpinfo', function () {
@@ -75,6 +73,7 @@ Route::get('/phpinfo', function () {
     Route::post('/add-category', [CategoryAdminController::class, 'save'])->name('admin.edit.category');
     /****************************/
     Route::get('/product', [ProductAdminController::class, 'index'])->name('admin.product');
+    Route::get('/product/{id}', [ProductAdminController::class, 'indexCategory'])->name('admin.product.fromcategory');
     Route::post('/add-product', [ProductAdminController::class, 'store'])->name('admin.store.product');
     Route::get('/add-product', [ProductAdminController::class, 'create'])->name('admin.add.product');
     Route::get('/edit-product/{product}', [ProductAdminController::class, 'edit'])->name('admin.edit.product');
@@ -93,3 +92,5 @@ Route::get('/phpinfo', function () {
 /**********************************************************************/
 
 require __DIR__.'/auth.php';
+
+

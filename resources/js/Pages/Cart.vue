@@ -15,7 +15,7 @@ const cartT = ref([...props.cart]);
 
 var totalPrice = computed(() => {
     return cartT.value.reduce((acc, item) => acc + Number(item.product.price), 0);
-})
+});
 
 function addFavorite(product_id) {
     store.addToFavorite(product_id);
@@ -35,23 +35,26 @@ function deleteFromCart(product_id) {
 <template>
     <Header></Header>
 
-    <div class="container__own mx-auto mt-28 mb-32">
+    <div class="container__own mx-auto mt-28 mb-32 ">
         <div class="flex gap-2 items-center">
             <ion-icon name="bag-handle-outline" class="text-3xl"></ion-icon>
-           <span class="text-2xl font-medium mt-1"> Shooping Cart</span>
+            <span class="text-2xl font-medium mt-1"> Shooping Cart</span>
         </div>
 
         <div class=" grid grid-cols-3 gap-8 mt-5 items-start">
 
-            <div class="bloco-a flex-col col-span-2 bg-white" :class="cartT.length ? 'border border-gray-200 rounded-md' : '' ">
+            <div class="bloco-a flex-col col-span-2 bg-white" :class="cartT.length ? 'border border-gray-200 rounded-xl' : '' ">
 
-                <div v-for="product in cartT" :key="product.id">
-                    <Product :cart="product" @addToFavorite="addFavorite" @removeFromCart="deleteFromCart" />
+                <div v-for="(product, index) in cartT" :key="product.id"
+                :class="{
+                    'border-b border-gray-200': index < cartT.length - 1}
+                ">
+                    <Product :cart="product" @addToFavorite="addFavorite" @removeFromCart="deleteFromCart"/>
                 </div>
 
             </div>
 
-            <div class="bloco-b  p-3 col-span-1 bg-white border bg-whiteborder-gray-200 rounded-md">
+            <div class="bloco-b  p-3 col-span-1 bg-white border bg-whiteborder-gray-200 rounded-xl">
                 <div class="text-md font-semibold">
                     Order Sumary
                 </div>

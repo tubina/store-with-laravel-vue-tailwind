@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -31,5 +32,6 @@ class ProductController extends Controller
     { 
         $search = $this->productService->search($request); 
         return response()->json($search->values());
-    }
+    } 
+
 }

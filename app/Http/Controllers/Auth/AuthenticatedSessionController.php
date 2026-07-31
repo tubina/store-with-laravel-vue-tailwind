@@ -51,6 +51,6 @@ class AuthenticatedSessionController extends Controller
         // return redirect()->route('home', ['login' => 'logout']);
         // return redirect()->route('home', ['login' => 'logout']);
          // Redireciona para home (navegador fará reload completo)
-        return Inertia::location('/home'); 
+        return Inertia::location('/home?logout=1'); 
     }
 }

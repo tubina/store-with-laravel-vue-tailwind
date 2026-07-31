@@ -25,7 +25,8 @@ class ProductRepository implements ProductInterface {
     public function search(string $term)
     { 
         $search = $this->model  
-            ->where('name', 'like', "%{$term}%")
+            ->where('name', 'like', "%{$term}%") 
+            ->with('productImagesJustOne')
             ->get();
             
         if($search->isEmpty()){

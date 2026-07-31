@@ -32,25 +32,30 @@ async function deleteProduct(id){
 <template>
     <div class="">
         <div class="flex">
-            <div class="flex flex-col pt-3 p-3 bg-blue-950 text-white">
+            <div class="flex w-60 h-screen flex-col pt-3 p-3 bg-black text-white ">
                 <Link :href="route('admin.product')">Produtos</Link>
                 <Link :href="route('admin.add.product')">Adicionar produto</Link>
                 <Link :href="route('admin.category')">Categorys</Link>
                 <Link :href="route('admin.add.product')">Usuários</Link>
             </div>
-            <div class="flex-1   ">
+            <div class="flex-1">
                 <template v-if="slots.default">
                     <slot></slot><!----------------------------SLOT--------------------------------------------------->
                 </template>
                 <template v-else>
-                    <div class="flex flex-row gap-5 bg-blue-950 text-white p-4">
-                        <div  v-for="category in category" :key="category.id"  >
-                            <Link href="/home">{{ category.name }}</Link>
+                    <div class="flex flex-row gap-5 bg-black text-white p-4">
+                            <Link :href="route('admin.product')">
+                                    Todos
+                            </Link>
+                        <div v-for="category in category" :key="category.id"  >
+                            <Link :href="route('admin.product.fromcategory', {id: category.id})">
+                                {{category.id }} - {{ category.name }}
+                            </Link>
                         </div>
                     </div>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div v-for="product in props.products" :key="product.id">
-                            <Card :product="product" />
+                    <div class="flex ml-5 flex-wrap gap-5">
+                        <div v-for="product in props.products" :key="product.id" class="w-48"> 
+                                <Card :product="product" /> 
                             <div class="flex justify-between mt-2">
                                 <button @click="deleteProduct(product.id)"
                                     class="rounded-sm px-2 text-sm bg-red-500 text-white">

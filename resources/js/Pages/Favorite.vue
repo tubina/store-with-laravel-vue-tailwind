@@ -55,7 +55,7 @@ function removeFavorite(favoriteId) {
 
         <div class="mb-32 w-full">
 
-            <div class="container__own overflow-x-auto">
+            <div class="sm:w-[80%] sm:mx-auto sm:p-0 px-2 overflow-x-auto">
 
                 <div class="flex items-center justify-between mt-28 ">
                     <div class="flex items-center gap-2">
@@ -65,9 +65,9 @@ function removeFavorite(favoriteId) {
 
                 </div>
                 <div class="mt-5">
-                    <table class="min-w-full ">
-                        <thead class="border-b">
-                            <tr class="text-shadow text-lg font-semibold">
+                    <table class="min-w-full">
+                        <thead class="border-b ">
+                            <tr class="text-shadow text-lg font-semibold hidden sm:table-row">
                                 <th class="flex items-center  pl-6 py-3 text-left">
                                     <input type="checkbox" v-model="allSelected" /> &nbsp;All
                                 </th>
@@ -90,7 +90,7 @@ function removeFavorite(favoriteId) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="">
                             <!-- item 1 -->
                             <tr v-for="favorite in favoritesList" :key="favorite.id" class=" border-t">
                                 <Favorite

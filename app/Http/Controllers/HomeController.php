@@ -16,16 +16,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $category = Category::get();
-        $products = Product::with(['category', 'productImagesJustOne'])->get();
-  
-        //$productsResource = PriceResource::collection($products);
-  
-        // if($products->isEmpty())
-        // {
-        //     return Inertia::render('Home', [
-        //         'products' => '/proucts/0gZRgIN8zOfghOHZph6UK926PY3kDbMFveBxkat2.jpg'
-        //     ]);
-        // }
+        $products = Product::with(['category', 'productImagesJustOne', 'productHasFavorite'])->limit(10)->get();
+   
+        Log::info('resultado', ['resultado'=> $products]);
+
         $loginStatus = $request->query('login');
         return Inertia::render('Home', [
             'category' => $category,

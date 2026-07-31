@@ -7,11 +7,11 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="mt-5 h-auto bg-white-950 border-gray-300 text-black" :class="class">
+<div class="px-2 sm:px-0 sm:pt-5 pt-2 h-auto bg-white-950 border-t border-gray-200 text-black" :class="class">
 
-            <div class="container__own mx-auto py-7 flex justify-between flex-wrap">
+            <div class="sm:w-[80%] mx-auto py-7 flex flex-wrap justify-between ">
 
-                <div class="w-1/2">
+                <div class="sm:w-1/2">
                     <div className="font-medium">Logo</div>
                 </div>
 
@@ -25,7 +25,7 @@ const props = defineProps({
                         </ul>
                     </div>
                 </div>
-                <div class="w-1/6">
+                <div class="sm:w-1/6">
                     <div className="font-medium">Categories</div>
                     <div className="mt-3 text-sm font-light">
                         <ul className="flex flex-col gap-2">
@@ -35,7 +35,7 @@ const props = defineProps({
                         </ul>
                     </div>
                 </div>
-                <div class="w-1/6 font-medium ">
+                <div class="sm:w-1/6 font-medium sm:mt-0 mt-4">
                     <div>Populares</div>
                     <div className="text-sm mt-3 font-light">
                         Subscribe to our newsletter to receive <br/>

@@ -29,4 +29,9 @@ class Product extends Model
         return $this->hasMany(ProductImages::class);
     }
 
+    public function productHasFavorite()
+    {
+        return $this->hasOne(Favorite::class)->where('user_id', auth()->id());
+    }
+
 }

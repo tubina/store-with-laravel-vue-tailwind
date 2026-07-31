@@ -18,7 +18,13 @@ function toggleCheckbox(event){
 const store = useStore();
 
 function addToCart(product){
-    store.addToCart(product);
+    store.addToCart(product); 
+    const prod = props;
+    console.log(prod.favorite)
+    store.showToast(props.favorite.id,
+    props.favorite.product_images_just_one.path,
+    props.favorite.name,
+    props.favorite.price)
 }
 
 function findProductById(){
@@ -59,7 +65,7 @@ function closeModal() {
       </div>
     </div>
 
-    <td class="px-4 py-2">
+    <td class="px-4 py-2 hidden sm:table-cell">
         <button class="bg-white text-black px-2 py-1 rounded
             hover:bg-gray-100 text-xs font-bold">
                 <input type="checkbox" :checked="findProductById()" @change="toggleCheckbox"/>
@@ -67,28 +73,28 @@ function closeModal() {
     </td>
 
     <td class="py-2">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1 sm:gap-2">
             <button @click="removeFromFavorite(favorite.id)" class="ml-2  py-0 px-2 bg-gray-200 rounded">x</button>
             <img
             :src="`/storage/${favorite.product_images_just_one.path}`"
             alt="Product"
-            class="rounded border border-gray-200 w-20 p-1"
+            class="rounded border border-gray-200 sm:w-20 w-14 p-1"
             />
         </div>
     </td>
 
-    <td class="px-4 py-2 font-extralight text-lg text-shadow">
+    <td class="px-4 py-2 font-extralight text-lg text-shadow hidden sm:table-cell">
         <Link :href="`/product/${favorite.id}`">
         {{ favorite.name }}
         </Link>
     </td>
-    <td class="px-4 py-2 text-xs uppercase">{{ favorite.category.name }}</td>
-    <td class="px-4 py-2 text-green-600 font-normal text-sm">In Stock</td>
-    <td class="px-4 py-2">xxxxxx</td>
-    <td class="px-4 py-2 font-semibold text-shadow">${{ favorite.price }}</td>
-    <td class="px-4 py-2">
+    <td class="px-4 py-2 text-xs uppercase hidden sm:table-cell">{{ favorite.category.name }}</td>
+    <td class="px-4 py-2 text-green-600 font-normal text-sm hidden sm:table-cell">In Stock</td>
+    <td class="px-4 py-2 hidden sm:table-cell">xxxxxx</td>
+    <td class="sm:px-4 sm:py-2 font-semibold text-shadow">${{ favorite.price }}</td>
+    <td class="sm:px-4 sm:py-2">
         <button @click.prevent="addToCart(favorite.id)"
-        class="flex items-center gap-2 text-xs bg-black text-white px-3 py-2 rounded hover:bg-neutral-800">
+        class="flex items-center sm:gap-2 gap-[3px] text-xs bg-black text-white px-3 py-2 rounded hover:bg-neutral-800">
             <ion-icon name="bag-check-outline" class="text-white text-2xl"></ion-icon>
             <span class="font-semibold">
                 Add to Cart

@@ -146,7 +146,7 @@ async function addJustOneImage(event){
 <template>
     <div>
          <Main>
-             <div class="bg-blue-950 p-4 text-white">Edit Product</div>
+             <div class="bg-black p-4 text-white">Edit Product</div>
              <form @submit.prevent="submit"
              class="max-w-md  p-6 bg-white rounded shadow-md space-y-6">
 
