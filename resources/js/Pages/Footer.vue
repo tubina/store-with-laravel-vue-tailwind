@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="px-2 sm:px-0 sm:pt-5 pt-2 h-auto bg-white-950 border-t border-gray-200 text-black" :class="class">
+<div class="px-2 sm:px-0 sm:pt-5 pt-2 mt-20 h-auto bg-white-950 border-t border-gray-200 text-black" :class="class">
 
             <div class="sm:w-[80%] mx-auto py-7 flex flex-wrap justify-between ">
 
@@ -43,8 +43,8 @@ const props = defineProps({
                     </div>
                 </div>
             </div>
-            <div class="text-center text-[15px] py-7 mt-5 border-t text-gray-600">
-                &copy;&nbsp;2026  <span class="font-black text-black">SIDOWCASH</span>. All rights reserved.
+            <div class="text-center text-[13px] py-7 mt-5 border-t text-gray-600">
+                &copy;&nbsp;2026  SIDOWCASH. All rights reserved.
             </div>
         </div>
 </template>

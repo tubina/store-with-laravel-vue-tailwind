@@ -22,7 +22,6 @@ watch(searchInput, async (newValue) => {
                 },
             });
             const data = await response.json();
-            console.log(data)
 
             // Atualiza o array reativo corretamente
             searchResult.splice(0, searchResult.length, ...data ?? []);
@@ -63,22 +62,23 @@ if(user && user.profile_photo){
       <ul class="flex gap-6 text-sm font-medium text-slate-700">
         <li>
           <Link href="/home"
-                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
+                class="hover:border-b-2 hover:text-black">
             Home
           </Link>
         </li>
         <li>
-          <Link href="/store"
-                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
-            Loja
+          <Link href="/about"
+                class="hover:border-b-2 hover:text-black">
+            Como funciona
           </Link>
         </li>
         <li>
-          <Link href="#"
-                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
-                Ranking
+          <Link href="/store"
+                class="hover:border-b-2 hover:text-black">
+            Loja
           </Link>
         </li>
+        
       </ul>
 
       <ToastList

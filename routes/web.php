@@ -30,7 +30,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/about', function(){
+    return Inertia::render('About');
+});
 Route::get('/store', [StoreController::class, 'index'])->name('store');
 Route::get('/product/search', [ProductController::class, 'search'])->name('product.search');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');

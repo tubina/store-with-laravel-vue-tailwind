@@ -267,7 +267,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
             </div>
 
             <!--Details Foot-->
-            <div class="w-full py-10 border-t border-gray-200">
+            <div class="w-full py-10 border-t border-gray-200 bg-white">
                 <div className="container__own rounded-md">
                     <div class="
                     lg:flex
@@ -277,7 +277,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
                     justify-end
                     lg:h-20
                     xs:space-y-0
-                    space-y-5
+                    space-y-5 
                     ">
                         <div class="
                             sm:flex-1
