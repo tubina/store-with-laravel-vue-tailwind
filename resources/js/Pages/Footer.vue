@@ -7,9 +7,10 @@ const props = defineProps({
 </script>
 
 <template>
-<div class="px-2 sm:px-0 sm:pt-5 pt-2 mt-20 h-auto bg-white-950 border-t border-gray-200 text-black" :class="class">
+<div class="px-2 sm:px-0 sm:pt-5 pt-2 h-auto bg-white-950 border-t 
+border-gray-200 text-black bg-white" :class="class">
 
-            <div class="sm:w-[80%] mx-auto py-7 flex flex-wrap justify-between ">
+            <div class="sm:max-w-7xl mx-auto py-7 px-10 flex flex-wrap justify-between ">
 
                 <div class="sm:w-1/2">
                     <div className="font-medium">Logo</div>

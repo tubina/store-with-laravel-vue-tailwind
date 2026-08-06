@@ -2,7 +2,7 @@
 import Footer from './Footer.vue';
 import Card from './Card.vue';
 import Header from './Header.vue';
-import { defineProps, onMounted, reactive } from 'vue';
+import { defineProps, onMounted, reactive, ref } from 'vue';
 import { useStore } from '../stores/store.js';
 import { router, usePage } from '@inertiajs/vue3';
 
@@ -26,8 +26,9 @@ const products_aux = reactive({
     pro: props.products,
     filtered: props.products
 })
-const selectCategory = ((e) => {
-    console.log(e)
+const auxSelected = ref(null);
+const selectCategory = ((e) => { 
+    auxSelected.value = e;
     if(e === null) {
         return products_aux.filtered = products_aux.pro
     }
@@ -130,40 +131,43 @@ let storage = JSON.parse(localStorage.getItem("store"));
 </script>
 
 <template>
-    <div class="bg-[#fbfbfb]">
-        <div className="relative"> 
-            <Header></Header>  
-            <div className="sm:flex sm:flex-row flex-col justify-around items-center 
-            w-full sm:mb-10 -z-50 sm:h-[550px] h-[450px] border-b mx-auto mt-24 sm:mt-0 bg-white">
+    <Header></Header> 
+     <div class="">
+        <div className="relative">  
+            <div className="w-full bg-white border-b">
 
-                <div className="flex flex-col sm:pl-0 px-4">
-                    <span className="sm:text-5xl text-3xl font-semibold text-black">Lorem ipsum dolor sit amet,</span> 
-                    <span className="sm:text-5xl text-xl font-semibold text-black flex-shrink-0">consectetur adipisicing elit.</span>
+                <div class="max-w-7xl mx-auto
+                sm:flex sm:flex-row flex-col w-full justify-around items-center 
+                 -z-50 sm:h-[550px] h-[450px] sm:mt-18 mt-16 pt-5 bg-white">
+                    <div className="flex flex-col sm:pl-0 px-4">
+                        <span className="sm:text-5xl text-3xl font-semibold text-black">Lorem ipsum dolor sit amet,</span> 
+                        <span className="sm:text-5xl text-xl font-semibold text-black flex-shrink-0">consectetur adipisicing elit.</span>
 
-                    <div class="sm:hidden mt-5">
+                        <div class="sm:hidden mt-5">
+                            <div class="">
+                                <img class="sm:w-96" src="https://www.apple.com/v/iphone-17/d/images/meta/iphone-17_overview__d4o74q28yjma_og.png?202512230653" />
+                            </div>
+                        </div>
+
+                        <span className="sm:text-lg text-lg font-semibold text-black flex-shrink-0 mt-5">Get incredible deals, up to 12% off</span>
+                        <button className="flex justify-around items-center gap-3 bg-black text-shadow-xl text-white font-bold 
+                        text-sm py-3 px-8 w-max mt-4 rounded-md shadow-2xl
+                        hover:bg-white hover:border hover:transition-all ease-out hover:text-black">
+                            <span>Order Now </span>
+                            <ion-icon name="chevron-forward-outline"></ion-icon> 
+                        </button>
+                    </div>
+
+                    <div class="hidden sm:block">
                         <div class="">
                             <img class="sm:w-96" src="https://www.apple.com/v/iphone-17/d/images/meta/iphone-17_overview__d4o74q28yjma_og.png?202512230653" />
                         </div>
-                    </div>
-
-                    <span className="sm:text-lg text-lg font-semibold text-black flex-shrink-0 mt-5">Get incredible deals, up to 12% off</span>
-                    <button className="flex justify-around items-center gap-3 bg-black text-shadow-xl text-white font-bold 
-                    text-sm py-3 px-8 w-max mt-4 rounded-md shadow-2xl
-                    hover:bg-white hover:border hover:transition-all ease-out hover:text-black">
-                        <span>Order Now </span>
-                        <ion-icon name="chevron-forward-outline"></ion-icon> 
-                    </button>
-                </div>
-
-                <div class="hidden sm:block">
-                    <div class="">
-                        <img class="sm:w-96" src="https://www.apple.com/v/iphone-17/d/images/meta/iphone-17_overview__d4o74q28yjma_og.png?202512230653" />
                     </div>
                 </div>
 
             </div>
 
-            <div className="sm:w-[80%] mx-auto px-2 sm:px-0 rounded-md sm:mt-16 mt-5">
+            <div className="sm:max-w-7xl sm:px-10 mx-auto px-2 rounded-md sm:mt-16 mt-5">
                 <div class="sm:flex justify-between sm:h-28 gap-4 sm:space-y-0 space-y-3">
                     <div class="flex-1 flex
                         justify-start
@@ -229,20 +233,24 @@ let storage = JSON.parse(localStorage.getItem("store"));
             </div>
  
 
-            <div class="bg-gray-50 sm:mt-16 ">
+            <div class="bg-gray-50 sm:mt-16">
                 
-                <div class="w-[80%] mx-auto flex justify-center sm:pt-3 pt-0 pb-5 flex-wrap mt-18">
+                <div class="flex-wrap mt-18 w-full mx-auto flex justify-center sm:pt-3 pt-0 pb-5 ">
                 <!-- <p class="text-2xl font-semibold">Nossos Produtos</p> -->
                     <div class="w-full">
                         <ul class="flex justify-center mb:gap-3 mt-7 gap-3 text-[16px] font-medium flex-wrap">
-                            <li class="md:mt-0 border px-4 py-2 rounded-full shadow-sm transition-all ease-out cursor-pointer
-                            first:bg-black first:text-white
-                            hover:bg-black hover:text-white">
-                                <a href="#" class="" @click.prevent="selectCategory(null)">Todos</a>
+                            <li
+                                class="md:mt-0 border px-4 py-2 rounded-full shadow-sm transition-all ease-out cursor-pointer hover:bg-black hover:text-white"
+                                :class="auxSelected === null ? 'bg-black text-white' : 'bg-white'"
+                                @click.prevent="selectCategory(null)"
+                            >
+                                <a href="#">Todos</a>
                             </li>
                             <li class="md:mt-0 border px-4 py-2 rounded-full shadow-sm transition-all ease-out cursor-pointer
                             first:bg-black first:text-white
-                            hover:bg-black hover:text-white" v-for="cat in category" :key="cat.id"
+                            hover:bg-black hover:text-white"
+                            v-for="cat in category" :key="cat.id" 
+                            :class="auxSelected === cat.id ? 'bg-black text-white' : 'bg-white'" 
                             @click.prevent="selectCategory(cat.id)">
                                 <a href="#" class="">{{ cat.name }}</a>
                             </li>
@@ -250,15 +258,15 @@ let storage = JSON.parse(localStorage.getItem("store"));
                     </div>
                 </div>
 
-                <div class="sm:w-[80%] relative mx-auto
+                <div class="sm:max-w-7xl relative mx-auto 
                 grid
-                sm:grid-cols-5
+                sm:grid-cols-6
                 grid-cols-2
                 sm:gap-2
                 gap-1
                 mt-3
                 pb-24
-                px-2">
+                px-10">
                 <!--sm:justify-between--> 
                     <div v-for="product in products_aux.filtered" :key="product.id"> 
                         <Card :product="product"/>
@@ -268,7 +276,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
 
             <!--Details Foot-->
             <div class="w-full py-10 border-t border-gray-200 bg-white">
-                <div className="container__own rounded-md">
+                <div className="max-w-7xl mx-auto rounded-md">
                     <div class="
                     lg:flex
                     flex-col

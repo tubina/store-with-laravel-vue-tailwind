@@ -51,7 +51,7 @@ if(user && user.profile_photo){
 
 <template>
   <div class="fixed z-50 top-0 w-full shadow shadow-slate-300 bg-white">
-    <div class="container__own mx-auto flex justify-between items-center h-16 ">
+    <div class="max-w-7xl h-16 mx-auto flex px-2 justify-between items-center  ">
 
       <!-- Logo -->
       <div class="font-light">
@@ -126,7 +126,7 @@ if(user && user.profile_photo){
                 </ul>
             </div>
         </li>
-
+  
         <!-- Cart -->
         <li class="relative mt-2">
           <Link href="/cart" class="transition hover:-translate-y-1 hover:text-black">
@@ -136,7 +136,7 @@ if(user && user.profile_photo){
             </div>
           </Link>
         </li>
-
+  
         <!-- Favorite -->
         <li class="relative mt-2">
           <Link href="/favorite" class="transition hover:-translate-y-1 hover:text-black">
@@ -145,8 +145,8 @@ if(user && user.profile_photo){
               {{ store.qtd_favorites }}
             </div>
           </Link>
-        </li>
-
+        </li> 
+        
         <!-- User dropdown / Login -->
         <li>
           <div v-if="$page.props.auth.user">
@@ -184,9 +184,9 @@ if(user && user.profile_photo){
                     </template>
 
                     <template #content>
-                      <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
-                      <DropdownLink :href="route('profile.edit')">Points</DropdownLink>
-                      <DropdownLink :href="route('profile.edit')">Orders</DropdownLink>
+                      <DropdownLink :href="route('profile.edit')">Perfil</DropdownLink> 
+                      <DropdownLink :href="route('profile.edit')">Depositar</DropdownLink> 
+                      <DropdownLink :href="route('profile.edit')">Histórico</DropdownLink> 
                       <DropdownLink :href="route('logout')" method="post" as="button" class="border-t border-gray-100">Log out</DropdownLink>
                     </template>
                   </Dropdown>

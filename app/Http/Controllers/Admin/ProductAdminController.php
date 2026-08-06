@@ -190,4 +190,24 @@ class ProductAdminController extends Controller
         $category = DB::table('category')->get();
         return Inertia::render('Admin/ProductMain', ['category' => $category, 'products' => $products]);
     }
+/******************************************************/
+    public function deleteProduct($id) {
+         
+        $product = Product::with('productImages')->findOrFail($id);
+
+        foreach($product->productImages as $image){
+            Storage::disk('public')->delete($image->path);
+
+            $image->delete();
+        }
+
+        $product->delete();
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Produto deletado com sucesso'
+        ]);
+
+    }
+
 }

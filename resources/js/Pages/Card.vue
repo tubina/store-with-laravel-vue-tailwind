@@ -76,7 +76,7 @@ function removeToFavorites(product){
 
         <div className="flex justify-center w-full p-7">
             <Link :href="`/product/${id}`" >
-                <img  class="w-28 h-28 object-cover" :src="imagem ? `/storage/${imagem}` : '/storage/products/uHUdvGKB8XIIK242LvklAnKEEGS2VRezFLJRl8SQ.jpg'" />
+                <img  class="w-full h-56 object-cover" :src="imagem ? `/storage/${imagem}` : '/storage/products/uHUdvGKB8XIIK242LvklAnKEEGS2VRezFLJRl8SQ.jpg'" />
             </Link>
         </div>
         <div class="text-gray-400 text-xs mt-1 ml-3 uppercase">

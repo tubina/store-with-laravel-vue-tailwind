@@ -32,6 +32,6 @@ class ProductController extends Controller
     {  
         $search = $this->productService->search($request); 
         return response()->json($search->values());
-    } 
+    }  
 
 }
