@@ -10,15 +10,14 @@ const props = defineProps({
     products: Array
 });
 
-async function deleteProduct(id){
-
+async function deleteProduct(id){ 
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-
-    const response = await fetch(`/profile/deletePhoto/${id}`,{
+ 
+    const response = await fetch(`/admin/product/delete/${id}`,{
        method: 'DELETE',
        headers:{
-        'Content-Type': 'application/json',
         'X-CSRF-TOKEN': token,
+        'Content-Type': 'application/json', 
        }
     });
     const resp = await response.json();

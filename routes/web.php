@@ -30,7 +30,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/about', function(){
+    return Inertia::render('About');
+});
 Route::get('/store', [StoreController::class, 'index'])->name('store');
 Route::get('/product/search', [ProductController::class, 'search'])->name('product.search');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
@@ -74,6 +76,7 @@ Route::get('/phpinfo', function () {
     /****************************/
     Route::get('/product', [ProductAdminController::class, 'index'])->name('admin.product');
     Route::get('/product/{id}', [ProductAdminController::class, 'indexCategory'])->name('admin.product.fromcategory');
+    Route::delete('/product/delete/{id}', [ProductAdminController::class, 'deleteProduct'])->name('admin.product.delete');
     Route::post('/add-product', [ProductAdminController::class, 'store'])->name('admin.store.product');
     Route::get('/add-product', [ProductAdminController::class, 'create'])->name('admin.add.product');
     Route::get('/edit-product/{product}', [ProductAdminController::class, 'edit'])->name('admin.edit.product');

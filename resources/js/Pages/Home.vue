@@ -2,9 +2,10 @@
 import Footer from './Footer.vue';
 import Card from './Card.vue';
 import Header from './Header.vue';
-import { defineProps, onMounted, reactive } from 'vue';
+import { defineProps, onMounted, reactive, ref } from 'vue';
 import { useStore } from '../stores/store.js';
 import { router, usePage } from '@inertiajs/vue3';
+import { Timer, Zap, TrendingUp } from 'lucide-vue-next'
 
 const user = usePage().props.auth.user;
 
@@ -26,8 +27,9 @@ const products_aux = reactive({
     pro: props.products,
     filtered: props.products
 })
-const selectCategory = ((e) => {
-    console.log(e)
+const auxSelected = ref(null);
+const selectCategory = ((e) => { 
+    auxSelected.value = e;
     if(e === null) {
         return products_aux.filtered = products_aux.pro
     }
@@ -130,40 +132,102 @@ let storage = JSON.parse(localStorage.getItem("store"));
 </script>
 
 <template>
-    <div class="bg-[#fbfbfb]">
-        <div className="relative"> 
-            <Header></Header>  
-            <div className="sm:flex sm:flex-row flex-col justify-around items-center 
-            w-full sm:mb-10 -z-50 sm:h-[550px] h-[450px] border-b mx-auto mt-24 sm:mt-0 bg-white">
+    <Header></Header> 
+     <div class="">
+        <div className="relative">  
+            <div className="w-full bg-white border-b
+            bg-[radial-gradient(circle_at_center,_#FDF3EB_0%,_#FDF3EB_35%,_#FFFCFA_100%)]">
 
-                <div className="flex flex-col sm:pl-0 px-4">
-                    <span className="sm:text-5xl text-3xl font-semibold text-black">Lorem ipsum dolor sit amet,</span> 
-                    <span className="sm:text-5xl text-xl font-semibold text-black flex-shrink-0">consectetur adipisicing elit.</span>
+                <div class="max-w-7xl mx-auto justify-between
+                    sm:flex sm:flex-row flex-col w-full items-center px-3 sm:mt-18 mt-16 pt-16 pb-10
+                 -z-50  
+                 ">
+                     
+                    <div class="flex flex-col w-1/2">
 
-                    <div class="sm:hidden mt-5">
-                        <div class="">
-                            <img class="sm:w-96" src="https://www.apple.com/v/iphone-17/d/images/meta/iphone-17_overview__d4o74q28yjma_og.png?202512230653" />
+                        <div class="w-max font-semibold text-red-500">
+                            <div class="flex items-center gap-1 bg-red-100 rounded-lg px-3 py-1">
+                                <div class="w-2 h-2 bg-red-500 border rounded-full animate-blink"></div>
+                                <div class="text-sm uppercase">7 leilões ao vivo agora</div>
+                            </div>
+                        </div>
+
+                        <div class="text-7xl uppercase ">
+                            <p class="title__font__family font-medium">Seus lances viram <br>
+                            investimento.</p>
+                            <p class="font-medium title__font__family text-[#EC7B00] 
+                            bg-gradient-to-b from-orange-500 to-orange-700 bg-clip-text text-transparent">O lucro volta em produtos.</p>
+                            <p class="mt-5 text-sm font-normal text-gray-600">
+                                Você compra pacotes de lances, nós investimos esse capital e devolvemos parte do retorno em forma de eletrônicos leiloados a partir de R$ 0,01. Simples assim: o resultado do investimento vira prêmio na mão de quem participa.
+                            </p>
+                        </div> 
+                        <div class="flex gap-5 items-center">
+                            <a href="" class="px-6 py-3 mt-5 uppercase text-white text-lg font-bold
+                            rounded-xl bg-gradient-to-r from-orange-400 to-[#E66400] shadow-lg hover:scale-105 transition-all duration-200">Ver todos os leiloes</a>
+                             <a href="" class="px-7 py-4 mt-5 items-center text-black bg-white border border-gray-300 font-semibold
+                            rounded-xl bg-gradient-to-r text-sm">Como o modelo funciona</a>
+                        </div>
+
+                        <div class="flex items-start justify-start gap-5">
+
+                            <div class="w-1/3 pl-3 pr-10 py-4 mt-5 text-black bg-white border border-gray-300 font-semibold
+                            rounded-xl bg-gradient-to-r text-sm">
+                                <div class="text-xl font-bold text-[#EC7B00] 
+                                bg-gradient-to-b from-orange-500 to-orange-700 bg-clip-text text-transparent">
+                                   Até 73%
+                                </div>
+                                <div class="text-sm text-gray-500 font-normal">
+                                    de economia 
+                                </div>
+                            </div>
+
+                            <div class="w-1/3 pl-3 pr-10 py-4 mt-5 text-black bg-white border border-gray-300 font-semibold
+                            rounded-xl bg-gradient-to-r text-sm">
+                                <div class="text-xl font-bold text-[#EC7B00] 
+                                bg-gradient-to-b from-orange-500 to-orange-700 bg-clip-text text-transparent">
+                                    3.302K
+                                </div>
+                                <div class="text-sm text-gray-500 font-normal">
+                                    lances realizados
+                                </div>
+                            </div>
+
+                            <div class="w-1/3 pl-3 pr-10 py-4 mt-5 text-black bg-white border border-gray-300 font-semibold
+                            rounded-xl bg-gradient-to-r text-sm">
+                                <div class="text-xl font-bold text-[#EC7B00] 
+                                bg-gradient-to-b from-orange-500 to-orange-700 bg-clip-text text-transparent">
+                                    R$ 0.01
+                                </div>
+                                <div class="text-sm text-gray-500 font-normal">
+                                    por lance
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="flex flex-col w-[40%] border rounded-xl bg-white">
+                        <div class="flex mx-auto w-2/3 p-2 uppercase  ">
+                            <img class="max-h-74"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSBAF-hcjpvaqu2n3HLa2RaKDvdxJoPZMkzKii8I-oM2sMyFgwEiAj4fc&s=10">                      
+                        </div>
+
+                        <div class="p-5">
+                            <div class="uppercase text-sm text-gray-500">Valor Atual</div>  
+                            <div class="text-4xl font-semibold
+                            text-[#EC7B00] 
+                            bg-gradient-to-b from-orange-300 to-orange-700 bg-clip-text text-transparent">
+                            R$ 214,80</div>
+                            <div class="text-gray-600 text-sm">Titanium Pro 512GB · R$ 8.999,00 na loja</div>
                         </div>
                     </div>
-
-                    <span className="sm:text-lg text-lg font-semibold text-black flex-shrink-0 mt-5">Get incredible deals, up to 12% off</span>
-                    <button className="flex justify-around items-center gap-3 bg-black text-shadow-xl text-white font-bold 
-                    text-sm py-3 px-8 w-max mt-4 rounded-md shadow-2xl
-                    hover:bg-white hover:border hover:transition-all ease-out hover:text-black">
-                        <span>Order Now </span>
-                        <ion-icon name="chevron-forward-outline"></ion-icon> 
-                    </button>
-                </div>
-
-                <div class="hidden sm:block">
-                    <div class="">
-                        <img class="sm:w-96" src="https://www.apple.com/v/iphone-17/d/images/meta/iphone-17_overview__d4o74q28yjma_og.png?202512230653" />
-                    </div>
+                    
                 </div>
 
             </div>
 
-            <div className="sm:w-[80%] mx-auto px-2 sm:px-0 rounded-md sm:mt-16 mt-5">
+            <!-- <div className="sm:max-w-7xl sm:px-10 mx-auto px-2 rounded-md sm:mt-16 mt-5">
                 <div class="sm:flex justify-between sm:h-28 gap-4 sm:space-y-0 space-y-3">
                     <div class="flex-1 flex
                         justify-start
@@ -226,23 +290,108 @@ let storage = JSON.parse(localStorage.getItem("store"));
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <div class="max-w-7xl px-2 mt-10 mx-auto ">
+                <div class="flex flex-col gap-2">
+                    <div class="uppercase text-sm font-semibold text-[#EC7B00]">O Modelo</div>
+                    <div class="uppercase text-3xl title__font__family">De onde saem os produtos dos leilões</div>
+                    <div class="w-[70%] text-gray-500">A LANCE.RARO não é uma loja. O dinheiro que entra na compra de lances é investido pela plataforma, 
+                        e uma parte do lucro dessas operações é convertida em 
+                        produtos que voltam para a comunidade em forma de leilão de centavos.</div>
+                </div>
+
+               <div class="grid grid-cols-4 gap-5 mt-7">
+                    <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
+                        <div class="uppercase title__font__family font-normal text-xl">Você compra pacotes de lances</div>
+                        <div class="text-gray-500 text-sm">Cada lance é um crédito. Esse valor forma o caixa da plataforma.</div>
+                    </div>
+
+                    <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
+                        <div class="uppercase title__font__family font-normal text-xl">
+                            Nós investimos esse caixa</div>
+                        <div class="text-gray-500 text-sm">
+                            O dinheiro é aplicado em ativos e operações administradas pela Sidow Cash.</div>
+                    </div>
+
+                    <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
+                        <div class="uppercase title__font__family font-normal text-xl">
+                            Parte do lucro vira produto</div>
+                        <div class="text-gray-500 text-sm">
+                            Com o retorno, compramos produtos lacrados e colocamos em leilão.</div>
+                    </div>
+
+                    <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
+                        <div class="uppercase title__font__family font-normal text-xl">
+                            A comunidade disputa</div>
+                        <div class="text-gray-500 text-sm">
+                            Cada lance o preço diminui e você escolhe qual preço está disposto a pagar pelo produto.</div>
+                    </div>  
+               </div>
+
+               <div class="grid grid-cols-3 gap-5 mt-7">
+
+                    <div class="flex gap-2 border border-gray-300 shadow-lg bg-white rounded-xl p-5">
+                         <div>
+                            <Zap class="text-[#EC7B00]" />
+                        </div>
+                       <div class="flex flex-col font-normal ">
+                            <div class="text-xl uppercase title__font__family">Cronômetro de 2min</div>    
+                            <div class="text-gray-500 text-sm">
+                                Você decide qual posicao deseja levar o produto, e seus 
+                                creditos sao renovados a cada semana automaticamente pelo mesmo valor do seu depósito.
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="flex gap-2 border border-gray-300 shadow-lg bg-white rounded-xl p-5">
+                        <div>
+                            <Timer class="text-[#EC7B00]" />
+                        </div>
+                        <div class="flex flex-col font-normal ">
+                            <div class="text-xl uppercase title__font__family">Cronômetro de 2min</div>
+                            <div class="text-gray-500 text-sm">Todo lance decrementa R$ 0.01 centavo do valor inicial e ativa o cronometro, assim 
+                                quando chegar no lance que voce escolheu pagar você recebe um whatsapp para parar o cronometro imediatamente.
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="flex gap-2 border border-gray-300 shadow-lg bg-white rounded-xl p-5">
+                         <div>
+                            <TrendingUp class="text-[#EC7B00]" />
+                        </div>
+                        <div class="flex flex-col font-normal ">
+                            <div class="text-xl uppercase title__font__family">Lance não vira pó</div>
+                            <div class="text-gray-500 text-sm">
+                            Perdeu? Você entra na fila para comprar o produto como em um consórcio.
+                            <br></br>Quanto mais deposito mais você sobe na fila.</div>
+                        </div>
+                        
+                    </div> 
+               </div>
+
             </div>
  
 
-            <div class="bg-gray-50 sm:mt-16 ">
+            <div class="bg-gray-50 sm:mt-14 border-t borde-gray-300">
                 
-                <div class="w-[80%] mx-auto flex justify-center sm:pt-3 pt-0 pb-5 flex-wrap mt-18">
+                <div class="flex-wrap mt-18 w-full mx-auto flex justify-center sm:pt-3 pt-0 pb-5 ">
                 <!-- <p class="text-2xl font-semibold">Nossos Produtos</p> -->
                     <div class="w-full">
                         <ul class="flex justify-center mb:gap-3 mt-7 gap-3 text-[16px] font-medium flex-wrap">
-                            <li class="md:mt-0 border px-4 py-2 rounded-full shadow-sm transition-all ease-out cursor-pointer
-                            first:bg-black first:text-white
-                            hover:bg-black hover:text-white">
-                                <a href="#" class="" @click.prevent="selectCategory(null)">Todos</a>
+                            <li
+                                class="md:mt-0 border px-4 py-2 rounded-full shadow-sm transition-all ease-out cursor-pointer hover:bg-black hover:text-white"
+                                :class="auxSelected === null ? 'bg-black text-white' : 'bg-white'"
+                                @click.prevent="selectCategory(null)"
+                            >
+                                <a href="#">Todos</a>
                             </li>
                             <li class="md:mt-0 border px-4 py-2 rounded-full shadow-sm transition-all ease-out cursor-pointer
                             first:bg-black first:text-white
-                            hover:bg-black hover:text-white" v-for="cat in category" :key="cat.id"
+                            hover:bg-black hover:text-white"
+                            v-for="cat in category" :key="cat.id" 
+                            :class="auxSelected === cat.id ? 'bg-black text-white' : 'bg-white'" 
                             @click.prevent="selectCategory(cat.id)">
                                 <a href="#" class="">{{ cat.name }}</a>
                             </li>
@@ -250,7 +399,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
                     </div>
                 </div>
 
-                <div class="sm:w-[80%] relative mx-auto
+                <div class="sm:max-w-7xl relative mx-auto 
                 grid
                 sm:grid-cols-5
                 grid-cols-2
@@ -267,8 +416,8 @@ let storage = JSON.parse(localStorage.getItem("store"));
             </div>
 
             <!--Details Foot-->
-            <div class="w-full py-10 border-t border-gray-200">
-                <div className="container__own rounded-md">
+            <div class="w-full py-10 border-t border-gray-200 bg-white">
+                <div className="max-w-7xl mx-auto rounded-md">
                     <div class="
                     lg:flex
                     flex-col
@@ -277,7 +426,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
                     justify-end
                     lg:h-20
                     xs:space-y-0
-                    space-y-5
+                    space-y-5 
                     ">
                         <div class="
                             sm:flex-1

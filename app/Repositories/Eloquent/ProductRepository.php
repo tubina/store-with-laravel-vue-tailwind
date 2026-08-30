@@ -25,7 +25,7 @@ class ProductRepository implements ProductInterface {
     public function search(string $term)
     { 
         $search = $this->model  
-            ->where('name', 'like', "%{$term}%") 
+            ->where('name', 'ilike', "%{$term}%") 
             ->with('productImagesJustOne')
             ->get();
             

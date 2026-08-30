@@ -29,9 +29,9 @@ class ProductController extends Controller
     }
  
     public function search(Request $request)
-    { 
+    {  
         $search = $this->productService->search($request); 
         return response()->json($search->values());
-    } 
+    }  
 
 }

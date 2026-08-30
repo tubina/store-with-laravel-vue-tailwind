@@ -6,6 +6,7 @@ import { profilePhoto } from '../profilePhoto.js';
 import { useStore } from '../stores/store.js';
 import ToastList from '@/Components/ToastList.vue';
 import { ref, reactive, watch } from 'vue';
+import { Heart, ShoppingCart, Store } from 'lucide-vue-next'
 
 const searchRef = ref(false)
 const searchInput = ref('')
@@ -22,7 +23,6 @@ watch(searchInput, async (newValue) => {
                 },
             });
             const data = await response.json();
-            console.log(data)
 
             // Atualiza o array reativo corretamente
             searchResult.splice(0, searchResult.length, ...data ?? []);
@@ -36,7 +36,7 @@ watch(searchInput, async (newValue) => {
 });
 
 const store = useStore();
-const user = usePage().props.auth.user;
+const user = usePage().props.auth.user;   
 
 /***********************************************/
 
@@ -52,7 +52,7 @@ if(user && user.profile_photo){
 
 <template>
   <div class="fixed z-50 top-0 w-full shadow shadow-slate-300 bg-white">
-    <div class="container__own mx-auto flex justify-between items-center h-16 ">
+    <div class="flex justify-between items-center max-w-7xl h-[65px] mx-auto  px-2 ">
 
       <!-- Logo -->
       <div class="font-light">
@@ -60,93 +60,93 @@ if(user && user.profile_photo){
       </div>
 
       <!-- Menu -->
-      <ul class="flex gap-6 text-sm font-medium text-slate-700">
-        <li>
-          <Link href="/home"
-                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
-            Home
-          </Link>
-        </li>
+      <!-- <ul class="flex gap-6 text-sm font-medium text-slate-700"> 
         <li>
           <Link href="/store"
-                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
+                class="hover:border-b-2 hover:text-black">
             Loja
           </Link>
-        </li>
-        <li>
-          <Link href="#"
-                class="hover:border-b-2 hover:text-blue-500 border-blue-500">
-                Ranking
-          </Link>
-        </li>
-      </ul>
+        </li> 
+      </ul> -->
+
+      <div class="flex-1 mx-5 relative">
+        <div class="relative w-[100%] h-9 mx-auto">
+          <input
+          v-model="searchInput"
+          @focus="searchRef = true"
+          @blur="searchRef = false"
+          type="text"
+          placeholder="Search..."
+          class="absolute right-0 w-full h-[38px] transition-[width] duration-300 ease-in-out
+                  border border-gray-300 
+                  text-gray-700 placeholder-gray-400 rounded-full px-4 bg-white font-light text-sm"
+          />
+          <ion-icon
+          name="search-outline"
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-[22px] text-gray-700 cursor-pointer"
+          ></ion-icon>
+        </div>
+
+        <!-- Dropdown -->
+        <div
+            class="absolute top-full left-0 w-full bg-white overflow-hidden
+                transition-opacity duration-1000 ease-out rounded-lg border border-gray-300"
+            :class="searchRef ? 'opacity-100 mt-1' : 'opacity-0 max-h-0 mt-0'"
+        >
+            <!-- Conteúdo do dropdown -->
+              <ul class="text-gray-600 text-[13px] font-normal rounded-md">
+                <li v-for="sr in searchResult" :key="sr.id" @mousedown.prevent 
+                class="flex items-center gap-2 p-3 pl-3 border-b border-b-gray-200">
+                    <img class="h-10 rounded-sm" :src="`/storage/${sr.product_images_just_one.path}`" >
+                    <Link v-if="sr.id" :href="route('product.show', { id: sr.id })">
+                        {{ sr.name }}
+                    </Link>
+                    <span v-else class="text-gray-400">
+                        {{ sr.name }} (sem id)
+                    </span>
+                </li> 
+            </ul>
+        </div>
+      </div>
+  
 
       <ToastList
         :message="{image: store.toastImage, name: store.toastName, price: store.toastPrice }"
         :keyValue="store.toastKey" />
 
       <!-- Right side: Search + Cart + Favorite + User -->
-      <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700 ">
+      <ul class="flex items-center gap-4 text-sm font-semibold text-slate-700 mb-1">
 
-        <li class="relative">
-            <div class="relative w-48 h-9">
-                <input
-                v-model="searchInput"
-                @focus="searchRef = true"
-                @blur="searchRef = false"
-                type="text"
-                placeholder="Search..."
-                class="absolute right-0 w-full h-9 focus:w-80 transition-[width] duration-300 ease-in-out
-                        border border-gray-300 focus:ring-2 focus:ring-gray/30
-                        text-gray-700 placeholder-gray-400 rounded-xl px-2 bg-white font-light text-sm"
-                />
-                <ion-icon
-                name="search-outline"
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-2xl text-gray-700 cursor-pointer"
-                ></ion-icon>
-            </div>
-
-            <!-- Dropdown -->
-            <div
-                class="absolute top-full right-0 w-80 bg-white overflow-hidden
-                    transition-opacity duration-1000 ease-out rounded-lg"
-                :class="searchRef ? 'opacity-100 mt-1' : 'opacity-0 max-h-0 mt-0'"
-            >
-                <!-- Conteúdo do dropdown -->
-                 <ul class="text-gray-600 text-[13px] font-normal">
-                    <li v-for="sr in searchResult" :key="sr.id" @mousedown.prevent class="flex items-center gap-2 p-3 pl-3 border-b border-b-gray-100">
-                        <img class="h-10" :src="`/storage/${sr.product_images_just_one.path}`" >
-                        <Link v-if="sr.id" :href="route('product.show', { id: sr.id })">
-                            {{ sr.name }}
-                        </Link>
-                        <span v-else class="text-gray-400">
-                            {{ sr.name }} (sem id)
-                        </span>
-                    </li> 
-                </ul>
-            </div>
+        <li class="relative mt-2">
+          <Link href="/store" class="transition hover:-translate-y-1 hover:text-black"> 
+            <Store class="w-5 h-5 text-gray-700" /> 
+          </Link>
         </li>
 
         <!-- Cart -->
         <li class="relative mt-2">
-          <Link href="/cart" class="transition hover:-translate-y-1 hover:text-black">
-            <ion-icon name="cart-outline" class="text-2xl"></ion-icon>
-            <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">
+          <Link href="/cart" class="transition hover:-translate-y-1 hover:text-black"> 
+            <ShoppingCart class="w-5 h-5 " /> 
+            <div class="flex justify-center absolute -mt-7 ml-3 w-4 h-4
+            rounded-full bg-gradient-to-r from-orange-400 to-[#E66400]
+            text-xs text-white font-bold">
               {{ store.qtd_cart }}
             </div>
           </Link>
         </li>
-
+  
         <!-- Favorite -->
         <li class="relative mt-2">
           <Link href="/favorite" class="transition hover:-translate-y-1 hover:text-black">
-            <ion-icon name="heart-outline" class="text-2xl"></ion-icon>
-            <div class="absolute -mt-8 ml-3 pt-0 pl-1 pr-1 pb-0 bg-black rounded-full text-xs font-normal text-white">
+            <Heart class="w-5 h-5 text-gray-700" />
+            <div class="flex justify-center absolute -mt-7 ml-3 w-4 h-4
+            rounded-full bg-gradient-to-r from-orange-400 to-[#E66400]
+            text-xs text-white font-bold">
               {{ store.qtd_favorites }}
             </div>
           </Link>
-        </li>
-
+        </li>  
+        
         <!-- User dropdown / Login -->
         <li>
           <div v-if="$page.props.auth.user">
@@ -163,12 +163,14 @@ if(user && user.profile_photo){
                           hover:text-gray-700 focus:outline-none"
                         >
                           <img
-                            class="w-7 h-7 mr-2 rounded-full object-cover"
+                            class="mt-1 w-6 h-6 mr-2 rounded-full object-cover"
                             :src="photoUrl"
                           />
-                          {{ $page.props.auth.user.name }}
+                          <div class="mt-1">
+                            {{ $page.props.auth.user.name }}
+                          </div>
                           <svg
-                            class="-me-0.5 ms-1 h-4 w-4"
+                            class="-me-0.5 ms-0.5 h-4 w-4 mt-2"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -184,9 +186,9 @@ if(user && user.profile_photo){
                     </template>
 
                     <template #content>
-                      <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
-                      <DropdownLink :href="route('profile.edit')">Points</DropdownLink>
-                      <DropdownLink :href="route('profile.edit')">Orders</DropdownLink>
+                      <DropdownLink :href="route('profile.edit')">Perfil</DropdownLink> 
+                      <DropdownLink :href="route('profile.edit')">Depositar</DropdownLink> 
+                      <DropdownLink :href="route('profile.edit')">Histórico</DropdownLink> 
                       <DropdownLink :href="route('logout')" method="post" as="button" class="border-t border-gray-100">Log out</DropdownLink>
                     </template>
                   </Dropdown>

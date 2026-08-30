@@ -24,7 +24,7 @@ class ProductService {
 /******************************************/
     public function search($request)
     {
-        $searchTerm = $request->input('name'); 
+        $searchTerm = $request->input('name');  
         $search = $this->productInterface->search($searchTerm);
 
         //        Log::info('Q....: '.$request);
