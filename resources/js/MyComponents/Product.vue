@@ -2,7 +2,8 @@
 import { defineEmits } from 'vue';
 import { useStore } from '../stores/store.js';
 import { reactive } from 'vue';
-import { formatPrice } from '../utils/formatPrice.js';
+import { formatPrice } from '../utils/formatPrice.js'; 
+
 
 const props = defineProps({
     cart: {
@@ -67,41 +68,42 @@ function closeModal() {
     </div>
 <!-------->
 
-    <div class="flex gap-4 items-start mt-3 pl-3 pr-3 pb-3">
+    <div class="flex gap-4 items-start justify-center
+    mb-3 px-5 py-3 bg-white rounded-xl border shadow-sm">
 
         <!-- Imagem -->
         <img
             :src="`/storage/${cart.product.product_images_just_one.path}`"
-            class="border rounded-md w-32 h-32 p-2 object-cover" 
+            class="p-1 rounded-2xl w-24 h-24 object-cover" 
         />
 
         <!-- Conteúdo -->
-        <div class="flex flex-col flex-1 min-h-[130px]">
+        <div class="flex flex-col flex-1 min-h-[100px]">
 
             <!-- Topo -->
             <div class="classe-a flex justify-between">
                 <div class="flex flex-col">
                     <div class="text-lg">
-                        <div class="text-shadow font-semibold text-[#0a0a0a]">
+                        <div class="font-semibold text-[#0a0a0a]">
                             {{ capitalizeWords(cart.product.name) }}
                         </div>
                         <div class="text-sm mt-2 text-[#0a0a0a]">
                             Category:
-                            <span class="text-shadow font-semibold">
+                            <span class="font-semibold">
                                 {{ cart.product.category.name }}
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <div class="text-shadow text-lg font-semibold text-right">
+                <div class=" text-lg font-semibold text-right">
                     R$ {{ formatPrice(cart.product.price) }}
                 </div>
             </div>
 
             <div class="class-b mt-auto flex justify-between items-end ">
-                <div class="flex gap-2">
-                    <button @click="addFavorite(cart.product.id)" class="flex p-2 rounded-2xl bg-gray-200 w-min h-min ">
+                <div class="flex gap-3">
+                    <button @click="addFavorite(cart.product.id)" class="pt-2">
                         <ion-icon name="heart-outline" class="text-black text-base"></ion-icon>
                     </button>
                     <button @click="removeFromFavorite(cart.product.id)" class="pt-2">
@@ -109,12 +111,19 @@ function closeModal() {
                     </button>
                 </div>
 
-                <select class="border w-12 h-10 text-xs border-gray-300 rounded px-3
+                <!-- <select class="border w-12 h-10 text-xs border-gray-300 rounded px-3
                                 py-2 focus:outline-none focus:ring focus:ring-blue-300">
                     <option v-for="n in 5" :value="n" :selected="cart.quantity == n">
                         {{ n }}
                     </option>
-                </select>
+                </select> -->
+
+                <div class="flex items-center gap-1">
+                    <div class="flex justify-center text-3xl border rounded-lg w-8">-</div>
+                    <div class=""><input type="text" class="border-none w-10 h-8"></div>
+                    <div class="flex justify-center text-3xl border rounded-lg w-8">+</div>
+                </div>
+
             </div>
 
         </div>
@@ -155,5 +164,6 @@ function closeModal() {
   border-radius: 8px;
 }
 </style>
+
 
 
