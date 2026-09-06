@@ -34,4 +34,8 @@ class Product extends Model
         return $this->hasOne(Favorite::class)->where('user_id', auth()->id());
     }
 
+    public function qtdCart()
+    {
+        return $this->hasOne(Cart::class)->where('user_id', auth()->id());
+    }
 }

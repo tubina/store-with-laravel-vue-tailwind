@@ -2,7 +2,9 @@
 import { defineEmits } from 'vue';
 import { useStore } from '../stores/store.js';
 import { reactive } from 'vue';
-import { formatPrice } from '../utils/formatPrice.js'; 
+import { formatPrice } from '../utils/formatPrice.js';
+import { ref } from 'vue';
+import { Heart, Trash2 } from 'lucide-vue-next';
 
 
 const props = defineProps({
@@ -10,18 +12,45 @@ const props = defineProps({
         type: Object,
         required: true
     }
-})
+}) 
+
+var qtdProduct = ref(1);
+if(props.cart.product.qtd_cart.quantity > 1){
+    qtdProduct = ref(props.cart.product.qtd_cart.quantity);
+}else{
+    qtdProduct = ref(1);
+}
+
+const isFav = ref(false); 
+if(props.cart.product.product_has_favorite != null){
+    if(props.cart.product.product_has_favorite.user_id != null){
+        isFav.value = true;
+    }else{
+        isFav.value = false;
+    }
+}
+const TrueconfFav = ['text-orange-500', 'fill-orange-500'];
+const FalseconfFav = ['text-gray-500']; 
 
 const store = useStore();
 
 const emit = defineEmits(['removeFromCart', 'addToFavorite']);
 
+function removeToFavorites(product){
+    store.deleteFromFavorite(product)
+    console.log(product)
+}
+ 
 function addFavorite(product_id) {
     emit('addToFavorite', product_id);
-    store.showToast(props.cart.product.id,
-    props.cart.product.product_images_just_one.path,
-    props.cart.product.name,
-    props.cart.product.price)
+    if(isFav.value = !isFav.value){
+        store.showToast(props.cart.product.id,
+        props.cart.product.product_images_just_one.path,
+        props.cart.product.name,
+        props.cart.product.price)
+    }else{      
+        removeToFavorites(product_id) 
+    }
 }
 
 function deleteCart(product_id) {
@@ -39,18 +68,50 @@ const modal = reactive({
     show: false,
     indexToDelete: null
 });
-function removeFromFavorite(favorite) {
+function removeFromCart(favorite) {
     modal.show = true;
     modal.indexToDelete = favorite;
 }
 
 function deleteProduct(){
     deleteCart(modal.indexToDelete)
+    console.log(modal.indexToDelete)
 }
 function closeModal() {
     modal.show = false;
 }
 
+function incrementalQtd(){
+    qtdProduct.value++;
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const addQtdCart = fetch(`/cart-insert-increment-product/${props.cart.product.id}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token, // token CSRF aqui
+        },
+        body: JSON.stringify({product_id: props.cart.product.id})
+    });
+}
+function decrementalQtd(product_id){
+    if(qtdProduct.value > 1){
+        qtdProduct.value--;
+    }else if(qtdProduct.value == 1) {
+        removeFromCart(product_id)
+    }
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const removeQtdCart = fetch(`/cart-decrement-product/${props.cart.product.id}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token, // token CSRF aqui
+        },
+        body: JSON.stringify({product_id: props.cart.product.id})
+    });
+
+} 
 
 </script>
 <template>
@@ -102,26 +163,37 @@ function closeModal() {
             </div>
 
             <div class="class-b mt-auto flex justify-between items-end ">
-                <div class="flex gap-3">
-                    <button @click="addFavorite(cart.product.id)" class="pt-2">
-                        <ion-icon name="heart-outline" class="text-black text-base"></ion-icon>
+                <div class="flex items-center gap-3">
+                    <button @click="addFavorite(cart.product.id)" class="flex gap-1 items-center pt-2">
+                        <Heart :class="isFav ? TrueconfFav : FalseconfFav" class="h-4 w-4"></Heart>
+                        <span class="text-sm">Favoritar</span>
                     </button>
-                    <button @click="removeFromFavorite(cart.product.id)" class="pt-2">
-                        <ion-icon name="trash-outline" class="text-black text-base"></ion-icon>
+                    <button @click="removeFromCart(cart.product.id)" class="flex gap-1 items-center pt-2">
+                        <Trash2 class="h-4 w-4 text-gray-500"></Trash2>
+                        <span class="text-sm">Remover</span>
                     </button>
                 </div>
-
-                <!-- <select class="border w-12 h-10 text-xs border-gray-300 rounded px-3
-                                py-2 focus:outline-none focus:ring focus:ring-blue-300">
-                    <option v-for="n in 5" :value="n" :selected="cart.quantity == n">
-                        {{ n }}
-                    </option>
-                </select> -->
-
+ 
                 <div class="flex items-center gap-1">
-                    <div class="flex justify-center text-3xl border rounded-lg w-8">-</div>
-                    <div class=""><input type="text" class="border-none w-10 h-8"></div>
-                    <div class="flex justify-center text-3xl border rounded-lg w-8">+</div>
+                    <button
+                        @click="decrementalQtd(cart.product.id)"
+                        class="flex items-center justify-center w-8 h-8 border rounded-lg text-2xl"
+                    >
+                        -
+                    </button>
+
+                    <input
+                        type="text"
+                        v-model="qtdProduct"
+                        class="w-10 h-8 border rounded-lg text-center outline-none border-gray-300"
+                    />
+
+                    <button
+                        @click="incrementalQtd"
+                        class="flex items-center justify-center w-8 h-8 border rounded-lg text-2xl"
+                    >
+                        +
+                    </button>
                 </div>
 
             </div>

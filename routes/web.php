@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('index.cart');
     Route::get('/cart-get', [CartController::class, 'getQtdCart'])->name('get.cart');
     Route::post('/cart-insert', [CartController::class, 'addToCart'])->name('add.cart');
+    Route::post('/cart-insert-increment-product/{id}', [CartController::class, 'addQtdCart'])->name('add.cart');
+    Route::post('/cart-decrement-product/{id}', [CartController::class, 'removeQtdCart'])->name('remove.cart');
     Route::delete('/cart-delete', [CartController::class, 'deleteFromCart'])->name('delete.cart');
     /***********/
     Route::get('/favorite', [FavoriteController::class, 'index'])->name('index.favorite');

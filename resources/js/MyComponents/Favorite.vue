@@ -2,6 +2,7 @@
 import {Link} from "@inertiajs/vue3";
 import { useStore } from '../stores/store.js';
 import { reactive } from 'vue';
+import Card from "@/Pages/Card.vue";
 
 const props = defineProps({
     favorite: Array,
@@ -64,7 +65,7 @@ function closeModal() {
         </div>
       </div>
     </div>
-
+   
     <td class="px-4 py-2 hidden sm:table-cell">
         <button class="bg-white text-black px-2 py-1 rounded
             hover:bg-gray-100 text-xs font-bold">

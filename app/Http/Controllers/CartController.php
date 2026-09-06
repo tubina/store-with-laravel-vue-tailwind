@@ -25,8 +25,7 @@ class CartController extends Controller
 /**************************************************/
     public function index() 
     {
-        $cart = $this->cartService->index(); 
-
+        $cart = $this->cartService->index();  
         return Inertia::render('Cart', ['cart' => $cart]);
     }  
 /**************************************************/
@@ -119,5 +118,36 @@ class CartController extends Controller
         Log::debug('Items deletados', ['count', $cart]);
 
         return response()->json(['success' => true]);
+    }
+/**************************************************/
+    public function addQtdCart(Request $request) 
+    {
+        Log::info('CartController', ['request' => $request->all()]);
+
+        $userId = auth()->id();
+        $productId = $request->product_id;
+
+        $result = $this->cartService->addQtdCart($userId, $productId);
+
+        if (!$result) 
+        {
+            return response()->json(['message' => 'Item não encontrado no carrinho'], 404);
+        }
+
+        return response()->json(['message' => 'Quantidade do item incrementada com sucesso!'], 200);
+    }
+/**************************************************/
+    public function removeQtdCart(Request $request) 
+    {
+        $userId = auth()->id();
+        $productId = $request->product_id;
+
+        $productId = $this->cartService->removeQtdCart($userId, $productId);
+ 
+        if ($productId) { 
+            return response()->json(['message' => 'Quantidade do item decrementada com sucesso!'], 200);  
+        }
+
+        return response()->json(['message' => 'Item não encontrado no carrinho'], 404);
     }
 }

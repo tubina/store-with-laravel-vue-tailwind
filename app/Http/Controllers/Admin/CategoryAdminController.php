@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class CategoryAdminController extends Controller
 {
@@ -27,14 +28,26 @@ class CategoryAdminController extends Controller
 /*******************************************************************/
     public function save(Request $request)
     {
-        $after = Category::where('name', $request->input('cat'))->first();
-        Category::where('position', '>', $after->position)->increment('position');
 
-        $category = new Category();
-        $category->name = $request->input('name');
-        $category->position = $after->position + 1;
-        $category->save();
+        Log::info($request->all('oldCategory'));
 
+        if($request->input('oldCategory') == null)
+        {
+            $category = new Category();
+            $category->name = $request->input('name'); 
+            $category->position = Category::max('position') + 1;
+            $category->save();
+        }else
+        {
+            $after = Category::where('name', $request->input('oldCategory'))->first();
+            Category::where('position', '>', $after->position)->increment('position');
+
+            $category = new Category();
+            $category->name = $request->input('name');
+            $category->position = $after->position + 1;
+            $category->save(); 
+        }
+ 
         //return redirect('/admin/category');
     }
 }

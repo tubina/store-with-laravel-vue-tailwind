@@ -4,6 +4,7 @@ import Favorite from '../MyComponents/Favorite.vue'
 import Footer from './Footer.vue';
 import { ref, computed } from 'vue';
 import { useStore } from '../stores/store.js';
+import Card from "@/Pages/Card.vue";
 
 const props = defineProps({
     favorites: Array
@@ -53,57 +54,27 @@ function removeFavorite(favoriteId) {
     <div>
         <Header />
 
-        <div class="mb-32 w-full">
+        <div class="max-w-7xl mx-auto px-3 mt-28 mb-32 ">
+ 
 
-            <div class="sm:w-[80%] sm:mx-auto sm:p-0 px-2 overflow-x-auto">
-
-                <div class="flex items-center justify-between mt-28 ">
-                    <div class="flex items-center gap-2">
-                        <ion-icon name="heart-outline" class="text-3xl"></ion-icon>
-                        <span class="text-2xl font-medium mt-1">Favorites</span>
-                    </div>
-
-                </div>
-                <div class="mt-5">
-                    <table class="min-w-full">
-                        <thead class="border-b ">
-                            <tr class="text-shadow text-lg font-semibold hidden sm:table-row">
-                                <th class="flex items-center  pl-6 py-3 text-left">
-                                    <input type="checkbox" v-model="allSelected" /> &nbsp;All
-                                </th>
-                                <th class="px-4 py-2 text-left">Image</th>
-
-                                <th class="px-4 py-2 text-left">Name</th>
-                                <th class="px-4 py-2 text-left">Category</th>
-                                <th class="px-4 py-2 text-left">Status</th>
-                                <th class="px-4 py-2 text-left">Users</th>
-                                <th class="px-4 py-2 text-left">Price</th>
-                                <th class="flex text-left">
-                                    <span class="px-4 py-2 text-left">Action</span>
-                                    <span v-if="someSelected.length" class="flex items-center">
-                                        <button @click="addToCart"
-                                        class=" text-left bg-green-600 hover:bg-green-500
-                                        text-white text-xs px-3 py-2 border rounded">
-                                            All to Cart
-                                        </button>
-                                    </span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="">
-                            <!-- item 1 -->
-                            <tr v-for="favorite in favoritesList" :key="favorite.id" class=" border-t">
-                                <Favorite
-                                :favorite="favorite"
-                                :select="favoritesRef"
-                                @update:selectIds="handleUpdate"
-                                @removeFavorite="removeFavorite"/>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
+            <div class="flex flex-col gap-2"> 
+                <div class="text-3xl font-bold mt-1 uppercase ">Meus Favoritos</div>
+                <p class="text-gray-600">Os leilões que você salvou para acompanhar de perto.</p>
             </div>
+            <div class="mt-5"> 
+                
+                <div class="grid sm:grid-cols-4 grid-cols-2 smgap-8 gap-2 items-start">
+                    <!-- item 1 -->
+                    <div v-for="favorite in favoritesList" :key="favorite.id">
+                        <Card :product="favorite" @updateView="updateView"/>
+                        <!-- <Favorite
+                        :favorite="favorite"
+                        :select="favoritesRef"
+                        @update:selectIds="handleUpdate"
+                        @removeFavorite="removeFavorite"/> -->
+                    </div>
+                </div>
+            </div> 
         </div>
 
         <Footer />

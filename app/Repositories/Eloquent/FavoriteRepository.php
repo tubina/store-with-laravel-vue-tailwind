@@ -11,7 +11,7 @@ class FavoriteRepository implements FavoriteInterface {
     public function index() {
         Log::info('usuario repositorie index');
         $user = auth()->user();
-        $favorites = $user->favoriteProducts()->with('productImagesJustOne')->get();
+        $favorites = $user->favoriteProducts()->with('productImagesJustOne', 'productHasFavorite')->get();
         return $favorites;
     }
 

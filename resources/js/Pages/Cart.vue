@@ -4,7 +4,7 @@ import Product from '../MyComponents/Product.vue';
 import Footer from './Footer.vue';
 import { defineProps, computed, ref } from 'vue';
 import { useStore } from '../stores/store.js';
-import { ShieldCheck, PackageOpen } from 'lucide-vue-next'
+import { ShieldCheck, PackageOpen, Heart } from 'lucide-vue-next'
 
 const store = useStore();
 
@@ -36,9 +36,9 @@ function deleteFromCart(product_id) {
 <template>
     <Header></Header>
 
-    <div class="max-w-7xl mx-auto mt-28 mb-32 ">
+    <div class="max-w-7xl mx-auto px-3 mt-28 mb-32 ">
         <div class="flex flex-col gap-2"> 
-            <div class="text-3xl font-bold mt-1 uppercase "> SEU CARRINHO</div>
+            <div class="text-3xl font-bold mt-1 uppercase ">SEU CARRINHO</div>
             <p class="text-gray-600">Compra imediata e pacotes de lances. Os créditos entram na conta na hora.</p>
         </div>
 
@@ -68,7 +68,9 @@ function deleteFromCart(product_id) {
                     <div>Total:</div>
                     <div class="text-2xl
                     text-[#EC7B00] 
-                bg-gradient-to-b from-orange-500 to-orange-700 bg-clip-text text-transparent">R$ {{ totalPrice.toFixed(2) }}</div>
+                    bg-gradient-to-b from-orange-500 to-orange-700 bg-clip-text text-transparent">
+                        R$ {{ totalPrice.toFixed(2) }}
+                    </div>
                 </div>
                 <div>
                     <button class="w-full shadow-sm uppercase text-white font-semibold  rounded-xl

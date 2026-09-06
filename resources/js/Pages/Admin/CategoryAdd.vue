@@ -22,8 +22,8 @@ function editCategory(){
 </script>
 
 <template>
-    <Main :category="category">
-
+    <Main :category="category"> 
+        
         <div class="flex w-auto justify-center">
             <div class="flex w-auto justify-center gap-2">
                     <div class="flex flex-col">

@@ -58,17 +58,7 @@ if(user && user.profile_photo){
       <div class="font-light">
         <Link href="/home">Logo</Link>
       </div>
-
-      <!-- Menu -->
-      <!-- <ul class="flex gap-6 text-sm font-medium text-slate-700"> 
-        <li>
-          <Link href="/store"
-                class="hover:border-b-2 hover:text-black">
-            Loja
-          </Link>
-        </li> 
-      </ul> -->
-
+ 
       <div class="flex-1 mx-5 relative">
         <div class="relative w-[100%] h-9 mx-auto">
           <input
@@ -85,16 +75,19 @@ if(user && user.profile_photo){
           name="search-outline"
           class="absolute right-3 top-1/2 -translate-y-1/2 text-[22px] text-gray-700 cursor-pointer"
           ></ion-icon>
-        </div>
-
+        </div> 
+        
         <!-- Dropdown -->
         <div
             class="absolute top-full left-0 w-full bg-white overflow-hidden
-                transition-opacity duration-1000 ease-out rounded-lg border border-gray-300"
-            :class="searchRef ? 'opacity-100 mt-1' : 'opacity-0 max-h-0 mt-0'"
-        >
-            <!-- Conteúdo do dropdown -->
-              <ul class="text-gray-600 text-[13px] font-normal rounded-md">
+                transition-opacity duration-1000 ease-out rounded-lg "
+            :class="[
+              searchRef ? 'opacity-100 mt-1' : 'opacity-0 max-h-0 mt-0',
+              searchResult.length > 0 ? 'max-h-[300px] overflow-y-auto border border-gray-300' : 'max-h-0 overflow-hidden'
+              ]">
+             
+             <!-- Conteúdo do dropdown -->
+              <ul class="text-gray-600 text-[13px] font-normal rounded-md ">
                 <li v-for="sr in searchResult" :key="sr.id" @mousedown.prevent 
                 class="flex items-center gap-2 p-3 pl-3 border-b border-b-gray-200">
                     <img class="h-10 rounded-sm" :src="`/storage/${sr.product_images_just_one.path}`" >

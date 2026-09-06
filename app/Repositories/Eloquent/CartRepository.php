@@ -17,7 +17,11 @@ class CartRepository implements CartInterface {
 /**************************************/
     public function index()
     {
-        $cart = $this->model::where('user_id', auth()->id())->with('product.category')->with('product.productImagesJustOne')->get();
+        $cart = $this->model::where('user_id', auth()->id())->with('product.category')
+        ->with('product.productImagesJustOne')
+        ->with('product.productHasFavorite')
+        ->with('product.qtdCart')
+        ->get();
         return $cart;
     }
 /**************************************/
@@ -40,7 +44,40 @@ class CartRepository implements CartInterface {
         ]);
     }
 /**************************************/
+    public function addQtdCart(int $userId, int $productId)
+    {
+        $cartItem = $this->model::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
 
+        if ($cartItem) {
+            $cartItem->quantity += 1;
+            $cartItem->save();
+            return $cartItem;
+        }
+
+        return null; // Item not found in the cart
+    }
+/**************************************/
+    public function removeQtdCart(int $userId, int $productId)
+    {
+        $cartItem = $this->model::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            if ($cartItem->quantity > 1) {
+                $cartItem->quantity -= 1;
+                $cartItem->save();
+            } else {
+                // If quantity is 1, remove the item from the cart
+                $cartItem->delete();
+            }
+            return $cartItem;
+        }
+
+        return null; // Item not found in the cart
+    }
 }
 
 

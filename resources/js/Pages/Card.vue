@@ -4,15 +4,23 @@ import { defineProps, ref } from 'vue';
 import { useStore } from '../stores/store.js';
 import { verifyLogin } from '@/utils/verifyLogin.js';
 import { formatPrice } from '../utils/formatPrice.js'
+import { Heart } from 'lucide-vue-next';
 //import Tooltip from '@/Components/Tooltip.vue'
 
-const { product } = defineProps({
+const {product} = defineProps({
     product: Object
-});
+}); 
 
-const isFav = ref(product.product_has_favorite != null); 
-const TrueconfFav = ['bg-white', 'text-red-600'];
-const FalseconfFav = ['bg-white', 'text-black']; 
+const isFav = ref(false); 
+if(product.product_has_favorite != null){
+    if(product.product_has_favorite.user_id != null){
+        isFav.value = true;
+    }else{
+        isFav.value = false;
+    }
+}
+const TrueconfFav = ['text-orange-500', 'fill-orange-500'];
+const FalseconfFav = ['text-gray-500']; 
 
 let imagem = ''
 const id = product?.id ?? '';
@@ -29,7 +37,7 @@ if(product.product_images_just_one){
 
 function firstFiveWords(text) {
   if (!text) return '';
-  return text.split(' ').slice(0, 7).join(' ');
+  return text.split(' ').slice(0, 9).join(' ');
 }
 /***************************************************/
 const store = useStore();
@@ -52,6 +60,12 @@ function addToFavorites(product){
 } 
 function removeToFavorites(product){
     store.deleteFromFavorite(product)
+    console.log(product)
+    updateView(product);
+}
+
+function updateView() {
+    $emit('updateView', product);
 }
 
 </script>
@@ -67,35 +81,38 @@ function removeToFavorites(product){
                     <div class="w-2 h-2 bg-red-500 border rounded-full animate-blink"></div>
                     <div class="text-xs">AO VIVO</div>
                 </div>
-            </div>
-    
+            </div>  
 
             <div class="flex items-center text-xl gap-1">
-                <ion-icon name="flame" class="text-sm text-gray-500"></ion-icon>
-                <div class="text-sm text-gray-500">1043</div>
 
                 <Tooltip text="Quantidade todal de lances nesse produto."> 
                     <ion-icon name="alert-circle-outline" class="text-md text-orange-600 "></ion-icon>
                 </Tooltip>
-            </div>
-        </div>
 
-        
+                <div class="items-center flex mr-1">
+                    <ion-icon name="flame" class="text-sm text-gray-500"></ion-icon>
+                    <div class="text-sm text-gray-500">1043</div>
+                </div>
+
+                <div 
+                    class="bottom-0 flex items-center p-1 text-black 
+                    hover:border-gray-400 hover:bg-gray-100 transition-all duration-300 
+                    text-xl border border-gray-300 rounded-full "
+                    @click.prevent="[addToFavorites(product.id), buttonFavorite]">  
+                        <Heart class="w-[14px] h-[14px]" :class="isFav ? TrueconfFav : FalseconfFav" />
+                </div>  
+
+            </div> 
+            
+        </div>
+ 
 
         <div className=" flex justify-center w-full px-5 mb-4">
             <Link :href="`/product/${id}`" >
                 <img  class="rounded-xl w-44 h-44 object-cover" :src="imagem ? `/storage/${imagem}` : 'https://camo.githubusercontent.com/1689710c566f80df259f21d6a68e6e901f431ac2b165a3538b5167b027ef3192/68747470733a2f2f7a7562652e696f2f66696c65732f706f722d756d612d626f612d63617573612f33363664616462316461323032353338616531333332396261333464393030362d696d6167652e706e67'" />
             </Link> 
         </div>
-
-
-         <!-- <div :class="isFav ? TrueconfFav : FalseconfFav"
-            class=" mr-3 bottom-0 flex items-center p-1 text-black hover:border-black 
-            text-xl border border-gray-300 rounded-full "
-            @click.prevent="[addToFavorites(product.id), buttonFavorite]">  
-                <ion-icon name="heart"></ion-icon>
-            </div>  -->
-
+ 
 
         <div class="text-gray-400 text-xs ml-3 uppercase">
             {{ categoryName }}

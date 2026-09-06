@@ -295,34 +295,34 @@ let storage = JSON.parse(localStorage.getItem("store"));
             <div class="max-w-7xl px-2 mt-10 mx-auto ">
                 <div class="flex flex-col gap-2">
                     <div class="uppercase text-sm font-semibold text-[#EC7B00]">O Modelo</div>
-                    <div class="uppercase text-3xl title__font__family">De onde saem os produtos dos leilões</div>
-                    <div class="w-[70%] text-gray-500">A LANCE.RARO não é uma loja. O dinheiro que entra na compra de lances é investido pela plataforma, 
+                    <div class="uppercase text-3xl title__font__family font-semibold">De onde saem os produtos dos leilões</div>
+                    <div class="w-[70%] text-gray-500">A SIDOW CASH não é uma loja. O dinheiro que entra na compra de lances é investido pela plataforma, 
                         e uma parte do lucro dessas operações é convertida em 
                         produtos que voltam para a comunidade em forma de leilão de centavos.</div>
                 </div>
 
                <div class="grid grid-cols-4 gap-5 mt-7">
                     <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
-                        <div class="uppercase title__font__family font-normal text-xl">Você compra pacotes de lances</div>
+                        <div class="uppercase title__font__family font-semibold text-xl">Você compra pacotes de lances</div>
                         <div class="text-gray-500 text-sm">Cada lance é um crédito. Esse valor forma o caixa da plataforma.</div>
                     </div>
 
                     <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
-                        <div class="uppercase title__font__family font-normal text-xl">
+                        <div class="uppercase title__font__family font-semibold text-xl">
                             Nós investimos esse caixa</div>
                         <div class="text-gray-500 text-sm">
                             O dinheiro é aplicado em ativos e operações administradas pela Sidow Cash.</div>
                     </div>
 
                     <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
-                        <div class="uppercase title__font__family font-normal text-xl">
+                        <div class="uppercase title__font__family font-semibold text-xl">
                             Parte do lucro vira produto</div>
                         <div class="text-gray-500 text-sm">
                             Com o retorno, compramos produtos lacrados e colocamos em leilão.</div>
                     </div>
 
                     <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-5"> 
-                        <div class="uppercase title__font__family font-normal text-xl">
+                        <div class="uppercase title__font__family font-semibold text-xl">
                             A comunidade disputa</div>
                         <div class="text-gray-500 text-sm">
                             Cada lance o preço diminui e você escolhe qual preço está disposto a pagar pelo produto.</div>
@@ -336,7 +336,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
                             <Zap class="text-[#EC7B00]" />
                         </div>
                        <div class="flex flex-col font-normal ">
-                            <div class="text-xl uppercase title__font__family">Cronômetro de 2min</div>    
+                            <div class="text-xl uppercase title__font__family font-semibold">Cronômetro de 2min</div>    
                             <div class="text-gray-500 text-sm">
                                 Você decide qual posicao deseja levar o produto, e seus 
                                 creditos sao renovados a cada semana automaticamente pelo mesmo valor do seu depósito.
@@ -350,7 +350,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
                             <Timer class="text-[#EC7B00]" />
                         </div>
                         <div class="flex flex-col font-normal ">
-                            <div class="text-xl uppercase title__font__family">Cronômetro de 2min</div>
+                            <div class="text-xl uppercase title__font__family font-semibold">Cronômetro de 2min</div>
                             <div class="text-gray-500 text-sm">Todo lance decrementa R$ 0.01 centavo do valor inicial e ativa o cronometro, assim 
                                 quando chegar no lance que voce escolheu pagar você recebe um whatsapp para parar o cronometro imediatamente.
                             </div>
@@ -362,7 +362,7 @@ let storage = JSON.parse(localStorage.getItem("store"));
                             <TrendingUp class="text-[#EC7B00]" />
                         </div>
                         <div class="flex flex-col font-normal ">
-                            <div class="text-xl uppercase title__font__family">Lance não vira pó</div>
+                            <div class="text-xl uppercase title__font__family font-semibold">Lance não vira pó</div>
                             <div class="text-gray-500 text-sm">
                             Perdeu? Você entra na fila para comprar o produto como em um consórcio.
                             <br></br>Quanto mais deposito mais você sobe na fila.</div>

@@ -45,7 +45,7 @@ async function editCategory(){
 
 const form = useForm({
     name: '',
-    cat: ''
+    oldCategory: ''
 })
 
 function save(){
@@ -68,12 +68,13 @@ function save(){
                         <div>{{ catt.name }}</div>
                     </div>
                 </div>
+
                 <div class="flex flex-col w-min">
                     <div class="p-2">
                         <div class="font-semibold">Edit Category</div>
                         <select @change="changeInput" v-model="selectedOptionEdit" >
                             <option value="selecione">Selecione a categoria</option>
-                            <option v-for="cat in category" :key="cat.id" :value="cat">{{ cat.name }}</option>
+                            <option v-for="oldCategory in category" :key="oldCategory.id" :value="oldCategory">{{ oldCategory.name }}</option>
                         </select>
                         <div v-if="selectedOptionEdit != 'selecione'" class="flex flex-col mt-2">
                             <input type="text"
@@ -96,8 +97,11 @@ function save(){
 
                             <div class="font-semibold mt-2">After the field:</div>
 
-                            <select @change="form.cat = selectedOptionAdd" v-model="selectedOptionAdd" >
-                                <option v-for="cat in category" :key="cat.id" :value="cat.name">{{ cat.name }}</option>
+                            <select @change="form.oldCategory = selectedOptionAdd" v-model="selectedOptionAdd" >
+                                <option v-for="oldCategory in category" 
+                                :key="oldCategory.id" :value="oldCategory.name">
+                                    {{ oldCategory.name }}
+                                </option>
                             </select>
 
                             <button class="bg-blue-200 pt-1 mt-2">Salvar</button>
